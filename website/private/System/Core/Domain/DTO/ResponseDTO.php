@@ -7,13 +7,18 @@ namespace System\Core\Domain\DTO;
 use System\Core\Domain\HttpStatusCode;
 
 class ResponseDTO {
-    private string $statusCode = HttpStatusCode::OK;
+    private string $statusCode;
     private mixed $data;
+
+    public function __construct(mixed $data = null, string $statusCode = HttpStatusCode::OK) {
+        $this->$data = $data;
+        $this->$statusCode = $statusCode;
+    }
 
     private function jsonify(): string {
         $returnValue = Array();
         $returnValue["status_code"] = $statusCode;
-        $returnValue["data"] = $data;
+        $returnValue["data"] = ($data == null ? "" : $data);
 
         return json_encode($returnValue);
     }
