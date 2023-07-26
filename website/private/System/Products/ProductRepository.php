@@ -18,7 +18,7 @@ class ProductRepository extends Repository{
         );
 	}
 
-	public function getVariationDataById(array $data): array {
+	public function getVariationDataById(Array $data): Array {
 		$statement = "SELECT * FROM products_variation WHERE product_id=? AND variation_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($data['product_id'], $data['variation_id']));
 

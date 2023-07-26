@@ -19,7 +19,7 @@ class MiscRepository extends Repository{
         return ($result->num_rows == 0 ? null : new Category($id, $result->fetch_assoc()["name"]));
 	}
 
-    public function getCategories(): array {
+    public function getCategories(): Array {
 		$statement = "SELECT * FROM categories ORDER BY name ASC;";
         $result = $this->connection->execute_query($statement);
         if($result->num_rows === 0) throw new NotFoundException();
@@ -38,7 +38,7 @@ class MiscRepository extends Repository{
         return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()["name"]));
 	}
 
-    public function getSubCategoriesByCategoryId($categoryId): array {
+    public function getSubCategoriesByCategoryId($categoryId): Array {
 		$statement = "SELECT * FROM subcategories WHERE category_id=? ORDER BY name ASC;";
         $result = $this->connection->execute_query($statement, Array($categoryId));
         if($result->num_rows === 0) throw new NotFoundException();
@@ -50,7 +50,7 @@ class MiscRepository extends Repository{
         return $returnValue;
 	}
 
-    public function getProvinces(): array {
+    public function getProvinces(): Array {
 		$statement = "SELECT * FROM provinces;";
         $result = $this->connection->execute_query($statement);
         if($result->num_rows === 0) throw new NotFoundException();
@@ -62,7 +62,7 @@ class MiscRepository extends Repository{
         return $returnValue;
 	}
 
-    public function getCitiesByProvinceId(int $id): array {
+    public function getCitiesByProvinceId(int $id): Array {
 		$statement = "SELECT city_id, name FROM cities WHERE province=?;";
         $result = $this->connection->execute_query($statement, Array($id));
         
@@ -132,7 +132,8 @@ class MiscRepository extends Repository{
 
     public function deleteSubCategory(int $id, int $categoryId): bool {
         if($this->getCategoryById($categoryId) === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
-        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
+        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) 
+            throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
 
         $this->connection->begin_transaction();
 
@@ -148,7 +149,8 @@ class MiscRepository extends Repository{
 
     public function updateSubCategory(string $name, int $id, int $categoryId): bool {
         if($this->getCategoryById($categoryId) === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
-        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
+        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) 
+            throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
 
         $this->connection->begin_transaction();
 

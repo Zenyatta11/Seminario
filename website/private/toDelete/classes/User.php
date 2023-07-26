@@ -27,7 +27,7 @@ class User {
     }
   }
 
-  public function update( $fields = array(), $id = null) {
+  public function update( $fields = Array(), $id = null) {
 
     if(!$id && $this->isLoggedIn()) {
       $id = $this->data()->id;
@@ -38,7 +38,7 @@ class User {
     }
   }
 
-  public function create($fields = array()) {
+  public function create($fields = Array()) {
     if(!$this->_db->insert('users', $fields) ) {
       throw new Exception('There was a problem creatin an account');
     }
@@ -48,7 +48,7 @@ class User {
 
     if( $user ) {
       $field = ( is_numeric($user)) ? 'id' : 'username';
-      $data = $this->_db->get('users', array($field, '=', $user));
+      $data = $this->_db->get('users', Array($field, '=', $user));
 
       if($data->count()) {
 
@@ -72,10 +72,10 @@ class User {
           Session::put($this->_sessionName, $this->data()->id);
           if($remember) {
             $hash = Hash::unique();
-            $hashCheck = $this->_db->get('user_session', array('user_id', '=', $this->data()->id));
+            $hashCheck = $this->_db->get('user_session', Array('user_id', '=', $this->data()->id));
 
             if(!$hashCheck->count()) {
-              $this->_db->insert('user_session', array(
+              $this->_db->insert('user_session', Array(
                 'user_id' => $this->data()->id,
                 'hash' => $hash
               ));
@@ -94,14 +94,14 @@ class User {
   }
 
   public function logout(){
-    $this->_db->delete('user_session', array('user_id', '=', $this->data()->id));
+    $this->_db->delete('user_session', Array('user_id', '=', $this->data()->id));
     Session::delete($this->_sessionName);
     Cookie::delete($this->_cookieName);
   }
 
   public function hasPermission($key) {
     // flock = group in database. group was reserved name
-    $group = $this->_db->get('flock', array('id', '=', $this->data()->flock));
+    $group = $this->_db->get('flock', Array('id', '=', $this->data()->flock));
     if($group->count()) {
       $permissions = json_decode($group->first()->permissions, true);
       if ($permissions[$key] == true) {

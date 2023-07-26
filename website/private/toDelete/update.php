@@ -10,8 +10,8 @@ if(!$user->isLoggedIn()){
 if(Input::exists()) {
   if(Token::check(Input::get('token'))) {
     $validate = new Validate();
-    $validation = $validate->check($_POST, array(
-      'name' => array(
+    $validation = $validate->check($_POST, Array(
+      'name' => Array(
         'required' => true,
         'min' => 2,
         'max' => 50
@@ -20,7 +20,7 @@ if(Input::exists()) {
 
     if($validation->passed()){
       try{
-        $user->update(array(
+        $user->update(Array(
           'name' => Input::get('name')
         ));
 

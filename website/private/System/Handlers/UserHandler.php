@@ -20,30 +20,45 @@ class UserHandler {
 
     }
 
-    public function init(string $subsection, string $action, array $data): ResponseDTO {
+    public function init(string $subsection, string $action, Array $data): ResponseDTO {
         switch($action) {
-            case "register": return $this->doRegister($data);
-            case "login": return $this->doLogin($data);
+            case "register": return $this->doRegister(
+                    $data['username'] ?? "",
+                    $data['name'] ?? "",
+                    $data['passwd'] ?? "",
+                    $data['email'] ?? ""
+                );
+
+            case "login": return $this->doLogin(
+                    $data['passwd'] ?? "",
+                    $data['email'] ?? "",
+                );
+
             case "logout": return $this->doLogout();
-            case "get": return $this->getUserData($data);
+
+            case "get": return $this->getUserData(
+                    $data['fields'] ?? "",
+                    $data['id'] ?? ""
+                );
+
             default: throw new NotFoundException();
         }
     }
 
-    private function doRegister(array $data): ResponseDTO {
+    private function doRegister(string $username, string $name, string $passwd, string $email): ResponseDTO {
         $error = Array();
 
-        if(!isset($data['username']) || empty($data['username'] || !ctype_alnum($data['username']))) $error[] = "INVALID_USERNAME";
-        if(!isset($data['name']) || empty($data['name'] || !ctype_alnum($data['username']))) $error[] = "INVALID_NAME";
-        if(!isset($data['passwd']) || empty($data['passwd'])) $error[] = "INVALID_PASSWD";
+        if(empty($username || !ctype_alnum($username))) $error[] = "INVALID_USERNAME";
+        if(empty($name || !ctype_alnum($name))) $error[] = "INVALID_NAME";
+        if(empty($passwd)) $error[] = "INVALID_PASSWD";
 
-        if(!isset($data['email'])) $error[] = "INVALID_EMAIL";
-        else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) $error[] = "INVALID_EMAIL";
+        if(!isset($email)) $error[] = "INVALID_EMAIL";
+        else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) $error[] = "INVALID_EMAIL";
 
         if(count($error) != 0) throw new RegisterException($error);
-        $passwd = hash("sha256", "seminario" . $data['passwd'] . "ecommerce");
+        $hashedPasswd = hash("sha256", "seminario" . $passwd['passwd'] . "ecommerce");
 
-        return $this->controller->register($data, $passwd);
+        return $this->controller->register($username, $name, $hashedPasswd, $email);
     }
 
     private function doLogout(): ResponseDTO {
@@ -52,27 +67,27 @@ class UserHandler {
         return new ResponseDTO("LOGGED_OUT");
     }
 
-    private function doLogin($data): ResponseDTO {
-        $error = array();
-        if(!isset($data['passwd']) || empty($data['passwd'])) $error[] = "INVALID_PASSWD";
-        if(!isset($data['email'])) $error[] = "INVALID_EMAIL";
-        else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) $error[] = "INVALID_EMAIL";
+    private function doLogin(string $passwd, string $email): ResponseDTO {
+        $error = Array();
+        if(empty($passwd)) $error[] = "INVALID_PASSWD";
+        if(empty($email)) $error[] = "INVALID_EMAIL";
+        else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) $error[] = "INVALID_EMAIL";
         if(count($error) != 0) throw new LoginException($error);
 
-        $passwd = hash("sha256", "seminario" . $data['passwd'] . "ecommerce");
-        return $this->controller->doLogin($passwd, $data['email']);
+        $hashedPasswd = hash("sha256", "seminario" . $passwd . "ecommerce");
+        return $this->controller->doLogin($hashedPasswd, $email);
     }
 
-    private function getUserData($data): ResponseDTO {
-        if(!isset($data['id'])) {
+    private function getUserData(string $fields, string $id): ResponseDTO {
+        if(empty($id)) {
             if(Router::$CURRENT_USER === null) {
                 throw new MissingParametersException(Array('id'));
             } else {
-                return $this->controller->getUserData($data['fields']);
+                return $this->controller->getUserData($fields);
             }
         } else {
-            if(empty($data['id']) || !is_numeric($data['id'])) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
-            return $this->controller->getUserData($data['fields'], intval($data['id']));
+            if(empty($data['id']) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+            return $this->controller->getUserData($fields, intval($id));
         }
     }
 }

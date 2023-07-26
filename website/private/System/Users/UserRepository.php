@@ -77,16 +77,15 @@ class UserRepository extends Repository {
         return $result->num_rows != 0;
     }
 
-    public function newUser(array $data, string $passwd): bool {
+    public function newUser(string $username, string $name, string $passwd, string $email): bool {
 
-        $statement = "INSERT INTO users(permissions, passwd, email, document, username, name) VALUES(?,?,?,?,?,?)";
+        $statement = "INSERT INTO users(permissions, passwd, email, username, name) VALUES(?,?,?,?,?)";
         return $this->connection->execute_query($statement, Array(
             0,
             $passwd,
-            $data['email'],
-            $data['document'] ?? null,
-            $data['username'],
-            $data['name']
+            $email,
+            $username,
+            $name
         ));
     }
 
@@ -139,7 +138,7 @@ class UserRepository extends Repository {
         ));
     }
 
-    private function censor(array $data): array {
+    private function censor(Array $data): Array {
         if(isset($data['passwd'])) unset($data['passwd']);
         
         return $data;

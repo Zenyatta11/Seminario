@@ -16,7 +16,7 @@ class ProductHandler {
 
     }
 
-    public function init(string $subsection, string $action, array $data): ResponseDTO {
+    public function init(string $subsection, string $action, Array $data): ResponseDTO {
         switch($action) {
             case "register": return $this->doRegister($data);
             case "login": return $this->doLogin($data);

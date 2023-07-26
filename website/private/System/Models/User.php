@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace System\Models;
+use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Util;
 use System\Users\UserController;
 use System\Orders\OrdersController;
@@ -20,13 +21,22 @@ class User {
         private UserController $userController = new UserController()
     ) { }
     
-    public static function BUILD(array $data): User {
+    public static function BUILD(Array $data): User {
         if(isset($data['active_cart'])) {
             $ordersController = new OrdersController();
             $activeCart = $ordersController->getOrderById($data['active_cart']);
         } else {
             $activeCart = null;
         }
+
+        $errors = Array();
+        if(empty($data['user_id'])) $errors[] = "MISSING_USER_ID";
+        if(empty($data['permissions'])) $errors[] = "MISSING_USER_ID";
+        if(empty($data['email'])) $errors[] = "MISSING_USER_ID";
+        if(empty($data['username'])) $errors[] = "MISSING_USER_ID";
+        if(empty($data['name'])) $errors[] = "MISSING_USER_ID";
+
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
         
         return new User(
             $data['user_id'],
