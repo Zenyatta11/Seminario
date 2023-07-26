@@ -25,7 +25,7 @@ class DB{
     return self::$_instance;
   }
 
-  public function query( $sql, $params = array()){
+  public function query( $sql, $params = Array()){
     $this->_error = false;
     if( $this->_query = $this->_pdo->prepare($sql) ){
       $x = 1;
@@ -47,9 +47,9 @@ class DB{
     return $this;
   }
 
-  private function action( $action, $table, $where = array() ){
+  private function action( $action, $table, $where = Array() ){
     if(count($where) === 3){
-      $operators = array('=', '>', '<', '>=', '<=' );
+      $operators = Array('=', '>', '<', '>=', '<=' );
 
       $field = $where[0];
       $operator = $where[1];
@@ -58,7 +58,7 @@ class DB{
 
         $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
 
-        if(!$this->query($sql, array($value))->error()){
+        if(!$this->query($sql, Array($value))->error()){
           return $this;
         }
       }
@@ -74,7 +74,7 @@ class DB{
     return $this->action('DELETE *', $table, $where);
   }
 
-  public function insert($table, $fields = array()){
+  public function insert($table, $fields = Array()){
     if( count($fields)){
       $keys = array_keys($fields);
       $values = '';

@@ -8,6 +8,7 @@ use System\Core\Domain\Util\HttpStatusCode;
 use System\Core\Exceptions\AlreadyLoggedInException;
 use System\Core\Exceptions\EmailInUseException;
 use System\Core\Exceptions\EmailNotInUseException;
+use System\Core\Exceptions\RegisterException;
 use System\Models\Order;
 use System\Models\User;
 use System\Router;
@@ -42,15 +43,16 @@ class UserController {
 		return new ResponseDTO("LOGGED_IN");
 	}
 
-	public function register(array $data, string $passwd): ResponseDTO {
-		if($this->repository->checkExistsByEmail($data['email'])) throw new EmailInUseException();
+	public function register(string $username, string $name, string $passwd, string $email): ResponseDTO {
+		if($this->repository->checkExistsByEmail($email)) throw new EmailInUseException();
 
-        $this->repository->newUser($data, $passwd);
-        return new ResponseDTO("REGISTERED");
+        if($this->repository->newUser($username, $name, $passwd, $email))
+        	return new ResponseDTO("REGISTERED");
+		else throw new RegisterException("ERROR_REGISTERING_USER");
 	}
 
 	public function getUserData($fields, $id = null): ResponseDTO {
-		if(isset($fields) && !empty($fields)) $whitelist = explode(";", $fields);
+		if(!empty($fields)) $whitelist = explode(";", $fields);
         else $whitelist = null;
 
 		if($id === null) return new ResponseDTO(Router::$CURRENT_USER->jsonify($whitelist));

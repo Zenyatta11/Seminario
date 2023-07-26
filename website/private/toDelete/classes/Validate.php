@@ -2,14 +2,14 @@
 
 class Validate{
   private $_passed = false,
-          $_error = array(),
+          $_error = Array(),
           $_db = null;
 
   public function __construct(){
     $this->_db = DB::getInstance();
   }
 
-  public function check($source, $items = array()){
+  public function check($source, $items = Array()){
     foreach ($items as $item => $rules) {
       foreach ($rules as $rule => $rule_value) {
         $value = $source[$item];
@@ -34,7 +34,7 @@ class Validate{
               }
               break;
             case 'unique':
-              $check = $this->_db->get($rule_value, array($item, '=', $value));
+              $check = $this->_db->get($rule_value, Array($item, '=', $value));
               if($check->count()) {
                 $this->addError("{$item} already exists.");
               }

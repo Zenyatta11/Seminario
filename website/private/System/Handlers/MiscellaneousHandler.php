@@ -16,7 +16,7 @@ class MiscellaneousHandler {
 
     }
 
-    public function init(string $subsection, string $action, array $data): ResponseDTO {
+    public function init(string $subsection, string $action, Array $data): ResponseDTO {
         switch($subsection) {
             case "provinces": return $this->processProvinces($action, $data);
             case "cities": return $this->processCities($action, $data);
@@ -27,7 +27,7 @@ class MiscellaneousHandler {
         }
     }
 
-    private function processCategories(string $action, array $data): ResponseDTO {
+    private function processCategories(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "get": return new ResponseDTO($this->controller->getCategories());
             case "new": return new ResponseDTO($this->newCategory($data['name'] ?? ""));
@@ -37,21 +37,21 @@ class MiscellaneousHandler {
         }
     }
 
-    private function processCities(string $action, array $data): ResponseDTO {
+    private function processCities(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "get": return $this->getCities($data['province_id'] ?? "");
             default: throw new NotFoundException();
         }
     }
 
-    private function processProvinces(string $action, array $data): ResponseDTO {
+    private function processProvinces(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "get": return new ResponseDTO($this->controller->getProvinces());
             default: throw new NotFoundException();
         }
     }
 
-    private function processSubcategories(string $action, array $data): ResponseDTO {
+    private function processSubcategories(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "get": return $this->getSubCategories($data['category_id'] ?? "");
             case "new": return $this->newSubCategory($data['name'] ?? "", $data['category_id'] ?? "");
@@ -61,7 +61,7 @@ class MiscellaneousHandler {
         }
     }
 
-    private function processZipcodes(string $action, array $data): ResponseDTO {
+    private function processZipcodes(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "verify": return $this->verifyZipcode($data['zip-code'] ?? "", $data['province_id'] ?? "");
             default: throw new NotFoundException();

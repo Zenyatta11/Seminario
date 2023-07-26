@@ -24,7 +24,7 @@ class Dimension {
         return $this->height;
     }
 
-    public function toArray(): array {
+    public function toArray(): Array {
         return Array(
             $this->length,
             $this->width,

@@ -11,16 +11,16 @@ if(Input::exists()) {
   if(Token::check(Input::get('token'))){
 
     $validate = new Validate();
-    $validation = $validate->check($_POST, array(
-      'password_currrent' => array(
+    $validation = $validate->check($_POST, Array(
+      'password_currrent' => Array(
          'required' => true,
          'min' => 6
       ),
-      'password_new' => array(
+      'password_new' => Array(
          'required' => true,
          'min' => 6
       ),
-      'password_new_again' => array(
+      'password_new_again' => Array(
          'required' => true,
          'min' => 6,
          'matches' => 'password_new'
@@ -33,7 +33,7 @@ if(Input::exists()) {
         echo 'current passwrd is wrong...';
       } else {
         $salt = Hash::salt(32);
-        $user->update(array(
+        $user->update(Array(
           'password' => Hash::make(Input::get('password_new'), $salt),
           'salt' => $salt
         ));

@@ -5,22 +5,22 @@ require_once 'core/init.php';
 if(Input::exists()){
   if(Token::check(Input::get('token'))){
     $validate = new Validate();
-    $validation = $validate->check($_POST, array(
-      'username' => array(
+    $validation = $validate->check($_POST, Array(
+      'username' => Array(
         'required' => true,
         'min' => 2,
         'max' => 20,
         'unique' => 'users'
       ),
-      'password' => array(
+      'password' => Array(
         'required' => true,
         'min' => 6
       ),
-      'password_again' => array(
+      'password_again' => Array(
         'required' => true,
         'matches' => 'password'
       ),
-      'name' => array(
+      'name' => Array(
         'required' => true,
         'min' => 2,
         'max' => 50
@@ -35,7 +35,7 @@ if(Input::exists()){
 
       $salt = Hash::salt(32);
       try {
-        $user->create(array(
+        $user->create(Array(
           'username' => Input::get('username'),
           'password' => Hash::make(Input::get('password'), $salt),
           'salt' => $salt,

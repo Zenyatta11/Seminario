@@ -29,15 +29,15 @@ class MiscController {
 		return $this->repository->getSubCategoryByIdAndCategoryId($category, $id);
 	}
 
-	public function getSubCategories(int $categoryId): array {
+	public function getSubCategories(int $categoryId): Array {
 		return $this->repository->getSubCategoriesByCategoryId($categoryId);
 	}
 
-	public function getCitiesByProvinceId(int $id): array {
+	public function getCitiesByProvinceId(int $id): Array {
 		return $this->repository->getCitiesByProvinceId($id);
 	}
 
-	public function getProvinces(): array {
+	public function getProvinces(): Array {
 		return $this->repository->getProvinces();
 	}
 
@@ -47,42 +47,48 @@ class MiscController {
 
 	public function newCategory(string $name): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_CREATE)) throw new UnauthorizedException('CATEGORIES_CREATE');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_CREATE)) 
+			throw new UnauthorizedException('CATEGORIES_CREATE');
 		
 		return $this->repository->newCategory($name);
 	}
 
 	public function deleteCategory(int $id): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_DELETE)) throw new UnauthorizedException('CATEGORIES_DELETE');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_DELETE)) 
+			throw new UnauthorizedException('CATEGORIES_DELETE');
 		
 		return $this->repository->deleteCategory($id);
 	}
 
 	public function updateCategory(string $name, int $id): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_MODIFY)) throw new UnauthorizedException('CATEGORIES_MODIFY');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::CATEGORIES_MODIFY)) 
+			throw new UnauthorizedException('CATEGORIES_MODIFY');
 		
 		return $this->repository->updateCategory($name, $id);
 	}
 
 	public function newSubCategory(string $name, int $categoryId): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_CREATE)) throw new UnauthorizedException('SUBCATEGORIES_CREATE');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_CREATE)) 
+			throw new UnauthorizedException('SUBCATEGORIES_CREATE');
 		
 		return $this->repository->newSubCategory($name, $categoryId);
 	}
 
 	public function deleteSubCategory(int $id, int $categoryId): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_DELETE)) throw new UnauthorizedException('SUBCATEGORIES_DELETE');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_DELETE)) 
+			throw new UnauthorizedException('SUBCATEGORIES_DELETE');
 		
 		return $this->repository->deleteSubCategory($id, $categoryId);
 	}
 
 	public function updateSubCategory(string $name, int $id, int $categoryId): bool {
 		if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
-		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_MODIFY)) throw new UnauthorizedException('SUBCATEGORIES_MODIFY');
+		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::SUBCATEGORIES_MODIFY)) 
+			throw new UnauthorizedException('SUBCATEGORIES_MODIFY');
 		
 		return $this->repository->updateSubCategory($name, $id, $categoryId);
 	}
