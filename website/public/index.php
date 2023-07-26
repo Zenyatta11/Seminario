@@ -55,34 +55,36 @@ if(isset($_GET['process'])) {
     </tr>
     <tr>
         <td><input type="text" id="new-category" placeholder="Category"/></td>
-        <td colspan="2"><button onclick="doNewCategory()">New Category</button></td>
-        <td>
-            <select id="newsubcategory-category-select">
+        <td><button onclick="doNewCategory()">New Category</button></td>
+        <td><button onclick="doModifyCategory()">Modify Category</button></td>
+        <td><button onclick="doDeleteCategory()">Delete Category</button></td>
+        <td colspan="2">
+            <select onchange="getSubCategories();" id="category-select">
                 <option value="" disabled selected>Select Category for Sub-Category</option>
             </select>
         </td>
+    </tr>
+    <tr>
+        
         <td><input type="text" id="new-subcategory" placeholder="Sub-Category"/></td>
-        <td colspan="2"><button onclick="doNewSubCategory()">New Sub-Category</button></td>
+        <td><button onclick="doNewSubCategory()">New Sub-Category</button></td>
+        <td><button onclick="doDeleteSubCategory()">Delete Sub-Category</button></td>
+        <td><button onclick="doModifySubCategory()">Modify Sub-Category</button></td>
+        <td colspan="2">
+            <select id="subcategory-select">
+                <option value="" disabled selected>Select Subcategory</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td colspan="2"><button onclick="getUsers()">Get Users</button></td>
         <td colspan="2"><button onclick="getCategories()">Get Categories</button></td>
-        <td colspan="2"><button onclick="getSubcategories()">Get Subcategories</button></td>
+        <td colspan="2"><button onclick="getSubCategories()">Get Subcategories</button></td>
     </tr>
     <tr>
         <td colspan="2">
-            <select id="user-select">
+            <select id="users-select">
                 <option value="" disabled selected>Select User</option>
-            </select>
-        </td>
-        <td colspan="2">
-            <select id="category-select">
-                <option value="" disabled selected>Select Category</option>
-            </select>
-        </td>
-        <td colspan="2">
-            <select id="subcategory-select">
-                <option value="" disabled selected>Select Subcategory</option>
             </select>
         </td>
     </tr>
@@ -108,4 +110,5 @@ if(isset($_GET['process'])) {
 <script>
     getUsername();
     doUpdateProvinces();
+    getCategories();
 </script>

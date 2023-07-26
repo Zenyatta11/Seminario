@@ -30,14 +30,16 @@ class MiscellaneousHandler {
     private function processCategories(string $action, array $data): ResponseDTO {
         switch($action) {
             case "get": return new ResponseDTO($this->controller->getCategories());
-            case "new": return new ResponseDTO($this->newCategory($data['name']));
+            case "new": return new ResponseDTO($this->newCategory($data['name'] ?? ""));
+            case "delete": return new ResponseDTO($this->deleteCategory($data['category_id'] ?? ""));
+            case "update": return new ResponseDTO($this->updateCategory($data['name'] ?? "", $data['category_id'] ?? ""));
             default: throw new NotFoundException();
         }
     }
 
     private function processCities(string $action, array $data): ResponseDTO {
         switch($action) {
-            case "get": return $this->getCities($data['province_id']);
+            case "get": return $this->getCities($data['province_id'] ?? "");
             default: throw new NotFoundException();
         }
     }
@@ -51,15 +53,17 @@ class MiscellaneousHandler {
 
     private function processSubcategories(string $action, array $data): ResponseDTO {
         switch($action) {
-            case "get": return new ResponseDTO($this->controller->getSubCategories());
-            case "new": return $this->newSubCategory($data['name'], $data['category_id']);
+            case "get": return $this->getSubCategories($data['category_id'] ?? "");
+            case "new": return $this->newSubCategory($data['name'] ?? "", $data['category_id'] ?? "");
+            case "delete": return new ResponseDTO($this->deleteSubCategory($data['subcategory_id'] ?? "", $data['category_id'] ?? ""));
+            case "update": return new ResponseDTO($this->updateSubCategory($data['name'] ?? "", $data['subcategory_id'] ?? "", $data['category_id'] ?? ""));
             default: throw new NotFoundException();
         }
     }
 
     private function processZipcodes(string $action, array $data): ResponseDTO {
         switch($action) {
-            case "verify": return $this->verifyZipcode($data['zip-code'], $data['province_id']);
+            case "verify": return $this->verifyZipcode($data['zip-code'] ?? "", $data['province_id'] ?? "");
             default: throw new NotFoundException();
         }
     }
@@ -83,9 +87,42 @@ class MiscellaneousHandler {
         return new ResponseDTO($this->controller->newCategory(htmlentities($name)));
     }
 
-    private function newSubCategory(string $name, string $category_id): ResponseDTO {
-        if(empty($category_id) || !is_numeric($category_id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+    private function deleteCategory(string $id): ResponseDTO {
+        if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+
+        return new ResponseDTO($this->controller->deleteCategory(intval($id)));
+    }
+
+    private function updateCategory(string $name, $id): ResponseDTO {
+        if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
         if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
-        return new ResponseDTO($this->controller->newSubCategory(htmlentities($name), intval($category_id)));
+
+        return new ResponseDTO($this->controller->updateCategory(htmlentities($name), intval($id)));
+    }
+
+    private function newSubCategory(string $name, string $categoryId): ResponseDTO {
+        if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+        if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
+        return new ResponseDTO($this->controller->newSubCategory(htmlentities($name), intval($categoryId)));
+    }
+
+    private function getSubCategories(string $categoryId): ResponseDTO {
+        if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+        return new ResponseDTO($this->controller->getSubCategories(intval($categoryId)));
+    }
+
+    private function deleteSubCategory(string $id, string $categoryId): ResponseDTO {
+        if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+        if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("CATEGORY_ID_MUST_BE_INT"));
+
+        return new ResponseDTO($this->controller->deleteSubCategory(intval($id), intval($categoryId)));
+    }
+
+    private function updateSubCategory(string $name, string $id, string $categoryId): ResponseDTO {
+        if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
+        if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("CATEGORY_ID_MUST_BE_INT"));
+        if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
+
+        return new ResponseDTO($this->controller->updateSubCategory(htmlentities($name), intval($id), intval($categoryId)));
     }
 }

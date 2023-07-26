@@ -7,9 +7,9 @@ namespace System\Core\Exceptions;
 use System\Core\Domain\Util\HttpException;
 use System\Core\Domain\Util\HttpStatusCode;
 
-class RegisterException extends HttpException {
+class DatabaseWriteException extends HttpException {
 
-	public function __construct(Array $errors) {
-		parent::__construct(implode(";", $errors), HttpStatusCode::BAD_REQUEST);
+	public function __construct() {
+		parent::__construct("DATABASE_WRITE_EXCEPTION", HttpStatusCode::SERVER_ERROR);
 	}
 }

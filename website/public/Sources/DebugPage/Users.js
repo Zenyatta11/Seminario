@@ -40,6 +40,21 @@ function getUsername() {
     });
 }
 
+function getUsers() {
+    doPost('search/users',
+    { 
+        'fields': 'username',
+        'page': 0
+    }
+    ).then((response) => response.json())
+    .then((json) => {
+    if(json.status_code === 200) {
+        data = JSON.parse(json.data)
+        document.getElementById('users-select').innerHTML = getOptionsFromJson('Select user...', json.data, 'user_id', 'username');
+    }
+    });
+}
+
 function doUserLogout() {
     doPost('users/logout',
         { }

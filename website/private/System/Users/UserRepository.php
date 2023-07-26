@@ -67,6 +67,7 @@ class UserRepository extends Repository {
     public function doLogout(): void {
         $statement = "DELETE FROM sessions WHERE user_id=?;";
         $this->connection->execute_query($statement, Array(Router::$CURRENT_USER->getId()));
+        setcookie(Prefs\Common::SESSION_COOKIE, "", time() - 3600);
     }
 
     public function checkExistsByEmail(string $email): bool {
@@ -79,7 +80,7 @@ class UserRepository extends Repository {
     public function newUser(array $data, string $passwd): bool {
 
         $statement = "INSERT INTO users(permissions, passwd, email, document, username, name) VALUES(?,?,?,?,?,?)";
-        $this->connection->execute_query($statement, Array(
+        return $this->connection->execute_query($statement, Array(
             0,
             $passwd,
             $data['email'],
@@ -87,8 +88,6 @@ class UserRepository extends Repository {
             $data['username'],
             $data['name']
         ));
-
-        return true;
     }
 
     public function newSession(string $passwd, string $email): void {
@@ -118,14 +117,12 @@ class UserRepository extends Repository {
     public function updateUser(User $user): bool {
 
         $statement = "UPDATE users SET permissions=?, email=?, document=? WHERE user_id=?";
-        $this->connection->execute_query($statement, Array(
+        return $this->connection->execute_query($statement, Array(
             $user->getPermissions(),
             $user->getEmail(),
             $user->getDNI(),
             $user->getId()
         ));
-
-        return true;
     }
 
     public function changePassword(string $passwd, string $email, string $newPasswd): bool {
@@ -136,12 +133,10 @@ class UserRepository extends Repository {
             throw new AuthFailure();
         
         $statement = "UPDATE users SET passwd=? WHERE email=?";
-        $this->connection->execute_query($statement, Array(
+        return $this->connection->execute_query($statement, Array(
             $newPasswd,
             $email
         ));
-
-        return true;
     }
 
     private function censor(array $data): array {

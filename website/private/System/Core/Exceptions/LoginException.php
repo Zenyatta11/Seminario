@@ -9,7 +9,7 @@ use System\Core\Domain\Util\HttpStatusCode;
 
 class LoginException extends HttpException {
 
-	public function __construct(array $errors) {
+	public function __construct(Array $errors) {
 		parent::__construct(implode(";", $errors), HttpStatusCode::BAD_REQUEST);
 	}
 }
