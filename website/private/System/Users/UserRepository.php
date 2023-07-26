@@ -6,13 +6,16 @@ namespace System\Users;
 use System\Core\Database\Repository;
 use System\Core\Util;
 use System\Models\User;
-use System\Users\Exceptions\AuthFailure;
-use System\Users\Exceptions\NotLoggedInException;
+use System\Core\Exceptions\AuthFailure;
+use System\Core\Exceptions\CookiesDisabledException;
+use System\Core\Exceptions\NotLoggedInException;
+use System\Core\Prefs;
+use System\Router;
 
 class UserRepository extends Repository {
 
     public function getUserById(int $id): User | null {
-        $statement = "SELECT * FROM users WHERE id=? LIMIT 1;";
+        $statement = "SELECT * FROM users WHERE user_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
         return ($result->num_rows == 0 ? null : User::BUILD(
@@ -32,12 +35,12 @@ class UserRepository extends Repository {
     }
 
     public function getUserIdByEmail(string $email): int | null {
-        $statement = "SELECT id FROM users WHERE email=? LIMIT 1;";
+        $statement = "SELECT user_id FROM users WHERE email=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($email));
 
         if($result->num_rows === 0) return null;
         $data = $result->fetch_assoc();
-        return intval($data['id']);
+        return intval($data['user_id']);
     }
 
     public function getUserBySessionHash(string $hash): User | null {
@@ -58,13 +61,12 @@ class UserRepository extends Repository {
     public function checkCredentials(string $passwd, string $email): bool {
         $statement = "SELECT user_id FROM users WHERE passwd=? AND email=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($passwd, $email));
-
         return $result->num_rows != 0;
     }
 
     public function doLogout(): void {
         $statement = "DELETE FROM sessions WHERE user_id=?;";
-        $this->connection->execute_query($statement, Array(Router::$CURRENT_USER));
+        $this->connection->execute_query($statement, Array(Router::$CURRENT_USER->getId()));
     }
 
     public function checkExistsByEmail(string $email): bool {
@@ -74,7 +76,7 @@ class UserRepository extends Repository {
         return $result->num_rows != 0;
     }
 
-    public function newUser(array $data, string $passwd) {
+    public function newUser(array $data, string $passwd): bool {
 
         $statement = "INSERT INTO users(permissions, passwd, email, document, username, name) VALUES(?,?,?,?,?,?)";
         $this->connection->execute_query($statement, Array(
@@ -95,16 +97,25 @@ class UserRepository extends Repository {
         if(!$this->checkCredentials($passwd, $email)) throw new AuthFailure();
         $userId = $this->getUserIdByEmail($email);
 
-        $statement = "INSERT INTO sessions VALUES(?,?,?,?,?,?)";
+        $statement = "INSERT INTO sessions VALUES(?,?)";
         $this->connection->execute_query($statement, Array(
             $sessionHash,
             $userId
         ));
+        
+        if(!setcookie(Prefs\Common::SESSION_COOKIE, $sessionHash, 0, "/")) {
+            $statement = "DELETE FROM sessions WHERE session_id=?)";
+            $this->connection->execute_query($statement, Array(
+                $sessionHash
+            ));
+
+            throw new CookiesDisabledException();
+        }
 
         return;
     }
 
-    public function updateUser(User $user) {
+    public function updateUser(User $user): bool {
 
         $statement = "UPDATE users SET permissions=?, email=?, document=? WHERE user_id=?";
         $this->connection->execute_query($statement, Array(
@@ -117,7 +128,7 @@ class UserRepository extends Repository {
         return true;
     }
 
-    public function changePassword(string $passwd, string $email, string $newPasswd) {
+    public function changePassword(string $passwd, string $email, string $newPasswd): bool {
         if(Router::$CURRENT_USER === null) 
             throw new NotLoggedInException();
             

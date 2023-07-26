@@ -1,4 +1,6 @@
-/api/users/new
+--/api/users/register
+--/api/users/login
+--/api/users/logout
 /api/users/get
 /api/users/update
 /api/products/new
@@ -12,8 +14,8 @@
 /api/search/products
 /api/search/orders
 /api/search/users
-/api/provinces
-/api/cities
+--/api/provinces
+--/api/cities
 /api/zipcodes
 /api/stocklog
 /api/categories
@@ -27,3 +29,8 @@
 /api/notifications
 /api/reviews
 /api/questions
+--/api/provinces/get
+--/api/cities/get
+--/api/categories/get
+--/api/subcategories/get
+
