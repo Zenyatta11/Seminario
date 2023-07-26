@@ -6,13 +6,16 @@ namespace System;
 
 use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
+use System\Handlers\MiscellaneousHandler;
 use System\Handlers\UserHandler;
 use System\Models\User;
+
 class Router {
     public static User | null $CURRENT_USER;
 
     public function __construct(
-        private UserHandler $userHandler = new UserHandler()
+        private UserHandler $userHandler = new UserHandler(),
+        private MiscellaneousHandler $miscHandler = new MiscellaneousHandler()
     ) {
         $authController = new AuthController();
         Router::$CURRENT_USER = $authController->getAuthenticatedUser();
@@ -50,7 +53,7 @@ class Router {
     }
 
     private function handleMiscellaneous(): ResponseDTO {
-
+        return $this->miscHandler->init($_GET['section'], $_GET['action'], $_POST);
     }
 }
 

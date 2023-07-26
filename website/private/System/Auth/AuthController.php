@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace System\Auth;
-use System\Core\Domain\DTO\ResponseDTO;
 use System\Models\User;
+use System\Core\Prefs;
 use System\Users\UserController;
 
 class AuthController {
@@ -14,8 +14,8 @@ class AuthController {
     ) { }
 
     public function getAuthenticatedUser(): User | null {
-        if(!isset($_COOKIE['session'])) return null;
-        $sessionHash = $_COOKIE['session'];
+        if(!isset($_COOKIE[Prefs\Common::SESSION_COOKIE])) return null;
+        $sessionHash = $_COOKIE[Prefs\Common::SESSION_COOKIE];
 
         $user = $this->controller->getUserBySessionHash($sessionHash);
         if($user === null) 
