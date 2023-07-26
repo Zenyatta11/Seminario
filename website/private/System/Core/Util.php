@@ -19,6 +19,7 @@ class Util {
 	}
 
 	public static function PARSE_PERMISSIONS(int $permissions): string {
+		// TODO: update
 		$returnValue = Array();
 
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_ADD ? 'PRODUCTS_ADD' : '';

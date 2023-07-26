@@ -9,7 +9,7 @@ use System\Core\Domain\Util\HttpStatusCode;
 
 class UnauthorizedException extends HttpException {
 
-	public function __construct() {
-		parent::__construct("NOT_ENOUGH_PERMISSIONS", HttpStatusCode::UNAUTHORIZED);
+	public function __construct(string $permission) {
+		parent::__construct($permission, HttpStatusCode::UNAUTHORIZED);
 	}
 }
