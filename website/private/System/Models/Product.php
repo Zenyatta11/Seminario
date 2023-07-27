@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace System\Models;
 use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
-use System\Search\SearchController;
 
 class Product {
 
@@ -34,7 +33,7 @@ class Product {
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
         if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->description;
         if($whitelist === null || in_array('variantId', $whitelist)) $returnValue['variantId'] = $this->variantId ?? '';
-         
+
         if($whitelist === null || in_array('dimensions', $whitelist)) $returnValue['dimensions'] = Array(
             'length' => $this->dimensions->getLength(),
             'height' => $this->dimensions->getHeight(),
