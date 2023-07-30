@@ -34,8 +34,7 @@ function getUsername() {
     ).then((response) => response.json())
     .then((json) => {
     if(json.status_code === 200) {
-        data = JSON.parse(json.data)
-        document.getElementById('status-bar').innerHTML = "Status: Logged in (" + data.username + ")";
+        document.getElementById('status-bar').innerHTML = "Status: Logged in (" + json.data.username + ")";
     }
     });
 }

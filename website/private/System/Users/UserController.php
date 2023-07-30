@@ -55,11 +55,11 @@ class UserController {
 		if(!empty($fields)) $whitelist = explode(";", $fields);
         else $whitelist = null;
 
-		if($id === null) return new ResponseDTO(Router::$CURRENT_USER->jsonify($whitelist));
+		if($id === null) return new ResponseDTO(Router::$CURRENT_USER->toArray($whitelist));
 		
 		$user = $this->repository->getUserById($id);
 
 		if($user === null) return new ResponseDTO(null, HttpStatusCode::NOT_FOUND);
-		else return new ResponseDTO($user->jsonify($whitelist));
+		else return new ResponseDTO($user->toArray($whitelist));
 	}
 }
