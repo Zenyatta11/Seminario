@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace System\Models;
+use System\Core\Exceptions\InvalidArgumentException;
 use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
 
@@ -21,6 +22,51 @@ class Product {
         private Subcategory | null $subCategory = null,
         private int | null $variantId = null
     ) {}
+
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getWeight(): float {
+        return $this->weight;
+    }
+
+    public function getPrice(): float {
+        return $this->price;
+    }
+
+    public function getDimensions(): Dimension {
+        return $this->dimensions;
+    }
+
+    public function getStock(): int {
+        return $this->stock;
+    }
+
+
+    public function getState(): string {
+        return $this->state;
+    }
+
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function getCategory(): Category {
+        return $this->category;
+    }
+
+    public function getSubCategory(): Subcategory | null {
+        return $this->subCategory;
+    }
+
+    public function getVariantId(): int | null {
+        return $this->variantId;
+    }
 
     public function jsonify($whitelist = null): string {
         $returnValue = Array();

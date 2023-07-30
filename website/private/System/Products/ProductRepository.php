@@ -35,6 +35,24 @@ class ProductRepository extends Repository{
 
         return $retVal;
 	}
+
+    public function createProduct(
+        int $categoryId, int | null $subcategoryId, float $weight, 
+        float $price, float $length, float $width, float $height, 
+        int $stock, string $state, string $name, string $description
+    ): bool {
+		$statement = "INSERT INTO products(
+                category_id, subcategory_id, weight, 
+                price, stock, width, height, length, 
+                state, name, description)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+
+        return $this->connection->execute_query($statement, Array(
+                $categoryId, $subcategoryId, $weight, $price, $stock, 
+                $width, $height, $length, $state, $name, $description
+            )
+        );
+	}
 }
 
 ?>

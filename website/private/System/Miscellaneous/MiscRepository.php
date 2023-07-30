@@ -19,6 +19,13 @@ class MiscRepository extends Repository{
         return ($result->num_rows == 0 ? null : new Category($id, $result->fetch_assoc()["name"]));
 	}
 
+    public function checkCategoryExistsById(int $id): bool {
+		$statement = "SELECT name FROM categories WHERE category_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return ($result->num_rows != 0);
+	}
+
     public function getCategories(): Array {
 		$statement = "SELECT * FROM categories ORDER BY name ASC;";
         $result = $this->connection->execute_query($statement);
@@ -36,6 +43,13 @@ class MiscRepository extends Repository{
         $result = $this->connection->execute_query($statement, Array($categoryId, $id));
 
         return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()["name"]));
+	}
+
+    public function checkSubCategoryExistsById(int $id, int $categoryId): bool {
+		$statement = "SELECT name FROM subcategories WHERE subcategory_id=? AND category_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id, $categoryId));
+
+        return ($result->num_rows != 0);
 	}
 
     public function getSubCategoriesByCategoryId($categoryId): Array {
