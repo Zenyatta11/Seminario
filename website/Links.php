@@ -5,10 +5,10 @@
 /api/products/update
 /api/products/delete
 
-/api/products/variant/get
-/api/products/variant/update
-/api/products/variant/new
-/api/products/variant/delete
+/api/products/variation/get
+/api/products/variation/update
+/api/products/variation/new
+/api/products/variation/delete
 
 /api/search/products
 /api/search/orders

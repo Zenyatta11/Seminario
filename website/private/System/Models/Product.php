@@ -20,7 +20,7 @@ class Product {
         private string $description,
         private Category $category,
         private Subcategory | null $subCategory = null,
-        private int | null $variantId = null
+        private int | null $variationId = null
     ) {}
 
     public function getId(): int {
@@ -64,11 +64,11 @@ class Product {
         return $this->subCategory;
     }
 
-    public function getVariantId(): int | null {
-        return $this->variantId;
+    public function getvariationId(): int | null {
+        return $this->variationId;
     }
 
-    public function jsonify($whitelist = null): string {
+    public function toArray($whitelist = null): Array {
         $returnValue = Array();
 
         if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->id;
@@ -78,7 +78,7 @@ class Product {
         if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = $this->state;
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
         if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->description;
-        if($whitelist === null || in_array('variantId', $whitelist)) $returnValue['variantId'] = $this->variantId ?? '';
+        if($whitelist === null || in_array('variationId', $whitelist)) $returnValue['variationId'] = $this->variationId ?? '';
 
         if($whitelist === null || in_array('dimensions', $whitelist)) $returnValue['dimensions'] = Array(
             'length' => $this->dimensions->getLength(),
@@ -98,13 +98,13 @@ class Product {
             )
         );
 
-        return json_encode($returnValue);
+        return $returnValue;
     }
 
     public static function BUILD(Array $data): Product {
         $productController = new ProductController();
 
-        if($data['variant_id'])
+        if($data['variation_id'])
             $data = $productController->getVariationDataById($data);
         
         $miscController = new MiscController();
@@ -127,7 +127,7 @@ class Product {
             $data['description'],
             $category,
             $miscController->getSubCategoryById($category, $data['subcategory_id']),
-            $data['variant_id']
+            $data['variation_id']
         );
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace System\Handlers;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Exceptions\InvalidArgumentException;
+use System\Core\Exceptions\NotFoundException;
 use System\Products\ProductController;
 
 class ProductHandler {
@@ -21,9 +22,38 @@ class ProductHandler {
                     $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
                     $data['price'] ?? '', $data['stock'] ?? '', $data['width'] ?? '', 
                     $data['height'] ?? '', $data['length'] ?? '', $data['state'] ?? '', 
-                    $data['name'] ?? '', $data['description'] ?? '', );
-            default: return new ResponseDTO();
+                    $data['name'] ?? '', $data['description'] ?? '');
+
+            case "delete": return $this->deleteProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
+
+            case "get": return $this->getProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
+            default: throw new NotFoundException();
         }
+    }
+
+    private function getProduct(string $id, string $variationId): ResponseDTO {
+        $errors = Array();
+        if(empty($id)) $errors[] = "MISSING_ID";
+        else if(!is_numeric($id)) $errors[] = "INVALID_ID";
+
+        if(!empty($variationId) && !is_numeric($variationId)) $errors[] = "INVALID_VARIATION_ID";
+
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        if(!empty($variationId)) return new ResponseDTO($this->controller->getProductVariationById(intval($id), intval($variationId)));
+        return new ResponseDTO($this->controller->getProductById(intval($id))->toArray());
+    }
+
+    private function deleteProduct(string $id, string $variationId): ResponseDTO {
+        $errors = Array();
+        if(empty($id)) $errors[] = "MISSING_ID";
+        else if(!is_numeric($id)) $errors[] = "INVALID_ID";
+
+        if(!empty($variationId) && !is_numeric($variationId)) $errors[] = "INVALID_VARIATION_ID";
+
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return new ResponseDTO($this->controller->deleteProduct(intval($id), intval($variationId)));
     }
 
     private function createProduct(

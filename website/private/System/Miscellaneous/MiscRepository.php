@@ -71,9 +71,7 @@ class MiscRepository extends Repository{
 
         $returnValue = Array();
         while($returnValue[] = $result->fetch_assoc());
-        $returnValue = array_filter($returnValue);
-
-        return $returnValue;
+        return array_filter($returnValue);
 	}
 
     public function getCitiesByProvinceId(int $id): Array {
@@ -84,9 +82,7 @@ class MiscRepository extends Repository{
 
         $returnValue = Array();
         while($returnValue[] = $result->fetch_assoc());
-        $returnValue = array_filter($returnValue);
-
-        return $returnValue;
+        return array_filter($returnValue);
 	}
 
     public function verifyZipcode(int $code, int $provinceId): bool {

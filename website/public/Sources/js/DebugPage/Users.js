@@ -43,12 +43,14 @@ function getUsers() {
     doPost('search/users',
     { 
         'fields': 'username',
+        'query': 'z',
         'page': 0
     }
     ).then((response) => response.json())
     .then((json) => {
     if(json.status_code === 200) {
         data = JSON.parse(json.data)
+        console.log(data)
         document.getElementById('users-select').innerHTML = getOptionsFromJson('Select user...', json.data, 'user_id', 'username');
     }
     });

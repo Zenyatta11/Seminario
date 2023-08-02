@@ -22,7 +22,7 @@ class Util {
 		// TODO: update
 		$returnValue = Array();
 
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_ADD ? 'PRODUCTS_ADD' : '';
+		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_CREATE ? 'PRODUCTS_CREATE' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_MODIFY ? 'PRODUCTS_MODIFY' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_PAUSE ? 'PRODUCTS_PAUSE' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_DELETE ? 'PRODUCTS_DELETE' : '';
@@ -38,6 +38,12 @@ class Util {
 
 		$returnValue = array_filter($returnValue);
 		return implode(";", $returnValue);
+	}
+
+	public static function ARRAY_TO_TREE(Array $data, string $key, string $value) {
+		$returnTree = Array();
+
+		
 	}
 
 }

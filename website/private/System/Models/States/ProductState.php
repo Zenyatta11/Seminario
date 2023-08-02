@@ -19,4 +19,13 @@ class ProductState {
 		}
 	}
 
+	public static function FROM_CHAR(string $state): string {
+		switch($state) {
+			case "A": return ProductState::ENABLED;
+			case "B": return ProductState::PAUSED;
+			case "C": return ProductState::DELETED;
+			default: throw new InvalidArgumentException("INVALID_PRODUCT_STATE");
+		}
+	}
+
 }

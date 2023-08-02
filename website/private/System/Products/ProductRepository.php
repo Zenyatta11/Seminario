@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace System\Products;
 use System\Core\Database\Repository;
+use System\Core\Exceptions\DatabaseWriteException;
 use System\Models\Product;
 
 class ProductRepository extends Repository{
@@ -18,7 +19,45 @@ class ProductRepository extends Repository{
         );
 	}
 
-	public function getVariationDataById(Array $data): Array {
+    public function deleteProductById(int $id): bool {
+        $this->connection->begin_transaction();
+
+        try {
+            $statement = "DELETE FROM FROM products WHERE product_id=? LIMIT 1;";
+            return $this->connection->execute_query($statement, Array($id));
+        } catch(\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            throw new DatabaseWriteException();
+        }
+	}
+
+    public function deleteVariationById(int $id, int $variationId): bool {
+        $this->connection->begin_transaction();
+
+        try {
+            $statement = "DELETE FROM FROM products_variation WHERE product_id=? AND variation_id=? LIMIT 1;";
+            return $this->connection->execute_query($statement, Array($id, $variationId));
+        } catch(\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            throw new DatabaseWriteException();
+        }
+	}
+
+    public function checkProductExistsById(int $id): bool {
+        $statement = "SELECT product_id FROM products WHERE product_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return $result->num_rows !== 0;
+    }
+
+    public function checkProductVariationExistsById(int $id, int $variationId): bool {
+        $statement = "SELECT product_id FROM products_variation WHERE product_id=? AND variation_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id, $variationId));
+
+        return $result->num_rows !== 0;
+    }
+
+	public function replaceDataWithVariation(Array $data): Array {
 		$statement = "SELECT * FROM products_variation WHERE product_id=? AND variation_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($data['product_id'], $data['variation_id']));
 
@@ -28,8 +67,8 @@ class ProductRepository extends Repository{
         $retVal = $data;
         $retVal['stock'] = $resultSet;
         
-        $variants = json_decode($resultSet['data'], true);
-        foreach($variants as $key => $value) {
+        $variations = json_decode($resultSet['data'], true);
+        foreach($variations as $key => $value) {
             $retVal[$key] = $value;
         }
 

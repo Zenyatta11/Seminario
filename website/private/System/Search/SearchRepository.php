@@ -24,6 +24,24 @@ class SearchRepository extends Repository{
         return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()[0])
         );
 	}
+
+	public function pageSearchUsers(string $query, int $page) {
+		$statement = "SELECT user_id, email, username, name FROM users WHERE username LIKE CONCAT(?,'%') LIMIT ?, ?";
+		$result = $this->connection->execute_query($statement, Array($query, intval(floor($page / 24), $page * 24)));
+
+		$returnValue = Array();
+        while($returnValue[] = $result->fetch_assoc());
+        return array_filter($returnValue);
+	}
+
+	public function getUsernamesAndIds(string $query) {
+		$statement = "SELECT user_id, username, name FROM users WHERE username LIKE CONCAT(?,'%') LIMIT ?, ?";
+		$result = $this->connection->execute_query($statement, Array($query));
+
+		$returnValue = Array();
+        while($returnValue[] = $result->fetch_assoc());
+        return array_filter($returnValue);
+	}
 }
 
 ?>
