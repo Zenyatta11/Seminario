@@ -18,9 +18,6 @@ class SearchHandler {
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
         switch($subsection) {
             case "users": return $this->doUsers($action, $data);
-            case "login": return $this->doLogin($data);
-            case "logout": return $this->doLogout();
-            case "get": return $this->doGetUserData($data);
             default: throw new NotFoundException();
         }
     }

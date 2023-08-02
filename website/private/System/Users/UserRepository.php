@@ -24,6 +24,15 @@ class UserRepository extends Repository {
         );
     }
 
+    public function getUsers(int $page): Array {
+        $statement = "SELECT username, user_id FROM users LIMIT ?, ?;";
+        $result = $this->connection->execute_query($statement, Array(floor($page / 24), ($page + 1) * 24));
+
+        $returnValue = Array();
+        while($returnValue[] = $result->fetch_assoc());
+        return array_filter($returnValue);
+    }
+
     public function getUserByEmail(string $email): User | null {
         $statement = "SELECT * FROM users WHERE email=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($email));

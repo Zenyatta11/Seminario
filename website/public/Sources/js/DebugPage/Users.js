@@ -19,11 +19,12 @@ function doUserLogin() {
         }
     ).then((response) => response.json())
     .then((json) => {
-    setResponse(JSON.stringify(json))
-    if(json.status_code === 200) {
-        getUsername();
-    }
-    });
+            setResponse(JSON.stringify(json))
+            if(json.status_code === 200) {
+                getUsername();
+            }
+        }
+    );
 }
 
 function getUsername() {
@@ -33,27 +34,26 @@ function getUsername() {
     }
     ).then((response) => response.json())
     .then((json) => {
-    if(json.status_code === 200) {
-        document.getElementById('status-bar').innerHTML = "Status: Logged in (" + json.data.username + ")";
-    }
-    });
+            if(json.status_code === 200) {
+                document.getElementById('status-bar').innerHTML = "Status: Logged in (" + json.data.username + ")";
+            }
+        }
+    );
 }
 
 function getUsers() {
-    doPost('search/users',
+    doPost('users/list',
     { 
-        'fields': 'username',
-        'query': 'z',
         'page': 0
     }
     ).then((response) => response.json())
     .then((json) => {
-    if(json.status_code === 200) {
-        data = JSON.parse(json.data)
-        console.log(data)
-        document.getElementById('users-select').innerHTML = getOptionsFromJson('Select user...', json.data, 'user_id', 'username');
-    }
-    });
+            setResponse(JSON.stringify(json))
+            if(json.status_code === 200) {
+                document.getElementById('users-select').innerHTML = getOptionsFromJson('Select user...', json.data, 'user_id', 'username');
+            }
+        }
+    );
 }
 
 function doUserLogout() {
@@ -61,9 +61,10 @@ function doUserLogout() {
         { }
     ).then((response) => response.json())
     .then((json) => {
-    setResponse(JSON.stringify(json));
-    
-    if(json.status_code === 200) 
-        document.getElementById('status-bar').innerHTML = "Status: Logged out (Guest)";
-    });
+        setResponse(JSON.stringify(json));
+        
+        if(json.status_code === 200) 
+            document.getElementById('status-bar').innerHTML = "Status: Logged out (Guest)";
+        }
+    );
 }

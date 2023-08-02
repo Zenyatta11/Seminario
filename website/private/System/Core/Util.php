@@ -46,4 +46,10 @@ class Util {
 		
 	}
 
+	public static function VALID_PASSWD(string $passwd): bool {
+		if(strlen($passwd) < Prefs\Common::PASSWD_LENGTH_MIN) return false;
+		if(strlen($passwd) > Prefs\Common::PASSWD_LENGTH_MAX) return false;
+		return true;
+	}
+
 }
