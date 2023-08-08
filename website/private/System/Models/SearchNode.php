@@ -11,7 +11,7 @@ class SearchNode {
         private int | null $id = null
     ) {}
 
-    public function getChild(mixed $index): SearchNode | null {
+    public function getChild(string $index): SearchNode | null {
         return $this->children[$index] ?? null;
     }
 
@@ -30,6 +30,19 @@ class SearchNode {
 			'children' => $childrenArray,
 			'id' => $this->id
 		);
+	}
+
+	public function addChild(Array $names, int $value): void {
+		$namesArray = array_reverse($names);
+		$name = array_pop($namesArray);
+
+		if(empty($namesArray)) $this->children[$name] = new SearchNode(Array(), $value);
+		else if($this->getChild($name) !== null) $this->getChild($name)->addChild($namesArray, $value);
+		else {
+			$node = new SearchNode(Array(), $value);
+			$node->addChild($namesArray, $value);
+			$this->children[$name] = $node;
+		}
 	}
 }
 

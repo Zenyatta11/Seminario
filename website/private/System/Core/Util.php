@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace System\Core;
 
 use System\Core\Prefs;
+use System\Models\SearchNode;
 
 class Util {
 
@@ -40,10 +41,23 @@ class Util {
 		return implode(";", $returnValue);
 	}
 
-	public static function ARRAY_TO_TREE(Array $data, string $key, string $value) {
-		$returnTree = Array();
+	public static function ARRAY_TO_SEARCH_TREE(Array $data, string $key, string $value) {
+		$returnTree = new SearchNode(Array(), null);
 
+		foreach($data as $item) {
+			if(strlen($item[$key]) <= Prefs\Common::SEARCH_STRING_MIN) {
+				$returnTree->addChild(Array($item[$key]), $value);
+				continue;
+			}
+
+			$preName = substr($item[$key], 0, Prefs\Common::SEARCH_STRING_MIN);
+			$name = str_split(substr($item[$key], Prefs\Common::SEARCH_STRING_MIN));
+			array_unshift($name, $preName);
+
+			$returnTree->addChild($name, $value);
+		}
 		
+		return $returnTree;
 	}
 
 	public static function VALID_PASSWD(string $passwd): bool {

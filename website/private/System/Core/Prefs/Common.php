@@ -8,6 +8,8 @@ class Common {
 	public const SESSION_COOKIE = "ecommerce-session";
 	public const PASSWD_LENGTH_MIN = 4;
 	public const PASSWD_LENGTH_MAX = 32;
+
+	public const SEARCH_STRING_MIN = 3;
 }
 
 ?>

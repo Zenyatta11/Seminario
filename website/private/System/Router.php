@@ -28,6 +28,7 @@ class Router {
             case "search": return $this->handleSearch($subsection, $action);
             case "orders": return $this->handleOrders($subsection, $action);
             case "checkout": return $this->handleCheckout($subsection, $action);
+            case "context": return $this->getData($subsection, $action, $action);
             default: return $this->handleMiscellaneous($section, $action);
         }
     }

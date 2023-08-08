@@ -60,3 +60,39 @@ function getCookie(cookieName) {
 
     return "";
 }
+
+function parseFromJSON(json, fallbackJson, key) {
+    Array.from(document.getElementsByClassName(key))
+    .forEach((element) => {
+            let keys = element.getAttribute('key').split('.');
+            let jsonNest = {};
+            let attrib = element.getAttribute("attributeName");
+
+            if(json !== undefined && json[keys[0]] !== undefined) {
+                jsonNest = json[keys[0]];
+            } else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+                jsonNest = fallbackJson[keys[0]];
+            }
+
+            let i = 0;
+            for( ; i < keys.length; i = i + 1) {
+                if(jsonNest[keys[i]] !== undefined) {
+                    if(i == keys.length - 1) {
+                        element.innerHTML = jsonNest[keys[i]];
+                        break;
+                    } else jsonNest = jsonNest[keys[i]];
+                }
+            }
+
+            if(i === keys.length) 
+                if(attrib === null) element.innerHTML = element.getAttribute('key');
+                else element.setAttribute(attrib, element.getAttribute('key'));
+        }
+    );
+}
+
+function echo(content) {  
+    var replacingElement = document.createElement("div");
+    replacingElement.innerHTML = content;
+    document.currentScript.parentElement.replaceChild(document.currentScript, replacingElement);
+}
