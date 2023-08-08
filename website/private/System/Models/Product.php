@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace System\Models;
-use System\Core\Exceptions\InvalidArgumentException;
 use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
 
