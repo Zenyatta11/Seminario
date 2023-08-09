@@ -84,7 +84,7 @@ class User {
         return $this->activeCart;
     }
 
-    public function jsonify($whitelist = null): string {
+    public function toArray($whitelist = null): Array {
         $returnValue = Array();
 
         if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->id;
@@ -95,7 +95,7 @@ class User {
         if($whitelist === null || in_array('dni', $whitelist)) $returnValue['dni'] = $this->dni;
         if($whitelist === null || in_array('cart', $whitelist)) $returnValue['cart'] = $this->activeCart?->getId() ?? null;
 
-        return json_encode($returnValue);
+        return $returnValue;
     }
 }
 

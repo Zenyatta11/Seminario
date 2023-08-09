@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace System\Models;
 use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
-use System\Search\SearchController;
 
 class Product {
 
@@ -20,10 +19,55 @@ class Product {
         private string $description,
         private Category $category,
         private Subcategory | null $subCategory = null,
-        private int | null $variantId = null
+        private int | null $variationId = null
     ) {}
 
-    public function jsonify($whitelist = null): string {
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getWeight(): float {
+        return $this->weight;
+    }
+
+    public function getPrice(): float {
+        return $this->price;
+    }
+
+    public function getDimensions(): Dimension {
+        return $this->dimensions;
+    }
+
+    public function getStock(): int {
+        return $this->stock;
+    }
+
+
+    public function getState(): string {
+        return $this->state;
+    }
+
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function getCategory(): Category {
+        return $this->category;
+    }
+
+    public function getSubCategory(): Subcategory | null {
+        return $this->subCategory;
+    }
+
+    public function getvariationId(): int | null {
+        return $this->variationId;
+    }
+
+    public function toArray($whitelist = null): Array {
         $returnValue = Array();
 
         if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->id;
@@ -33,8 +77,8 @@ class Product {
         if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = $this->state;
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
         if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->description;
-        if($whitelist === null || in_array('variantId', $whitelist)) $returnValue['variantId'] = $this->variantId ?? '';
-         
+        if($whitelist === null || in_array('variationId', $whitelist)) $returnValue['variationId'] = $this->variationId ?? '';
+
         if($whitelist === null || in_array('dimensions', $whitelist)) $returnValue['dimensions'] = Array(
             'length' => $this->dimensions->getLength(),
             'height' => $this->dimensions->getHeight(),
@@ -53,13 +97,13 @@ class Product {
             )
         );
 
-        return json_encode($returnValue);
+        return $returnValue;
     }
 
     public static function BUILD(Array $data): Product {
         $productController = new ProductController();
 
-        if($data['variant_id'])
+        if($data['variation_id'])
             $data = $productController->getVariationDataById($data);
         
         $miscController = new MiscController();
@@ -82,7 +126,7 @@ class Product {
             $data['description'],
             $category,
             $miscController->getSubCategoryById($category, $data['subcategory_id']),
-            $data['variant_id']
+            $data['variation_id']
         );
     }
 

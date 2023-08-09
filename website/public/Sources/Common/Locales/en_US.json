@@ -1,0 +1,34 @@
+{
+    "locale": "en_US",
+    "languages": [
+        { "name": "es_AR", "text": "🇦🇷&emsp;Español (Arg)" },
+        { "name": "en_US", "text": "🇺🇸&emsp;English (US)" }
+    ],
+    "common": {
+        "login": "Login",
+        "register": "Register",
+        "search": "Search...",
+        "header": {
+            "home": "Home",
+            "featured": "Featured",
+            "offers": "Offers",
+            "catalog": "Catalog",
+            "contact": "Contact Us"
+        },
+        "categories": "Categories",
+        "contactus": "Contact Us!"
+    },
+    "pages": {
+        "home": "Home",
+        "catalog": "Catalog",
+        "account": "My Profile"
+    },
+    "register": {
+        "login": "Login",
+        "register": "Register",
+        "email": "E-mail",
+        "passwd": "Password",
+        "reset": "Forgot your password?",
+        "newuser": "New user? Register here"
+    }
+}

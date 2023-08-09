@@ -17,8 +17,12 @@ class MiscController {
 		private MiscRepository $repository = new MiscRepository()
 	) {}
 
-	public function getCategoryById(int $id): Category {
+	public function getCategoryById(int $id): Category | null {
 		return $this->repository->getCategoryById($id);
+	}
+
+	public function checkCategoryExistsById(int $id): bool {
+		return $this->repository->checkCategoryExistsById($id);
 	}
 
 	public function getCategories(): Array {
@@ -27,6 +31,10 @@ class MiscController {
 
 	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
 		return $this->repository->getSubCategoryByIdAndCategoryId($category, $id);
+	}
+
+	public function checkSubCategoryExistsById(int $id, int $categoryId): bool {
+		return $this->repository->checkSubCategoryExistsById($id, $categoryId);
 	}
 
 	public function getSubCategories(int $categoryId): Array {

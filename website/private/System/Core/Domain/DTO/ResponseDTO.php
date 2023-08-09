@@ -20,6 +20,10 @@ class ResponseDTO {
 
         return json_encode($returnValue);
     }
+
+    public function getData(): mixed {
+        return $this->data;
+    }
 }
 
 ?>

@@ -6,6 +6,7 @@ namespace System;
 
 use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
+use System\Core\Util;
 use System\Handlers\MiscellaneousHandler;
 use System\Handlers\UserHandler;
 use System\Models\User;
@@ -21,40 +22,64 @@ class Router {
         Router::$CURRENT_USER = $authController->getAuthenticatedUser();
     }
 
-    public function getResponse(): ResponseDTO {
-        switch($_GET['section']) {
-            case "users": return $this->handleUsers();
-            case "products": return $this->handleProducts();
-            case "search": return $this->handleSearch();
-            case "orders": return $this->handleOrders();
-            case "checkout": return $this->handleCheckout();
-            default: return $this->handleMiscellaneous();
+    public function getResponse(string $section, string $subsection, string $action): ResponseDTO {
+        switch($section) {
+            case "users": return $this->handleUsers($subsection, $action);
+            case "products": return $this->handleProducts($subsection, $action);
+            case "search": return $this->handleSearch($subsection, $action);
+            case "orders": return $this->handleOrders($subsection, $action);
+            case "checkout": return $this->handleCheckout($subsection, $action);
+            case "context": return $this->getData($subsection, $action, $action);
+            default: return $this->handleMiscellaneous($section, $action);
         }
     }
 
-    private function handleUsers(): ResponseDTO {
-        return $this->userHandler->init($_GET['subsection'], $_GET['action'], $_POST);
+    public function getData(string $section, string $subsection, string $action): ResponseDTO {
+        return new ResponseDTO(Array(
+                'common' => Array(
+                    'page' => Array(
+                        'title' => "Page Title",
+                        'description' => "Page Description",
+                        'author' => 'Page Author'
+                    ),
+                    'header' => Array(
+                        'welcomeText' => "Welcome %user%!",
+                    ),
+                    'fallbackLocale' => "es_AR"
+                )
+            )
+        );
     }
 
-    private function handleProducts(): ResponseDTO {
+    public function getLanguage(string $locale): Array {
+        return json_decode(file_get_contents("./Sources/Common/Locales/" . $locale . ".json"), true);
+    }
+    
+    private function handleUsers(string $subsection, string $action): ResponseDTO {
+        return $this->userHandler->init($subsection, $action, $_POST);
+    }
+
+    private function handleProducts(string $subsection, string $action): ResponseDTO {
 
     }
 
-    private function handleSearch(): ResponseDTO {
+    private function handleSearch(string $subsection, string $action): ResponseDTO {
 
     }
 
-    private function handleOrders(): ResponseDTO {
+    private function handleOrders(string $subsection, string $action): ResponseDTO {
 
     }
 
-    private function handleCheckout(): ResponseDTO {
+    private function handleCheckout(string $subsection, string $action): ResponseDTO {
 
     }
 
-    private function handleMiscellaneous(): ResponseDTO {
-        return $this->miscHandler->init($_GET['section'], $_GET['action'], $_POST);
+    private function handleMiscellaneous(string $subsection, string $action): ResponseDTO {
+        return $this->miscHandler->init($subsection, $action, $_POST);
     }
+
+   
 }
 
 ?>

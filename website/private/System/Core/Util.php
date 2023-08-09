@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace System\Core;
 
 use System\Core\Prefs;
+use System\Models\SearchNode;
 
 class Util {
 
@@ -22,7 +23,7 @@ class Util {
 		// TODO: update
 		$returnValue = Array();
 
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_ADD ? 'PRODUCTS_ADD' : '';
+		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_CREATE ? 'PRODUCTS_CREATE' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_MODIFY ? 'PRODUCTS_MODIFY' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_PAUSE ? 'PRODUCTS_PAUSE' : '';
 		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_DELETE ? 'PRODUCTS_DELETE' : '';
@@ -38,6 +39,31 @@ class Util {
 
 		$returnValue = array_filter($returnValue);
 		return implode(";", $returnValue);
+	}
+
+	public static function ARRAY_TO_SEARCH_TREE(Array $data) {
+		$returnTree = new SearchNode(Array(), null);
+
+		foreach($data as $key => $value) {
+			if(strlen($key) <= Prefs\Common::SEARCH_STRING_MIN) {
+				$returnTree->addChild(Array($key), $value);
+				continue;
+			}
+
+			$preName = substr($key, 0, Prefs\Common::SEARCH_STRING_MIN);
+			$name = str_split(substr($key, Prefs\Common::SEARCH_STRING_MIN));
+			array_unshift($name, $preName);
+
+			$returnTree->addChild($name, $value);
+		}
+		
+		return $returnTree;
+	}
+
+	public static function VALID_PASSWD(string $passwd): bool {
+		if(strlen($passwd) < Prefs\Common::PASSWD_LENGTH_MIN) return false;
+		if(strlen($passwd) > Prefs\Common::PASSWD_LENGTH_MAX) return false;
+		return true;
 	}
 
 }

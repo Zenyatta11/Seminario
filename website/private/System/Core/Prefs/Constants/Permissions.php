@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace System\Core\Prefs\Constants;
 
 class Permissions {
-	public const PRODUCTS_ADD = 1;
+	public const PRODUCTS_CREATE = 1;
 	public const PRODUCTS_MODIFY = 2;
 	public const PRODUCTS_PAUSE = 4;
 	public const PRODUCTS_DELETE = 8;

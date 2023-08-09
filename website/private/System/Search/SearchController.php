@@ -19,4 +19,11 @@ class SearchController {
 	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
 		return $this->repository->getSubCategoryById($category, $id);
 	}
+
+	public function predictUsers(string $query): Array {
+		if(strlen($query) < 2) return Array();
+
+		$data = $this->repository->getUsernamesAndIds($query);
+		return Util::ARRAY_TO_TREE($data, "username", "user_id");
+	}
 }
