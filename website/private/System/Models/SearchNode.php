@@ -7,7 +7,7 @@ namespace System\Models;
 class SearchNode {
 
     public function __construct(
-        private Array $children,
+        private Array $children = Array(),
         private int | null $id = null
     ) {}
 
@@ -35,11 +35,14 @@ class SearchNode {
 	public function addChild(Array $names, int $value): void {
 		$namesArray = array_reverse($names);
 		$name = array_pop($namesArray);
+        $namesArray = array_reverse($namesArray);
+
+        
 
 		if(empty($namesArray)) $this->children[$name] = new SearchNode(Array(), $value);
 		else if($this->getChild($name) !== null) $this->getChild($name)->addChild($namesArray, $value);
 		else {
-			$node = new SearchNode(Array(), $value);
+			$node = new SearchNode();
 			$node->addChild($namesArray, $value);
 			$this->children[$name] = $node;
 		}

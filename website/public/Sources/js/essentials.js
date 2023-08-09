@@ -29,6 +29,7 @@ function loadJSON(path, success, error) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
+                console.log(JSON.parse(xhr.responseText));
                 success(JSON.parse(xhr.responseText));
             }
             else {
@@ -66,19 +67,19 @@ function parseFromJSON(json, fallbackJson, key) {
     .forEach((element) => {
             let keys = element.getAttribute('key').split('.');
             let jsonNest = {};
-            let attrib = element.getAttribute("attributeName");
+            let attrib = element.getAttribute("attributename");
 
-            if(json !== undefined && json[keys[0]] !== undefined) {
-                jsonNest = json[keys[0]];
-            } else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+            if(json !== undefined && json[keys[0]] !== undefined) jsonNest = json[keys[0]];
+            else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
                 jsonNest = fallbackJson[keys[0]];
             }
 
-            let i = 0;
+            let i = 1;
             for( ; i < keys.length; i = i + 1) {
                 if(jsonNest[keys[i]] !== undefined) {
                     if(i == keys.length - 1) {
-                        element.innerHTML = jsonNest[keys[i]];
+                        if(attrib === null) element.innerHTML = jsonNest[keys[i]];
+                        else element.setAttribute(attrib, jsonNest[keys[i]]);
                         break;
                     } else jsonNest = jsonNest[keys[i]];
                 }
@@ -94,5 +95,31 @@ function parseFromJSON(json, fallbackJson, key) {
 function echo(content) {  
     var replacingElement = document.createElement("div");
     replacingElement.innerHTML = content;
-    document.currentScript.parentElement.replaceChild(document.currentScript, replacingElement);
+    document.currentScript.parentElement.replaceChild(replacingElement, document.currentScript);
+}
+
+function toggleChildList(element) {
+    childList = element.parentElement.lastElementChild;
+
+    if(childList.getAttribute('style') === null) childList.setAttribute('style', "display: inherit");
+    else childList.removeAttribute('style');
+}
+
+function hidePreloader(element) {
+    if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+        setTimeout(function () {
+            element.classList.remove('visuallyhidden');
+        }, 20);
+    } else {
+            element.classList.add('visuallyhidden');    
+            element.addEventListener('transitionend', function(e) {
+                element.setAttribute('style', 'display: none !important');
+            }, {
+                capture: false,
+                once: true,
+                passive: false
+            }
+        );
+    }
 }

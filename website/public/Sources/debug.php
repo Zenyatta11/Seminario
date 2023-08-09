@@ -7,9 +7,7 @@
     <script src="Sources/js/DebugPage/Miscellaneous.js"></script>
     <script src="Sources/js/DebugPage/Users.js"></script>
     <script>
-        function parseTranslations() {
-            Array.from(document.getElementsByClassName('translate')).forEach((element) => element.innerHTML = element.getAttribute('key')); 
-        }
+        
     </script>
 
     <style>

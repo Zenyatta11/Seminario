@@ -41,17 +41,17 @@ class Util {
 		return implode(";", $returnValue);
 	}
 
-	public static function ARRAY_TO_SEARCH_TREE(Array $data, string $key, string $value) {
+	public static function ARRAY_TO_SEARCH_TREE(Array $data) {
 		$returnTree = new SearchNode(Array(), null);
 
-		foreach($data as $item) {
-			if(strlen($item[$key]) <= Prefs\Common::SEARCH_STRING_MIN) {
-				$returnTree->addChild(Array($item[$key]), $value);
+		foreach($data as $key => $value) {
+			if(strlen($key) <= Prefs\Common::SEARCH_STRING_MIN) {
+				$returnTree->addChild(Array($key), $value);
 				continue;
 			}
 
-			$preName = substr($item[$key], 0, Prefs\Common::SEARCH_STRING_MIN);
-			$name = str_split(substr($item[$key], Prefs\Common::SEARCH_STRING_MIN));
+			$preName = substr($key, 0, Prefs\Common::SEARCH_STRING_MIN);
+			$name = str_split(substr($key, Prefs\Common::SEARCH_STRING_MIN));
 			array_unshift($name, $preName);
 
 			$returnTree->addChild($name, $value);
