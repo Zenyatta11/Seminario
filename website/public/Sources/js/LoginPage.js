@@ -15,3 +15,4 @@ function showPasswordResetForm() {
 	document.getElementById("register-form").hidden = true;
 	document.getElementById("password-reset-form").hidden = false;
 }
+

@@ -92,6 +92,29 @@ function parseFromJSON(json, fallbackJson, key) {
     );
 }
 
+function getKeyFromJson(json, fallbackJson, key) {
+    let keys = key.split('.');
+    let jsonNest = {};
+
+    if(json !== undefined && json[keys[0]] !== undefined) jsonNest = json[keys[0]];
+    else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+        jsonNest = fallbackJson[keys[0]];
+    }
+
+    let i = 1;
+    for( ; i < keys.length; i = i + 1) {
+        if(jsonNest[keys[i]] !== undefined) {
+            if(i == keys.length - 1) {
+                return jsonNest[keys[i]];
+            } else jsonNest = jsonNest[keys[i]];
+        }
+    }
+
+    if(i === keys.length) 
+        return key;
+
+}
+
 function echo(content) {  
     var replacingElement = document.createElement("div");
     replacingElement.innerHTML = content;
@@ -123,3 +146,21 @@ function hidePreloader(element) {
         );
     }
 }
+
+function navigateToPage(url, title, func) {
+    window.history.pushState('', '', url); 
+    setPage(url, title, func);
+}
+
+function setPage(url, title, func) {
+    document.title = getKeyFromJson(language, fallbackLanguage, title) ?? document.title;
+    func(document.getElementById("content"), document.getElementById("sidebar-content"));
+    parseTranslations();
+    document.getElementById("content").hidden = false;
+    document.getElementById("sidebar-content").hidden = false;
+}
+
+window.addEventListener('popstate', () => {
+        console.log('User clicked back button');
+    }
+);
