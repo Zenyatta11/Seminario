@@ -15,8 +15,6 @@ RewriteRule ^api/([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/?$ /index
 RewriteRule ^api/([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/?$ /index.php?process=api&section=$1&subsection=&action=$2 [QSA,NC]
 RewriteRule ^api/([0-9a-zA-Z-_!]+)/?$ /index.php?process=api&section=$1&subsection=&action= [QSA,NC]
 
-RewriteRule ^([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/?$ /index.php?section=$1&subsection=$2&action=$3 [QSA,NC]
-RewriteRule ^([0-9a-zA-Z-_!]+)/([0-9a-zA-Z-_!]+)/?$ /index.php?section=$1&subsection=&action=$2 [QSA,NC]
-RewriteRule ^([0-9a-zA-Z-_!]+)/?$ /index.php?section=$1&subsection=&action= [QSA,NC]
+RewriteRule ^debug/?$ /Sources/debug.php [QSA,NC]
 
-ErrorDocument 404 /index.php?error=404
+ErrorDocument 404 /index.html

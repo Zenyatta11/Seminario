@@ -1,3 +1,61 @@
+.textwidget.custom-html-widget {
+	margin-bottom: 88px !important;
+}
+
+span.tagged_as {
+	display: none;
+}
+
+form.woocommerce-ordering {
+	display: none;
+}
+
+.single-product .product-images .zoom {
+	background: none;
+	color: #ffffff;
+	margin-bottom: 50px;
+	background: #dd3333;
+	border-radius: 20px;
+	padding: 2px 0px 20px 00px;
+}
+
+body {
+	font-family: 'Poppins';
+}
+
+.page-wrapper .header-wrapper #header .header-main .container .header-right div .header-contact {
+	font-family: 'poppins' !important;
+}
+
+
+/* 680px and smaller screen sizes */
+@media (max-width:680px) {
+
+	/* Font Icon */
+	.searchform-popup .search-toggle .fa-search {
+		color: #ffffff !important;
+	}
+
+	/* Link */
+	.header-main .searchform-popup a {
+		border-top-left-radius: 7px;
+		border-top-right-radius: 7px;
+		border-bottom-left-radius: 7px;
+		border-bottom-right-radius: 7px;
+		background-color: #c91f0c !important;
+		left: 222px !important;
+	}
+
+	/* Sidebar toggle */
+	.sidebar div .sidebar-toggle {
+		top: 245px !important;
+		background-color: #bd0808 !important;
+		color: #f7f7f7 !important;
+
+	}
+
+}
+
 #header .header-main .container .header-center {
 	padding: 10px 10px;
 }
@@ -24,16 +82,13 @@
 }
 
 #header .header-main {
-	background-image: url(./Sources/img/header-background.png);
+	background-image: url(/Sources/img/header-background.png);
 	background-size: cover;
 }
 
 
 .page-top h2 {
-
 	display: none;
-
-
 	#header .header-top {
 		background-color: #f43838;
 		position: relative;
@@ -329,3 +384,14 @@
 
 		color: #ffffff !important;
 	}
+}
+
+div.woocommerce-variation-add-to-cart-disabled {
+	display: none ! important;
+}
+
+.recentcomments a {
+	display: inline !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}

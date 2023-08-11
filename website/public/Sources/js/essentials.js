@@ -13,10 +13,6 @@ function getValueById(id) {
     return document.getElementById(id).value;
 }
 
-function setResponse(data) {
-    document.getElementById("response-bar").innerHTML = data;
-}
-
 function getOptionsFromJson(select, data, keyValue, keyText) {
     var returnValue = '<option value="" disabled selected>' + select + '</option>';
     data.forEach((item) => returnValue = returnValue + '<option value="' + item[keyValue] + '">' + item[keyText] + '</option>');
@@ -149,10 +145,10 @@ function hidePreloader(element) {
 
 function navigateToPage(url, title, func) {
     window.history.pushState('', '', url); 
-    setPage(url, title, func);
+    setPage(title, func);
 }
 
-function setPage(url, title, func) {
+function setPage(title, func) {
     document.title = getKeyFromJson(language, fallbackLanguage, title) ?? document.title;
     func(document.getElementById("content"), document.getElementById("sidebar-content"));
     parseTranslations();
@@ -161,6 +157,6 @@ function setPage(url, title, func) {
 }
 
 window.addEventListener('popstate', () => {
-        console.log('User clicked back button');
+        loadPageByURL()
     }
 );

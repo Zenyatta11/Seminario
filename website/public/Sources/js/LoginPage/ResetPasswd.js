@@ -11,7 +11,7 @@ function Login_ResetPasswd_Load(main) {
 									<div class="u-column1 col-1" style="width: 75%;">
 										<form
 											class="woocommerce-form woocommerce-form-login login pr-lg-4 pe-0"
-											id="password-reset-form">
+											id="password-reset-form" onsubmit="event.preventDefault();">
 											<h3
 												class="account-sub-title mb-2 font-weight-bold text-capitalize text-v-dark translate" key="register.reset">
 												Acceder</h3>
@@ -26,22 +26,17 @@ function Login_ResetPasswd_Load(main) {
 													autocomplete="username">
 											</p>
 											
-											<p class="status">errors here</p>
-
-											<div
-												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
-												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="javascript:void(0)" onclick="navigateToPage('login', 'register.login', Login_Login_Load)"
-													class="text-v-dark font-weight-semibold translate" key="register.login">placeholder</a>
-												</div>
-											</div>
-											<div
-												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
-												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="javascript:void(0)" onclick="navigateToPage('register', 'register.register', Login_Register_Load)"
+											<p id="status-bar" class="status">&nbsp;</p>
+											<p
+												class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+												<a href="login" onclick="event.preventDefault(); navigateToPage('login', 'register.login', Login_Login_Load);"
+													class="text-v-dark font-weight-semibold translate" key="register.haveaccount">placeholder</a>
+											</p>
+											<p
+												class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+												<a href="register" onclick="event.preventDefault(); navigateToPage('register', 'register.register', Login_Register_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.newuser">placeholder</a>
-												</div>
-											</div>
+											</p>
 										</form>
 									</div>
 								</div>

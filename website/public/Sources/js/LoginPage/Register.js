@@ -11,7 +11,7 @@ function Login_Register_Load(main) {
 									<div class="u-column1 col-1" style="width: 75%;">
 										<form
 											class="woocommerce-form woocommerce-form-login login pr-lg-4 pe-0"
-											id="register-form">
+											id="register-form" onsubmit="event.preventDefault(); doRegister();" method="post">
 											<h3
 												class="account-sub-title mb-2 font-weight-bold text-capitalize text-v-dark translate" key="register.register">
 												Acceder</h3>
@@ -70,24 +70,24 @@ function Login_Register_Load(main) {
 														class="show-password-input"></span></span>
 											</p>
 
-											<p class="status">errors here</p>
+											<p id="status-bar" class="status">&nbsp;</p>
 
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
 												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="javascript:void(0)" onclick="navigateToPage('reset-password', 'register.resetpassword', Login_ResetPasswd_Load)"
+												<a href="reset-password" onclick="event.preventDefault(); navigateToPage('reset-password', 'register.resetpassword', Login_ResetPasswd_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.reset">placeholder</a>
 												</div>
 											</div>
 											<p class="form-row mb-3 mb-lg-0 pb-1 pb-lg-0">
-												<button onclick="doRegister()"
+												<button type="submit"
 													class="woocommerce-Button button login-btn btn-v-dark py-3 text-md w-100 translate"
 													key="register.register">placeholder</button>
 											</p>
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
-												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="javascript:void(0)" onclick="navigateToPage('login', 'register.login', Login_Login_Load)"
+												<div class="porto-checkbox my-2 my-sm-0" style="margin-top: 2.5% !important; margin-left: auto; margin-right: 0px;">
+												<a href="login" onclick="event.preventDefault(); navigateToPage('login', 'register.login', Login_Login_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.haveaccount">placeholder</a>
 												</div>
 											</div>
@@ -100,4 +100,31 @@ function Login_Register_Load(main) {
 				</div>
 			</div>
 		</article>`;
+}
+
+function doRegister() {
+    doPost('users/register',
+        {
+            'username': getValueById('register-username'),
+            'email': getValueById('register-email'),
+            'name': getValueById('register-name'),
+            'passwd': getValueById('register-password'),
+			'passwdConfirm': getValueById('register-password-confirm')
+        }
+    ).then((response) => response.json())
+    .then((json) => {
+			if(json.status_code === 200) {
+				updateUserData(json);
+			} else if(json.status_code === 400 | 403) {
+				statusText = ""; 
+				errors = json.data.split(';');
+
+				errors.forEach((item) => {
+					statusText = statusText + getKeyFromJson(language, fallbackLanguage, 'errors.register.' + item) + "<br>";
+				});
+
+				document.getElementById("status-bar").innerHTML = statusText;
+			}
+		}
+	);
 }

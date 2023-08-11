@@ -6,7 +6,7 @@ namespace System;
 
 use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
-use System\Core\Util;
+use System\Core\Prefs;
 use System\Handlers\MiscellaneousHandler;
 use System\Handlers\UserHandler;
 use System\Models\User;
@@ -46,6 +46,15 @@ class Router {
                         'welcomeText' => "Welcome %user%!",
                     ),
                     'fallbackLocale' => "es_AR"
+                ),
+                'register' => Array(
+                    'passwd' => Array(
+                        'min' => Prefs\Common::PASSWD_LENGTH_MIN,
+                        'max' => Prefs\Common::PASSWD_LENGTH_MAX
+                    )
+                ),
+                'user' => Array(
+                    'firstname' => $this->CURRENT_USER === null ? "null" : strtok($this->CURRENT_USER->getName(), " ")
                 )
             )
         );

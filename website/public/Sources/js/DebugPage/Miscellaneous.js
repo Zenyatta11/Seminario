@@ -1,3 +1,7 @@
+function setResponse(data) {
+    document.getElementById("response-bar").innerHTML = data;
+}
+
 function doNewCategory() {
     doPost('categories/new',
         {
