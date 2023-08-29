@@ -40,6 +40,18 @@ class ProductController {
 		return $this->repository->getProductById($id);
 	}
 
+	public function getFeaturedProducts(): Array {
+		return $this->repository->getFeaturedProducts();
+	}
+
+	public function getLatestProducts(): Array {
+		return $this->repository->getLatestProducts();
+	}
+
+	public function getDiscountProducts(): Array {
+		return $this->repository->getDiscountProducts();
+	}
+
 	public function getProductVariationById(int $id, int $variationId): Product {
 		if(!$this->repository->checkProductVariationExistsById($id, $variationId)) throw new NotFoundException();
 

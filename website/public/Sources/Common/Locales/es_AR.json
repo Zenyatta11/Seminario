@@ -6,6 +6,7 @@
     ],
     "common": {
         "login": "Iniciar sesión",
+        "logout": "Salir",
         "register": "Registrarse",
         "search": "Buscar...",
         "header": {
@@ -22,7 +23,8 @@
     "pages": {
         "home": "Inicio",
         "catalog": "Catálogo",
-        "account": "Perfil"
+        "account": "Perfil",
+        "accounts": "Cuentas"
     },
     "register": {
         "login": "Acceder",
@@ -58,5 +60,12 @@
             "NAME_TOO_LONG": "El nombre es muy largo.",
             "USERNAME_TOO_LONG": "El nombre de usuario es muy largo."
         }
+    },
+    "index": {
+        "new": "Novedades",
+        "featured": "Destacados",
+        "offers": "Ofertas",
+        "catalog": "Catálogo",
+        "payments": "Medios de Pago"
     }
 }

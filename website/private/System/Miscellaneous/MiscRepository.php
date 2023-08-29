@@ -26,6 +26,33 @@ class MiscRepository extends Repository{
         return ($result->num_rows != 0);
 	}
 
+    public function getCategoriesWithSubcategories(): Array {
+		$statement = "SELECT * FROM categories ORDER BY name ASC;";
+        $result = $this->connection->execute_query($statement);
+        if($result->num_rows === 0) throw new NotFoundException();
+
+        $categories = Array();
+        while($categories[] = $result->fetch_assoc());
+        $categories = array_filter($categories);
+
+        $returnValue = Array();
+        foreach($categories as $item) {
+            $subcategories = Array();
+
+            try {
+                $subcategories = $this->getSubCategoriesByCategoryId($item['category_id']);
+            } catch(NotFoundException $exception) { }
+
+            $returnValue[] = Array(
+                'category_id' => $item['category_id'],
+                'name' => $item['name'],
+                'subcategories' => $subcategories
+            );
+        }
+        
+        return $returnValue;
+	}
+
     public function getCategories(): Array {
 		$statement = "SELECT * FROM categories ORDER BY name ASC;";
         $result = $this->connection->execute_query($statement);

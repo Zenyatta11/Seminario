@@ -8,6 +8,7 @@ use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Prefs;
 use System\Handlers\MiscellaneousHandler;
+use System\Handlers\ProductHandler;
 use System\Handlers\UserHandler;
 use System\Models\User;
 
@@ -16,7 +17,8 @@ class Router {
 
     public function __construct(
         private UserHandler $userHandler = new UserHandler(),
-        private MiscellaneousHandler $miscHandler = new MiscellaneousHandler()
+        private MiscellaneousHandler $miscHandler = new MiscellaneousHandler(),
+        private ProductHandler $productHandler = new ProductHandler()
     ) {
         $authController = new AuthController();
         Router::$CURRENT_USER = $authController->getAuthenticatedUser();
@@ -54,7 +56,7 @@ class Router {
                     )
                 ),
                 'user' => Array(
-                    'firstname' => $this->CURRENT_USER === null ? "null" : strtok($this->CURRENT_USER->getName(), " ")
+                    'firstname' => Router::$CURRENT_USER === null ? "null" : strtok(Router::$CURRENT_USER->getName(), " ")
                 )
             )
         );
@@ -69,7 +71,7 @@ class Router {
     }
 
     private function handleProducts(string $subsection, string $action): ResponseDTO {
-
+        return $this->productHandler->init($subsection, $action, $_POST);
     }
 
     private function handleSearch(string $subsection, string $action): ResponseDTO {

@@ -10,6 +10,6 @@ use System\Core\Domain\Util\HttpStatusCode;
 class LoginException extends HttpException {
 
 	public function __construct(Array | string $message) {
-		parent::__construct(is_array($message) ? implode(";", $message) : $message, HttpStatusCode::BAD_REQUEST);
+		parent::__construct(is_array($message) ? implode(";", $message) : $message, HttpStatusCode::UNAUTHORIZED);
 	}
 }

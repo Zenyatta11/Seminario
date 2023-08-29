@@ -29,6 +29,10 @@ class MiscController {
 		return $this->repository->getCategories();
 	}
 
+	public function getCategoriesWithSubcategories(): Array {
+		return $this->repository->getCategoriesWithSubcategories();
+	}
+
 	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
 		return $this->repository->getSubCategoryByIdAndCategoryId($category, $id);
 	}

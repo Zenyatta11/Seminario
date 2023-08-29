@@ -135,7 +135,13 @@ https://yellowpencil.waspthemes.com/
 	background-color: rgb(209, 53, 55);
 }
 
-.products .product .add_to_cart_read_more:hover {
+.products .product .buy_now:hover {
+	background-color: rgb(241, 28, 32) !important;
+	border-style: none;
+	color: #ffffff !important;
+}
+
+.products .product .buy_now {
 	background-color: rgb(209, 53, 55) !important;
 	border-style: none;
 	color: #ffffff !important;

@@ -1,4 +1,10 @@
 function Login_ResetPasswd_Load(main) {
+	if(isLoggedIn) {
+		navigateToPage('/', 'context.common.page.title', Index_Load)
+		return;
+	}
+
+	setPageSectionHeader('pages.home/pages.accounts/register.passwd', 'register.passwd');
 	main.innerHTML = `
 		<article class="post-11798 page type-page status-publish hentry">
 			<div class="page-content">
@@ -29,12 +35,12 @@ function Login_ResetPasswd_Load(main) {
 											<p id="status-bar" class="status">&nbsp;</p>
 											<p
 												class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-												<a href="login" onclick="event.preventDefault(); navigateToPage('login', 'register.login', Login_Login_Load);"
+												<a href="/login" onclick="event.preventDefault(); navigateToPage('/login', 'register.login', Login_Login_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.haveaccount">placeholder</a>
 											</p>
 											<p
 												class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-												<a href="register" onclick="event.preventDefault(); navigateToPage('register', 'register.register', Login_Register_Load);"
+												<a href="/register" onclick="event.preventDefault(); navigateToPage('/register', 'register.register', Login_Register_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.newuser">placeholder</a>
 											</p>
 										</form>

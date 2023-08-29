@@ -17,18 +17,40 @@ class ProductHandler {
     }
 
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
+        switch($subsection) {
+            case "get": return $this->getProducts($action);
+            default: return $this->doUncategorized($action, $data);
+        }
+    }
+
+    private function doUncategorized(string $action, Array $data) {
         switch($action) {
             case "new": return $this->createProduct(
-                    $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
-                    $data['price'] ?? '', $data['stock'] ?? '', $data['width'] ?? '', 
-                    $data['height'] ?? '', $data['length'] ?? '', $data['state'] ?? '', 
-                    $data['name'] ?? '', $data['description'] ?? '');
+                $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
+                $data['price'] ?? '', $data['stock'] ?? '', $data['width'] ?? '', 
+                $data['height'] ?? '', $data['length'] ?? '', $data['state'] ?? '', 
+                $data['name'] ?? '', $data['description'] ?? '');
 
             case "delete": return $this->deleteProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
 
             case "get": return $this->getProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
             default: throw new NotFoundException();
         }
+    }
+
+    private function getProducts(string $urlId) {
+        $matches = Array();
+        if($urlId == "featured") {
+            return new ResponseDTO($this->controller->getFeaturedProducts());
+        } else if($urlId == "offers") {
+            return new ResponseDTO($this->controller->getDiscountProducts());
+        } else if($urlId == "new") {
+            return new ResponseDTO($this->controller->getLatestProducts());
+        } else if(preg_match('/(\d+)-(\d+)_.*/', 'foobarbaz', $matches, PREG_OFFSET_CAPTURE)) {
+            return new ResponseDTO($this->controller->getProductVariationById(intval($matches[1]), intval($matches[2])));
+        } else if(preg_match('/(\d+)_.*/', 'foobarbaz', $matches, PREG_OFFSET_CAPTURE)) {
+            return new ResponseDTO($this->controller->getProductById(intval($matches[1])));
+        } else throw new NotFoundException();
     }
 
     private function getProduct(string $id, string $variationId): ResponseDTO {

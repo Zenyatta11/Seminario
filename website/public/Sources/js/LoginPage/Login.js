@@ -1,4 +1,10 @@
 function Login_Login_Load(main) {
+	if(isLoggedIn) {
+		navigateToPage('/', 'context.common.page.title', Index_Load)
+		return;
+	}
+
+	setPageSectionHeader('pages.home/pages.accounts/register.login', 'register.login');
 	main.innerHTML = `
 		<article class="post-11798 page type-page status-publish hentry">
 			<div class="page-content">
@@ -43,19 +49,19 @@ function Login_Login_Load(main) {
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
 												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="reset-password" onclick="event.preventDefault(); navigateToPage('reset-password', 'register.resetpassword', Login_ResetPasswd_Load);"
+												<a href="/reset-password" onclick="event.preventDefault(); navigateToPage('/reset-password', 'register.resetpassword', Login_ResetPasswd_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.reset">placeholder</a>
 												</div>
 											</div>
 											<p class="form-row mb-3 mb-lg-0 pb-1 pb-lg-0">
-												<button type="submit"
+												<button type="submit" id="login-submit-button"
 													class="woocommerce-Button button login-btn btn-v-dark py-3 text-md w-100 translate"
 													name="login" key="register.login" value="login">placeholder</button>
 											</p>
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
 												<div class="porto-checkbox my-2 my-sm-0" style="margin-top: 2.5% !important; margin-left: auto; margin-right: 0px;">
-												<a href="register" onclick="event.preventDefault(); navigateToPage('register', 'register.register', Login_Register_Load);"
+												<a href="/register" onclick="event.preventDefault(); navigateToPage('/register', 'register.register', Login_Register_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.newuser">placeholder</a>
 												</div>
 											</div>
@@ -71,6 +77,8 @@ function Login_Login_Load(main) {
 }
 
 function doLogin() {
+	document.getElementById("login-submit-button").disabled = true;
+
 	doPost('users/login',
 		{
 			'email': getValueById('login-email'),
@@ -80,7 +88,8 @@ function doLogin() {
 	.then((json) => {
 			if(json.status_code === 200) {
 				updateUserData(json);
-			} else if(json.status_code === 400 | 403) {
+				setPage('', Index_Load);
+			} else if(json.status_code === 403) {
 				statusText = ""; 
 				errors = json.data.split(';');
 
@@ -89,6 +98,19 @@ function doLogin() {
 				});
 
 				document.getElementById("status-bar").innerHTML = statusText;
+				
+				document.getElementById("login-submit-button").disabled = false;
+			} else if(json.status_code === 400) {
+				statusText = ""; 
+				errors = json.data.split(';');
+
+				errors.forEach((item) => {
+					statusText = statusText + getKeyFromJson(language, fallbackLanguage, 'errors.login.' + item) + "<br>";
+				});
+
+				document.getElementById("status-bar").innerHTML = statusText;
+
+				setTimeout(() => navigateToPage('/', 'context.common.page.title', Index_Load), 5000);
 			}
 		}
 	);

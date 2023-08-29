@@ -1,4 +1,10 @@
 function Login_Register_Load(main) {
+	if(isLoggedIn) {
+		navigateToPage('/', 'context.common.page.title', Index_Load)
+		return;
+	}
+
+	setPageSectionHeader('pages.home/pages.accounts/register.register', 'register.register');
 	main.innerHTML = `
 		<article class="post-11798 page type-page status-publish hentry">
 			<div class="page-content">
@@ -75,7 +81,7 @@ function Login_Register_Load(main) {
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
 												<div class="porto-checkbox my-2 my-sm-0" style="margin-left: auto; margin-right: 0px;">
-												<a href="reset-password" onclick="event.preventDefault(); navigateToPage('reset-password', 'register.resetpassword', Login_ResetPasswd_Load);"
+												<a href="/reset-password" onclick="event.preventDefault(); navigateToPage('/reset-password', 'register.resetpassword', Login_ResetPasswd_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.reset">placeholder</a>
 												</div>
 											</div>
@@ -87,7 +93,7 @@ function Login_Register_Load(main) {
 											<div
 												class="woocommerce-LostPassword lost_password d-flex flex-column flex-sm-row justify-content-between mb-4">
 												<div class="porto-checkbox my-2 my-sm-0" style="margin-top: 2.5% !important; margin-left: auto; margin-right: 0px;">
-												<a href="login" onclick="event.preventDefault(); navigateToPage('login', 'register.login', Login_Login_Load);"
+												<a href="/login" onclick="event.preventDefault(); navigateToPage('/login', 'register.login', Login_Login_Load);"
 													class="text-v-dark font-weight-semibold translate" key="register.haveaccount">placeholder</a>
 												</div>
 											</div>

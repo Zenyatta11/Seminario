@@ -2,7 +2,7 @@ var fallbackLanguage = {};
 var language = {};
 const fallbackLocale = "es_AR";
 
-loadJSON("./Sources/Common/Locales/es_AR.json", function(data) { fallbackLanguage = data; },'jsonp');
+loadJSON("/Sources/Common/Locales/es_AR.json", function(data) { fallbackLanguage = data; },'jsonp');
 
 function loadLanguage(select) {
     var locale = localStorage.getItem("locale");
@@ -14,7 +14,7 @@ function loadLanguage(select) {
     } else if(locale === null) locale = fallbackLocale;
 
     console.log("Changing language to [" + locale + "]");
-    loadJSON("./Sources/Common/Locales/" + locale + ".json", 
+    loadJSON("/Sources/Common/Locales/" + locale + ".json", 
         function(data) { 
             language = data;
             parseTranslations();

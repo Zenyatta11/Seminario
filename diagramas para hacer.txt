@@ -1,0 +1,7 @@
+Diagrama de casos de usos
+diagrama de secuencia (el de casos de usos con estados)
+planilla de casos de usos
+diagrama de flujo
+reveer diccionario de datos
+reveer diagrama de bases de datos
+diagrama de entidad-relacion
