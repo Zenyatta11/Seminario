@@ -73,14 +73,6 @@ class UserController {
 		return $user;
 	}
 
-	public function createPasswordResetRequest(string $email): void {
-		if(!$this->repository->checkExistsByEmail($email)) return;
-
-		$hash = hash("sha256", "passwdRESET" . time() . "hashsalt");
-		$this->repository->createPasswordResetRequest($email, $hash);
-		Util::SEND_EMAIL($email, "Reestablecer Contraseña", "");
-	}
-
 	public function getUserData(string $fields, int | null $id): Array | null {
 		if(!empty($fields)) $whitelist = explode(";", $fields);
         else $whitelist = null;

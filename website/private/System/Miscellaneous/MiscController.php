@@ -136,13 +136,13 @@ class MiscController {
         return $this->repository->deleteQuestion($questionId, Router::$CURRENT_USER->getId());
     }
 
-    private function updateQuestion(int $questionId): bool {
+    private function updateQuestion(int $questionId, string $message): bool {
         if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
 		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::QUESTIONS_MODIFY)) 
 			throw new UnauthorizedException('QUESTIONS_MODIFY');
 
 		$this->repository->getQuestionById($questionId);
-        return $this->repository->updateQuestion($questionId, Router::$CURRENT_USER->getId());
+        return $this->repository->updateQuestion($questionId, Router::$CURRENT_USER->getId(), $message);
     }
 
     private function respondTo(int $questionId, string $response): bool {

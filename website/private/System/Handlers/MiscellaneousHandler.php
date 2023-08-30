@@ -45,9 +45,16 @@ class MiscellaneousHandler {
         switch($action) {
             case "product": return new ResponseDTO($this->getReviewsByProductId($data['product_id'] ?? ""));
             case "user": return new ResponseDTO($this->getReviewsByUserId($data['user_id'] ?? ""));
-            case "new": return new ResponseDTO($this->createReview($data['product_id'] ?? ""));
+            case "new": return new ResponseDTO($this->createReview($data['product_id'] ?? "", $data['stars'] ?? "", $data['title'] ?? "", $data['description'] ?? ""));
             case "delete": return new ResponseDTO($this->deleteReview($data['review_id'] ?? ""));
-            case "update": return new ResponseDTO($this->updateReview($data['review_id'] ?? ""));
+            case "update": return new ResponseDTO(
+                $this->updateReview(
+                    $data['review_id'] ?? "",
+                    $data['stars'] ?? "",
+                    $data['title'] ?? "",
+                    $data['description'] ?? ""
+                )
+            );
             default: throw new NotFoundException();
         }
     }
@@ -56,18 +63,18 @@ class MiscellaneousHandler {
         switch($action) {
             case "product": return new ResponseDTO($this->getQuestionsByProductId($data['product_id'] ?? ""));
             case "user": return new ResponseDTO($this->getQuestionsByUserId($data['user_id'] ?? ""));
-            case "new": return new ResponseDTO($this->newQuestion($data['product_id'] ?? ""));
-            case "respond": return new ResponseDTO($this->respondTo($data['question_id'] ?? ""));
+            case "new": return new ResponseDTO($this->newQuestion($data['product_id'] ?? "", $data['question'] ?? ""));
+            case "respond": return new ResponseDTO($this->respondTo($data['question_id'] ?? "", $data['response'] ?? ""));
             case "delete": return new ResponseDTO($this->deleteQuestion($data['question_id'] ?? ""));
-            case "update": return new ResponseDTO($this->updateQuestion($data['question_id'] ?? ""));
+            case "update": return new ResponseDTO($this->updateQuestion($data['question_id'] ?? "", $data['question'] ?? ""));
             default: throw new NotFoundException();
         }
     }
 
     private function processResponses(string $action, Array $data): ResponseDTO {
         switch($action) {
-            case "delete": return new ResponseDTO($this->deleteQuestion($data['question_id'] ?? ""));
-            case "update": return new ResponseDTO($this->updateQuestion($data['question_id'] ?? ""));
+            case "delete": return new ResponseDTO($this->deleteResponse($data['response_id'] ?? ""));
+            case "update": return new ResponseDTO($this->updateResponse($data['response_id'] ?? "", $data['response'] ?? ""));
             default: throw new NotFoundException();
         }
     }
@@ -82,64 +89,99 @@ class MiscellaneousHandler {
         $this->controller->getQuestionsByUserId(intval($userId));
     }
     
-    private function newQuestion(string $productId) {
-        if(empty($productId) || !is_numeric($productId)) throw new InvalidArgumentException("PRODUCT_ID_MUST_BE_INT");
-        $this->controller->newQuestion(intval($productId));
+    private function newQuestion(string $productId, string $message): bool {
+        $errors = Array();
+
+        if(empty($productId) || !is_numeric($productId)) $errors[] = "PRODUCT_ID_MUST_BE_INT";
+        if(empty($message)) $errors[] = "QUESTION_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+        
+        return $this->controller->newQuestion(intval($productId), $message);
     }
 
-    private function deleteQuestion(string $questionId) {
+    private function deleteQuestion(string $questionId): bool {
         if(empty($questionId) || !is_numeric($questionId)) throw new InvalidArgumentException("QUESTION_ID_MUST_BE_INT");
-        $this->controller->deleteQuestion(intval($questionId));
+        return $this->controller->deleteQuestion(intval($questionId));
     }
 
-    private function updateQuestion(string $questionId) {
+    private function updateQuestion(string $questionId, string $message): bool {
+        $errors = Array();
+
+        if(empty($questionId) || !is_numeric($questionId)) $errors[] = "QUESTION_ID_MUST_BE_INT";
+        if(empty($message)) $errors[] = "QUESTION_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return $this->controller->updateQuestion(intval($questionId), $message);
+    }
+
+    private function respondTo(string $questionId, string $response): bool {
+        $errors = Array();
+
+        if(empty($questionId) || !is_numeric($questionId)) $errors[] = "QUESTION_ID_MUST_BE_INT";
+        if(empty($message)) $errors[] = "RESPONSE_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return $this->controller->respondTo(intval($questionId), $response);
+    }
+
+    private function deleteResponse(string $questionId): bool {
         if(empty($questionId) || !is_numeric($questionId)) throw new InvalidArgumentException("QUESTION_ID_MUST_BE_INT");
-        $this->controller->updateQuestion(intval($questionId));
+        return $this->controller->deleteResponse(intval($questionId));
     }
 
-    private function respondTo(string $questionId) {
-        if(empty($questionId) || !is_numeric($questionId)) throw new InvalidArgumentException("QUESTION_ID_MUST_BE_INT");
-        $this->controller->respondTo(intval($questionId));
+    private function updateResponse(string $questionId, string $message): bool {
+        $errors = Array();
+
+        if(empty($questionId) || !is_numeric($questionId)) $errors[] = "QUESTION_ID_MUST_BE_INT";
+        if(empty($message)) $errors[] = "RESPONSE_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return $this->controller->updateResponse(intval($questionId), $message);
     }
 
-    private function deleteResponse(string $questionId) {
-        if(empty($questionId) || !is_numeric($questionId)) throw new InvalidArgumentException("QUESTION_ID_MUST_BE_INT");
-        $this->controller->deleteResponse(intval($questionId));
+    private function createReview(string $productId, string $stars, string $title, string $description): bool {
+        $errors = Array();
+
+        if(empty($productId) || !is_numeric($productId)) $errors[] = "PRODUCT_ID_MUST_BE_INT";
+        if(empty($stars) || !is_numeric($stars)) $errors[] = "STARS_MUST_BE_INT";
+        if(!empty($stars) && is_numeric($stars) && !($stars >= 0 && $stars <= 5)) $errors[] = "STARS_MUST_BE_1_TO_5";
+        if(empty($title)) $errors[] = "TITLE_CANNOT_BE_EMPTY";
+        if(empty($description)) $errors[] = "DESCRIPTION_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+        
+        return $this->controller->createReview(intval($productId), intval($stars), $title, $description);
     }
 
-    private function updateResponse(string $questionId) {
-        if(empty($questionId) || !is_numeric($questionId)) throw new InvalidArgumentException("QUESTION_ID_MUST_BE_INT");
-        $this->controller->updateResponse(intval($questionId));
-    }
-
-    private function createReview(string $productId) {
-        if(empty($productId) || !is_numeric($productId)) throw new InvalidArgumentException("PRODUCT_ID_MUST_BE_INT");
-        $this->controller->createReview(intval($productId));
-    }
-
-    private function deleteReview(string $reviewId) {
+    private function deleteReview(string $reviewId): bool {
         if(empty($reviewId) || !is_numeric($reviewId)) throw new InvalidArgumentException("REVIEW_ID_MUST_BE_INT");
-        $this->controller->deleteReview(intval($reviewId));
+        return$this->controller->deleteReview(intval($reviewId));
     }
 
-    private function updateReview(string $reviewId) {
-        if(empty($reviewId) || !is_numeric($reviewId)) throw new InvalidArgumentException("REVIEW_ID_MUST_BE_INT");
-        $this->controller->updateReview(intval($reviewId));
+    private function updateReview(string $reviewId, string $stars, string $title, string $description): bool {
+        $errors = Array();
+        if(empty($reviewId) || !is_numeric($reviewId)) $errors[] = "REVIEW_ID_MUST_BE_INT";
+        if(empty($stars) || !is_numeric($stars)) $errors[] = "STARS_MUST_BE_INT";
+        if(!empty($stars) && is_numeric($stars) && !($stars >= 0 && $stars <= 5)) $errors[] = "STARS_MUST_BE_1_TO_5";
+        if(empty($title)) $errors[] = "TITLE_CANNOT_BE_EMPTY";
+        if(empty($description)) $errors[] = "DESCRIPTION_CANNOT_BE_EMPTY";
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return $this->controller->updateReview(intval($reviewId), intval($stars), $title, $description);
     }
 
-    private function getReviewsByProductId(string $reviewId) {
+    private function getReviewsByProductId(string $reviewId): Array {
         if(empty($reviewId) || !is_numeric($reviewId)) throw new InvalidArgumentException("PRODUCT_ID_MUST_BE_INT");
-        $this->controller->getReviewsByProductId(intval($reviewId));
+        return $this->controller->getReviewsByProductId(intval($reviewId));
     }
 
-    private function getReviewsByUserId(string $userId) {
+    private function getReviewsByUserId(string $userId): Array {
         if(empty($userId) || !is_numeric($userId)) throw new InvalidArgumentException("USER_ID_MUST_BE_INT");
-        $this->controller->getReviewsByUserId(intval($userId));
+        return $this->controller->getReviewsByUserId(intval($userId));
     }
 
     private function processCities(string $action, Array $data): ResponseDTO {
         switch($action) {
-            case "get": return $this->getCities($data['province_id'] ?? "");
+            case "get": return new ResponseDTO($this->getCities($data['province_id'] ?? ""));
             default: throw new NotFoundException();
         }
     }
@@ -153,8 +195,8 @@ class MiscellaneousHandler {
 
     private function processSubcategories(string $action, Array $data): ResponseDTO {
         switch($action) {
-            case "get": return $this->getSubCategories($data['category_id'] ?? "");
-            case "new": return $this->newSubCategory($data['name'] ?? "", $data['category_id'] ?? "");
+            case "get": return new ResponseDTO($this->getSubCategories($data['category_id'] ?? ""));
+            case "new": return new ResponseDTO($this->newSubCategory($data['name'] ?? "", $data['category_id'] ?? ""));
             case "delete": return new ResponseDTO($this->deleteSubCategory($data['subcategory_id'] ?? "", $data['category_id'] ?? ""));
             case "update": return new ResponseDTO($this->updateSubCategory($data['name'] ?? "", $data['subcategory_id'] ?? "", $data['category_id'] ?? ""));
             default: throw new NotFoundException();
@@ -176,53 +218,53 @@ class MiscellaneousHandler {
         else throw new InvalidArgumentException(Array("ZIPCODE_DOES_NOT_MATCH_PROVINCE"));
     }
     
-    private function getCities(string $province) {
+    private function getCities(string $province): Array {
         if(empty($province) || !is_numeric($province)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
-        return new ResponseDTO($this->controller->getCitiesByProvinceId(intval($province)));
+        return $this->controller->getCitiesByProvinceId(intval($province));
     }
 
-    private function newCategory(string $name): ResponseDTO {
+    private function newCategory(string $name): bool {
         if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
 
-        return new ResponseDTO($this->controller->newCategory(htmlentities($name)));
+        return $this->controller->newCategory(htmlentities($name));
     }
 
-    private function deleteCategory(string $id): ResponseDTO {
+    private function deleteCategory(string $id): bool {
         if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
 
-        return new ResponseDTO($this->controller->deleteCategory(intval($id)));
+        return $this->controller->deleteCategory(intval($id));
     }
 
-    private function updateCategory(string $name, $id): ResponseDTO {
+    private function updateCategory(string $name, $id): bool {
         if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
         if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
 
-        return new ResponseDTO($this->controller->updateCategory(htmlentities($name), intval($id)));
+        return $this->controller->updateCategory(htmlentities($name), intval($id));
     }
 
-    private function newSubCategory(string $name, string $categoryId): ResponseDTO {
+    private function newSubCategory(string $name, string $categoryId): bool {
         if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
         if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
-        return new ResponseDTO($this->controller->newSubCategory(htmlentities($name), intval($categoryId)));
+        return $this->controller->newSubCategory(htmlentities($name), intval($categoryId));
     }
 
-    private function getSubCategories(string $categoryId): ResponseDTO {
+    private function getSubCategories(string $categoryId): Array {
         if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
-        return new ResponseDTO($this->controller->getSubCategories(intval($categoryId)));
+        return $this->controller->getSubCategories(intval($categoryId));
     }
 
-    private function deleteSubCategory(string $id, string $categoryId): ResponseDTO {
+    private function deleteSubCategory(string $id, string $categoryId): bool {
         if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
         if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("CATEGORY_ID_MUST_BE_INT"));
 
-        return new ResponseDTO($this->controller->deleteSubCategory(intval($id), intval($categoryId)));
+        return $this->controller->deleteSubCategory(intval($id), intval($categoryId));
     }
 
-    private function updateSubCategory(string $name, string $id, string $categoryId): ResponseDTO {
+    private function updateSubCategory(string $name, string $id, string $categoryId): bool {
         if(empty($id) || !is_numeric($id)) throw new InvalidArgumentException(Array("ID_MUST_BE_INT"));
         if(empty($categoryId) || !is_numeric($categoryId)) throw new InvalidArgumentException(Array("CATEGORY_ID_MUST_BE_INT"));
         if(empty($name)) throw new InvalidArgumentException(Array("NAME_CANNOT_BE_EMPTY"));
 
-        return new ResponseDTO($this->controller->updateSubCategory(htmlentities($name), intval($id), intval($categoryId)));
+        return $this->controller->updateSubCategory(htmlentities($name), intval($id), intval($categoryId));
     }
 }
