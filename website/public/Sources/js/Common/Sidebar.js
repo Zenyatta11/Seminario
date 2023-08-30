@@ -50,28 +50,16 @@ function Sidebar_GetFeaturedProducts() {
                         <span class="product-title">` + item.name + `</span>
                     </a>
                     <div class="star-rating" title="" data-bs-original-title="0"><span style="width:0%"><strong class="rating">0</strong> de
-                                5</span></div><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>15.200</bdi></span>
+                                5</span></div><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>` + item.price + `</bdi></span>
                     </div>
-
-                list = list + `
-                </li>`;
+                </li>`
             });
 
             document.getElementById("sidebar-product-categories").innerHTML = list;
         }
     });
-} 
+}
 
-<li>
-    <a class="product-image" href="/https://seminario.batatas.club/" title="product title">
-        <div class="inner"><img src="/Sources/img/product-thumb.png" alt="" width="85" height="85"></div>
-    </a>
-    <div class="product-details">
-        <a href="/https://seminario.batatas.club/" title="product title">
-            <span class="product-title">product name</span>
-        </a>
-
-        <div class="star-rating" title="" data-bs-original-title="0"><span style="width:0%"><strong class="rating">0</strong> de
-                5</span></div><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>15.200</bdi></span>
-    </div>
-</li>
+function Sidebar_GetMostSoldProducts() {
+    Sidebar_GetFeaturedProducts();
+}

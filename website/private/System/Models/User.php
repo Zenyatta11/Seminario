@@ -84,6 +84,11 @@ class User {
         return $this->activeCart;
     }
 
+    public function hasBoughtProduct(): bool {
+        return false;
+        //todo 
+    }
+
     public function toArray($whitelist = null): Array {
         $returnValue = Array();
 

@@ -6,6 +6,7 @@ namespace System\Users;
 use System\Core\Exceptions\AlreadyLoggedInException;
 use System\Core\Exceptions\EmailInUseException;
 use System\Core\Exceptions\EmailNotInUseException;
+use System\Core\Exceptions\NotFoundException;
 use System\Core\Util;
 use System\Models\Order;
 use System\Models\User;
@@ -63,6 +64,13 @@ class UserController {
 
 	public function getUsers(int $page): Array {
 		return $this->repository->getUsers($page);
+	}
+
+	public function getUserById(int $id): User {
+		$user = $this->repository->getUserById($id);
+
+		if($user === null) throw new NotFoundException();
+		return $user;
 	}
 
 	public function createPasswordResetRequest(string $email): void {

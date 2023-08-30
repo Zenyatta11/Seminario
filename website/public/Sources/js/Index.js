@@ -75,9 +75,9 @@ function Index_Load(main) {
                                             data-swiper-slide-index="1"
                                             style="width: 900px; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
                                             <figure class="swiper-slide-inner"><img data-lazyloaded="1"
-                                                    src="/Sources/img/index_image.png" decoding="async"
+                                                    src="/Media/General/index_image.png" decoding="async"
                                                     class="swiper-slide-image entered litespeed-loading"
-                                                    data-src="/Sources/img/index_image.png"
+                                                    data-src="/Media/General/index_image.png"
                                                     alt="florida-camping" data-ll-status="loading" width="1000"
                                                     height="443"></figure>
                                         </div>

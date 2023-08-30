@@ -26,7 +26,6 @@ class MiscellaneousHandler {
             case "questions": return $this->processQuestions($action, $data);
             case "response": return $this->processResponses($action, $data);
             case "review": return $this->processReview($action, $data);
-            case "media": return $this->processMediaRequest($subsection, $action);
             default: throw new NotFoundException();
         }
     }
@@ -165,14 +164,6 @@ class MiscellaneousHandler {
     private function processZipcodes(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "verify": return $this->verifyZipcode($data['zip-code'] ?? "", $data['province_id'] ?? "");
-            default: throw new NotFoundException();
-        }
-    }
-
-    private function processMediaRequest(string $section, string $action): ResponseDTO {
-        switch($section) {
-            case "products": return $this->getProductsImage($action);
-            case "index": return $this->getPageImage($action);
             default: throw new NotFoundException();
         }
     }

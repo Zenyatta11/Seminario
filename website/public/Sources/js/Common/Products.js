@@ -12,16 +12,16 @@ function getNewProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -81,16 +81,16 @@ function getNewProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1000px) 100vw, 1000px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1000" height="1000">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -149,16 +149,16 @@ function getNewProducts() {
                         <div class="inner img-effect">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -171,15 +171,15 @@ function getNewProducts() {
                                     </div>
                                 </div>
                             </div><img data-lazyloaded="1"
-                                src="/Sources/img/product-thumb.png"
-                                data-src="/Sources/img/product-thumb.png"
+                                src="/Media/General/product-thumb.png"
+                                data-src="/Media/General/product-thumb.png"
                                 class="hover-image entered litespeed-loaded"
                                 alt="" decoding="async" loading="lazy"
-                                data-srcset="/Sources/img/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
+                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
                                 data-sizes="(max-width: 1000px) 100vw, 1000px"
                                 data-ll-status="loaded"
                                 sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                 width="1000" height="1000">
                         </div>
                     </a></div>
@@ -222,16 +222,16 @@ function getNewProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1530px) 100vw, 1530px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1530" height="1590">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -289,16 +289,16 @@ function getFeaturedProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -352,16 +352,16 @@ function getFeaturedProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1000px) 100vw, 1000px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1000" height="1000">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -414,16 +414,16 @@ function getFeaturedProducts() {
                         <div class="inner img-effect">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -436,15 +436,15 @@ function getFeaturedProducts() {
                                     </div>
                                 </div>
                             </div><img data-lazyloaded="1"
-                                src="/Sources/img/product-thumb.png"
-                                data-src="/Sources/img/product-thumb.png"
+                                src="/Media/General/product-thumb.png"
+                                data-src="/Media/General/product-thumb.png"
                                 class="hover-image entered litespeed-loaded"
                                 alt="" decoding="async" loading="lazy"
-                                data-srcset="/Sources/img/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
+                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
                                 data-sizes="(max-width: 1000px) 100vw, 1000px"
                                 data-ll-status="loaded"
                                 sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                 width="1000" height="1000">
                         </div>
                     </a></div>
@@ -487,16 +487,16 @@ function getFeaturedProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1530px) 100vw, 1530px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1530" height="1590">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -557,16 +557,16 @@ function getOffersProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -619,16 +619,16 @@ function getOffersProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1000px) 100vw, 1000px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1000" height="1000">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -681,16 +681,16 @@ function getOffersProducts() {
                         <div class="inner img-effect">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -703,15 +703,15 @@ function getOffersProducts() {
                                     </div>
                                 </div>
                             </div><img data-lazyloaded="1"
-                                src="/Sources/img/product-thumb.png"
-                                data-src="/Sources/img/product-thumb.png"
+                                src="/Media/General/product-thumb.png"
+                                data-src="/Media/General/product-thumb.png"
                                 class="hover-image entered litespeed-loaded"
                                 alt="" decoding="async" loading="lazy"
-                                data-srcset="/Sources/img/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
+                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
                                 data-sizes="(max-width: 1000px) 100vw, 1000px"
                                 data-ll-status="loaded"
                                 sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                 width="1000" height="1000">
                         </div>
                     </a></div>
@@ -753,16 +753,16 @@ function getOffersProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1530px) 100vw, 1530px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1530" height="1590">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -816,16 +816,16 @@ function getRandomProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -875,16 +875,16 @@ function getRandomProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1000px) 100vw, 1000px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1000" height="1000">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -934,16 +934,16 @@ function getRandomProducts() {
                         <div class="inner img-effect">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     data-sizes="(max-width: 600px) 100vw, 600px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Sources/img/product-thumb.png 600w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w"
+                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
                                     width="600" height="600">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
@@ -956,15 +956,15 @@ function getRandomProducts() {
                                     </div>
                                 </div>
                             </div><img data-lazyloaded="1"
-                                src="/Sources/img/product-thumb.png"
-                                data-src="/Sources/img/product-thumb.png"
+                                src="/Media/General/product-thumb.png"
+                                data-src="/Media/General/product-thumb.png"
                                 class="hover-image entered litespeed-loaded"
                                 alt="" decoding="async" loading="lazy"
-                                data-srcset="/Sources/img/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
+                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
                                 data-sizes="(max-width: 1000px) 100vw, 1000px"
                                 data-ll-status="loaded"
                                 sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Sources/img/product-thumb.png 1000w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 560w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                 width="1000" height="1000">
                         </div>
                     </a></div>
@@ -1003,16 +1003,16 @@ function getRandomProducts() {
                         <div class="inner">
                             <div class="container-image-and-badge  ">
                                 <img data-lazyloaded="1"
-                                    src="/Sources/img/product-thumb.png"
-                                    data-src="/Sources/img/product-thumb.png"
+                                    src="/Media/General/product-thumb.png"
+                                    data-src="/Media/General/product-thumb.png"
                                     class="wp-post-image entered litespeed-loaded"
                                     alt="" decoding="async"
                                     loading="lazy"
-                                    data-srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     data-sizes="(max-width: 1530px) 100vw, 1530px"
                                     data-ll-status="loaded"
                                     sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Sources/img/product-thumb.png 1530w, /Sources/img/product-thumb.png 985w, /Sources/img/product-thumb.png 768w, /Sources/img/product-thumb.png 1478w, /Sources/img/product-thumb.png 640w, /Sources/img/product-thumb.png 400w, /Sources/img/product-thumb.png 367w, /Sources/img/product-thumb.png 600w"
+                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
                                     width="1530" height="1590">
                                 <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
                                     data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
