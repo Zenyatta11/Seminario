@@ -66,4 +66,8 @@ class Util {
 		return true;
 	}
 
+	public static function SEND_EMAIL(string $email, string $subject, string $body): bool {
+		return false;
+	}
+
 }

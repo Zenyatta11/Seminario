@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 namespace System\Users;
-use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Exceptions\AlreadyLoggedInException;
 use System\Core\Exceptions\EmailInUseException;
 use System\Core\Exceptions\EmailNotInUseException;
-use System\Core\Exceptions\RegisterException;
+use System\Core\Util;
 use System\Models\Order;
 use System\Models\User;
 use System\Router;
@@ -64,6 +63,14 @@ class UserController {
 
 	public function getUsers(int $page): Array {
 		return $this->repository->getUsers($page);
+	}
+
+	public function createPasswordResetRequest(string $email): void {
+		if(!$this->repository->checkExistsByEmail($email)) return;
+
+		$hash = hash("sha256", "passwdRESET" . time() . "hashsalt");
+		$this->repository->createPasswordResetRequest($email, $hash);
+		Util::SEND_EMAIL($email, "Reestablecer Contraseña", "");
 	}
 
 	public function getUserData(string $fields, int | null $id): Array | null {
