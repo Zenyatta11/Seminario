@@ -8,16 +8,16 @@ use \mysqli;
 
 abstract class Repository {
 
-	protected mysqli $connection;
+	static protected mysqli $connection;
 
 	public function __construct() {
-		$this->connection = DatabaseController::CONNECT();
-        mysqli_autocommit($this->connection, true);
+		Repository::$connection = DatabaseController::CONNECT();
+        mysqli_autocommit(Repository::$connection, true);
 	}
 
     public function __destruct() {
-        if ($this->connection)
-            $this->connection->close();
+        if (Repository::$connection)
+            Repository::$connection->close();
     }
 }
 

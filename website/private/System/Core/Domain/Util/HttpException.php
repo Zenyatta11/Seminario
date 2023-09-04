@@ -19,7 +19,7 @@ class HttpException extends Exception {
         parent::__construct($message, $code, $previous);
     }
 
-	public function tossError() {
+	public function tossError(): void {
 		$response = new ResponseDTO($this->message, $this->statusCode);
 		die($response->jsonify());
 	}

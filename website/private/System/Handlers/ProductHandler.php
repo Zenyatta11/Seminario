@@ -23,7 +23,7 @@ class ProductHandler {
         }
     }
 
-    private function doUncategorized(string $action, Array $data) {
+    private function doUncategorized(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "new": return $this->createProduct(
                 $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
@@ -38,7 +38,7 @@ class ProductHandler {
         }
     }
 
-    private function getProducts(string $urlId) {
+    private function getProducts(string $urlId): ResponseDTO {
         $matches = Array();
         if($urlId == "featured") {
             return new ResponseDTO($this->controller->getFeaturedProducts());

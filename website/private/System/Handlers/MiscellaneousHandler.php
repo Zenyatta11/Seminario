@@ -79,14 +79,14 @@ class MiscellaneousHandler {
         }
     }
 
-    private function getQuestionsByProductId(string $productId) {
+    private function getQuestionsByProductId(string $productId): Array {
         if(empty($productId) || !is_numeric($productId)) throw new InvalidArgumentException("PRODUCT_ID_MUST_BE_INT");
-        $this->controller->getQuestionsByProductId(intval($productId));
+        return $this->controller->getQuestionsByProductId(intval($productId));
     }
 
-    private function getQuestionsByUserId(string $userId) {
+    private function getQuestionsByUserId(string $userId): Array {
         if(empty($userId) || !is_numeric($userId)) throw new InvalidArgumentException("USER_ID_MUST_BE_INT");
-        $this->controller->getQuestionsByUserId(intval($userId));
+        return $this->controller->getQuestionsByUserId(intval($userId));
     }
     
     private function newQuestion(string $productId, string $message): bool {

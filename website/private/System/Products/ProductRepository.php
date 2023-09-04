@@ -53,7 +53,7 @@ class ProductRepository extends Repository{
         return $returnData;
 	}
 
-    private function checkDiscountIntegrity() {
+    private function checkDiscountIntegrity(): void {
         $statement = "DELETE FROM offers WHERE o.end_date <= NOW();";
         if(!$this->connection->execute_query($statement)) {
             throw new DatabaseWriteException();

@@ -9,7 +9,8 @@
 		if (error_reporting() == 0) return;
 	
 		if (is_object($input)) {
-			$input->tossError();
+			if($input instanceof mysqli_sql_exception) die($input->getTraceAsString() . "<br>" . $input->getMessage());
+			else $input->tossError();
 		} else {
 			die("<strong>$file</strong>:$line - $msg | $context");
 		}
