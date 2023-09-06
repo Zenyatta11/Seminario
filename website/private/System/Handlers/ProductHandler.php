@@ -6,12 +6,14 @@ namespace System\Handlers;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\NotFoundException;
+use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
 
 class ProductHandler {
 
     public function __construct(
         private ProductController $controller = new ProductController(),
+        private MiscController $miscController = new MiscController()
     ) {
 
     }
@@ -23,7 +25,7 @@ class ProductHandler {
         }
     }
 
-    private function doUncategorized(string $action, Array $data) {
+    private function doUncategorized(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "new": return $this->createProduct(
                 $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
@@ -38,19 +40,28 @@ class ProductHandler {
         }
     }
 
-    private function getProducts(string $urlId) {
+    private function getProducts(string $urlId): ResponseDTO {
         $matches = Array();
         if($urlId == "featured") {
             return new ResponseDTO($this->controller->getFeaturedProducts());
         } else if($urlId == "offers") {
             return new ResponseDTO($this->controller->getDiscountProducts());
-        } else if($urlId == "new") {
+        } else if($urlId == "latest") {
             return new ResponseDTO($this->controller->getLatestProducts());
-        } else if(preg_match('/(\d+)-(\d+)_.*/', 'foobarbaz', $matches, PREG_OFFSET_CAPTURE)) {
-            return new ResponseDTO($this->controller->getProductVariationById(intval($matches[1]), intval($matches[2])));
-        } else if(preg_match('/(\d+)_.*/', 'foobarbaz', $matches, PREG_OFFSET_CAPTURE)) {
-            return new ResponseDTO($this->controller->getProductById(intval($matches[1])));
-        } else throw new NotFoundException();
+        } else if(preg_match('/(\d+)-(\d+)_.*/', $urlId, $matches, PREG_OFFSET_CAPTURE)) {
+            $category = $this->miscController->getCategoryById(intval($matches[1][0]));
+            if($category === null) throw new NotFoundException();
+
+            $subcategory = $this->miscController->getSubCategoryById($category, intval($matches[2][0]));
+            if($subcategory === null) throw new NotFoundException();
+
+            return new ResponseDTO($this->controller->getProductsBySubcategory($subcategory));
+        } else if(preg_match('/(\d+)_.*/', $urlId, $matches, PREG_OFFSET_CAPTURE)) {
+            $category = $this->miscController->getCategoryById(intval($matches[1][0]));
+            if($category === null) throw new NotFoundException();
+
+            return new ResponseDTO($this->controller->getProductsByCategory($category));
+        } else return new ResponseDTO($this->controller->getProducts());
     }
 
     private function getProduct(string $id, string $variationId): ResponseDTO {

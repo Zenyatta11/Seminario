@@ -19,7 +19,12 @@ class Util {
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 
-	public static function ARRAY_TO_SEARCH_TREE(Array $data) {
+	public static function URL_NAME(string $name) {
+		$string = str_replace(' ', '-', $name);
+		return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+	}
+
+	public static function ARRAY_TO_SEARCH_TREE(Array $data): Array {
 		$returnTree = new SearchNode(Array(), null);
 
 		foreach($data as $key => $value) {

@@ -7,7 +7,7 @@ namespace System\Core\Database;
 use System\Core\Prefs;
 
 class DatabaseController {
-    public static function CONNECT() {
+    public static function CONNECT(): \mysqli | bool {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         return mysqli_connect(

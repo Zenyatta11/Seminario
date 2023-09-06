@@ -153,9 +153,9 @@ function setPage(title, func) {
     else document.title = getKeyFromJson(contextData, { }, title.replace("context.", "")) ?? title;
 
     func(document.getElementById("content"), document.getElementById("sidebar-content"));
-    parseTranslations();
     document.getElementById("content").hidden = false;
     document.getElementById("sidebar-content").hidden = false;
+    parseTranslations();
 }
 
 function setPageSectionHeader(site, title) {
@@ -180,3 +180,11 @@ window.addEventListener('popstate', () => {
         loadPageByURL()
     }
 );
+
+function parsePrice(price) {
+    const parts = price.toString().split('.');
+    const integerPart = parts[0];
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const formattedPrice = parts.length > 1 ? formattedIntegerPart + '.' + parts[1] : formattedIntegerPart;
+    return formattedPrice;
+}

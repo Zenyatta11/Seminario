@@ -12,6 +12,7 @@
         "header": {
             "home": "Home",
             "featured": "Featured",
+            "new": "Novelties",
             "offers": "Offers",
             "catalog": "Catalog",
             "contact": "Contact Us"
@@ -67,5 +68,10 @@
         "offers": "Offers",
         "catalog": "Catalog",
         "payments": "Payment Methods"
+    },
+    "product": {
+        "new": "NEW!",
+        "more": "Read more",
+        "buy": "Buy now"
     }
 }

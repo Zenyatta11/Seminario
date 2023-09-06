@@ -7,7 +7,6 @@ use System\Core\Exceptions\AlreadyLoggedInException;
 use System\Core\Exceptions\EmailInUseException;
 use System\Core\Exceptions\EmailNotInUseException;
 use System\Core\Exceptions\NotFoundException;
-use System\Core\Util;
 use System\Models\Order;
 use System\Models\User;
 use System\Router;

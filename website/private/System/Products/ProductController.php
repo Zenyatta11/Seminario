@@ -8,14 +8,16 @@ use System\Core\Exceptions\NotFoundException;
 use System\Core\Exceptions\NotLoggedInException;
 use System\Core\Exceptions\UnauthorizedException;
 use System\Core\Prefs;
-use System\Miscellaneous\MiscController;
+use System\Miscellaneous\MiscRepository;
+use System\Models\Category;
 use System\Models\Product;
+use System\Models\Subcategory;
 
 class ProductController {
 
 	public function __construct(
 		private ProductRepository $repository = new ProductRepository(),
-		private MiscController $miscController = new MiscController(),
+		private MiscRepository $miscRepository = new MiscRepository(),
 	) { }
 
 	public function deleteProduct(int $id, int | null $variationId): bool {
@@ -48,6 +50,26 @@ class ProductController {
 		return $this->repository->getLatestProducts();
 	}
 
+	public function getProducts(): Array {
+		return Array(
+			"products" => $this->repository->getProducts()
+		);
+	}
+
+	public function getProductsByCategory(Category $category): Array {
+		$returnValue = Array();
+		$returnValue['category'] = $category->toArray();
+		$returnValue['products'] = $this->repository->getProductsByCategory($category);
+		return $returnValue;
+	}
+
+	public function getProductsBySubcategory(Subcategory $subcategory): Array {
+		$returnValue = Array();
+		$returnValue['subcategory'] = $subcategory->toArray();
+		$returnValue['products'] = $this->repository->getProductsBySubcategory($subcategory);
+		return $returnValue;
+	}
+
 	public function getDiscountProducts(): Array {
 		return $this->repository->getDiscountProducts();
 	}
@@ -76,24 +98,24 @@ class ProductController {
 		if(!Router::$CURRENT_USER->isAllowedTo(Prefs\Constants\Permissions::PRODUCTS_CREATE)) 
 			throw new UnauthorizedException('PRODUCTS_CREATE');
 
-		if($this->miscController->checkCategoryExistsById($categoryId)) 
+		if(!$this->miscRepository->checkCategoryExistsById($categoryId)) 
 			throw new InvalidArgumentException("INEXISTANT_CATEGORY");
-		if($subcategoryId !== null && $this->miscController->checkSubCategoryExistsById($subcategoryId, $categoryId)) 
+		if($subcategoryId !== null && !$this->miscRepository->checkSubCategoryExistsById($subcategoryId, $categoryId)) 
 			throw new InvalidArgumentException("INEXISTANT_SUBCATEGORY");
 
 		return $this->repository->createProduct(
-					$categoryId,
-					$subcategoryId,
-					$weight,
-					$price,
-					$length,
-					$width,
-					$height,
-					$stock,
-					$state,
-					$name,
-					$description
-			);
+			$categoryId,
+			$subcategoryId,
+			$weight,
+			$price,
+			$length,
+			$width,
+			$height,
+			$stock,
+			$state,
+			$name,
+			$description
+		);
 	}
 }
 

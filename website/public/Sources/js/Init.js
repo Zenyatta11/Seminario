@@ -24,6 +24,7 @@ function loadPageByURL() {
         pageLoader();
     });
     
+    parseTranslations();
 }
 
 function updateUserData(json) {
@@ -38,7 +39,17 @@ function updateUserData(json) {
 }
 
 function pageLoader() {
-    switch(window.location.pathname) {
+    const url = window.location.pathname;
+
+    if(url.includes('/catalog')) {
+        setPage('pages.catalog', Catalog_Load);
+        return;
+    } else if(url.includes('/product')) {
+        setPage('pages.product', Index_Load);
+        return;
+    }
+
+    switch(url) {
         case '/login': setPage('register.login', Login_Login_Load); break;
         case '/register': setPage('register.register', Login_Register_Load); break;
         case '/reset-password': setPage('register.resetpassword', Login_ResetPasswd_Load); break;

@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace System\Products;
 use System\Core\Database\Repository;
 use System\Core\Exceptions\DatabaseWriteException;
+use System\Core\Util;
+use System\Models\Category;
 use System\Models\Product;
+use System\Models\Subcategory;
 
 class ProductRepository extends Repository{
 
-	public function getProductById(int $id): Product {
+    public function __construct() {
+        parent::__construct();
+        $this->checkDiscountIntegrity();
+    }
+
+	public function getProductById(int $id): Product | null {
 		$statement = "SELECT * FROM products WHERE product_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
@@ -20,29 +28,60 @@ class ProductRepository extends Repository{
 	}
 
     public function getLatestProducts(): Array {
-		$statement = "SELECT p.*, c.name as category FROM products p, categories c WHERE p.category_id = c.category_id ORDER BY p.product_id DESC LIMIT 4;";
-        $result = $this->connection->execute_query($statement);
+		$statement = "
+                SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                p.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p
+            LEFT JOIN offers o ON o.product_id=p.product_id 
+            WHERE p.state='A' AND p.category_id=c.category_id
+            ORDER BY p.product_id DESC
+            LIMIT 4";
+
+        $result = $this->connection->execute_query($statement, Array());
+
         $max = $result->num_rows;
         $returnData = Array();
 
-        for($i = 0; $i < $max; $i = $i + 1)
-            $returnData[] = $result->fetch_assoc();
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $returnData[] = $productArray;
+        }
         
         return $returnData;
 	}
 
     public function getDiscountProducts(): Array {
-        $this->checkDiscountIntegrity();
-
-		$statement = "SELECT 
-            o.price AS discount, o.product_id AS product_id, p.price AS price, p.name AS name, c.name AS category, c.category_id AS category_id
-        FROM 
-            products p, offers o, categories c
-        WHERE 
-            o.product_id = p.product_id AND p.state = 'A' AND p.category_id = c.category_id AND (o.start_date <= NOW() OR o.start_date IS NULL) 
-        ORDER BY 
-            o.offer_id 
-        LIMIT 4;";
+		$statement = "SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                p.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p, offers o
+            WHERE p.state='A' AND p.category_id=c.category_id AND o.product_id=p.product_id
+            ORDER BY p.product_id DESC
+            LIMIT 4";
         $result = $this->connection->execute_query($statement);
         $max = $result->num_rows;
         $returnData = Array();
@@ -53,16 +92,47 @@ class ProductRepository extends Repository{
         return $returnData;
 	}
 
-    private function checkDiscountIntegrity() {
-        $statement = "DELETE FROM offers WHERE o.end_date <= NOW();";
+    private function checkDiscountIntegrity(): void {
+        $statement = "DELETE FROM offers o WHERE o.end_date <= NOW();";
         if(!$this->connection->execute_query($statement)) {
             throw new DatabaseWriteException();
         }
     }
 
     public function getFeaturedProducts(): Array {
-        //TODO: implement get featured products
-        return $this->getLatestProducts();
+        $statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                p.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p
+            LEFT JOIN offers o ON o.product_id=p.product_id 
+            WHERE p.state='A' AND p.category_id=c.category_id
+            ORDER BY RAND()
+            LIMIT 4";
+
+        $result = $this->connection->execute_query($statement, Array());
+
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $returnData[] = $productArray;
+        }
+
+        return $returnData;
     }
 
     public function deleteProductById(int $id): bool {
@@ -138,6 +208,120 @@ class ProductRepository extends Repository{
             )
         );
 	}
+
+    public function getProductsBySubcategory(Subcategory $subcategory): Array {
+		$statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                c.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p 
+            LEFT JOIN offers o ON o.product_id=p.product_id 
+            WHERE p.state='A' AND p.category_id=? AND p.subcategory_id=? AND p.category_id=c.category_id
+            ORDER BY p.name";
+
+        $result = $this->connection->execute_query($statement, 
+            Array(
+                $subcategory->getCategory()->getId(),
+                $subcategory->getId()
+            )
+        );
+        
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $returnData[] = $productArray;
+        }
+        
+        return $returnData;
+	}
+
+    public function getProductsByCategory(Category $category): Array {
+        $statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                c.category_id,
+                c.name AS category,
+                p.description,
+                o.start_date
+            FROM categories c, products p 
+            LEFT JOIN offers o ON o.product_id=p.product_id 
+            WHERE p.state='A' AND p.category_id=? AND p.category_id=c.category_id
+            ORDER BY p.name";
+
+        $result = $this->connection->execute_query($statement, 
+            Array(
+                $category->getId()
+            )
+        );
+        
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $returnData[] = $productArray;
+        }
+        
+        return $returnData;
+    }
+
+    public function getProducts(): Array {
+        $statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                c.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p 
+            LEFT JOIN offers o ON o.product_id=p.product_id 
+            WHERE state='A' AND c.category_id=p.category_id
+            ORDER BY p.name";
+
+        $result = $this->connection->execute_query($statement);
+        
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $returnData[] = $productArray;
+        }
+        
+        return $returnData;
+    }
 }
 
 ?>

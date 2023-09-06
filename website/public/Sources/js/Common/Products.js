@@ -1,1056 +1,249 @@
 function getNewProducts() {
-    return `
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Nuevo!</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-                                        <div class="yith-wcbm-css-text">
-                                            <div
-                                                class="yith-wcbm-badge-text">
-                                                Efectivo 15% OFF</div>
+    doPost('products/get/latest', { })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code === 200) {
+            more = getKeyFromJson(language, fallbackLanguage, "product.more");
+            buy = getKeyFromJson(language, fallbackLanguage, "product.buy");
+            list = '';
+            
+            json.data.forEach((item) => {
+                list = list + `
+                <div class="owl-item active" style="width: 232.5px;">
+                    <li class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
+                        <div class="product-inner">
+                            <div class="product-image">
+                                <a href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <div class="inner">
+                                        <div class="container-image-and-badge  ">
+                                            <img src="/Media/General/product-thumb.png"
+                                                class="wp-post-image entered litespeed-loaded"
+                                                width="600" height="600">
+                                            ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
+                                            <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
+                                                <div class="yith-wcbm-badge__wrap">
+                                                    <div class="yith-wcbm-css-text">
+                                                        <div class="yith-wcbm-badge-text">` + Math.floor(parseInt(item.offer) / parseInt(item.price) * 100) + `% OFF!</div>
+                                                    </div>
+                                                </div>
+                                            </div>` : ``) + `
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto 2</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple view"
-                                aria-label="Lee más sobre “Nombre de Producto 2”"
-                                aria-describedby="" rel="nofollow"><i class="icon-search"></i>Leer Más</a>
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple buy_now"
-                                aria-label="Comprar “Nombre de Producto 2”"
-                                aria-describedby="" rel="nofollow"><i class="icon-money"></i>Comprar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23293 status-publish last instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Nuevo!</div>
-                            <div class="onsale">-50%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1000" height="1000">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-                                        <div class="yith-wcbm-css-text">
-                                            <div
-                                                class="yith-wcbm-badge-text">
-                                                Efectivo 15% OFF</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23293"
-                                data-product_sku="SKU 10658"
-                                aria-label="Lee más sobre “Nombre de Producto”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23292 status-publish first instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Nuevo!</div>
-                            <div class="onhot">Destacado</div>
-                            <div class="onsale">-50%</div>
-                        </div>
-                        <div class="inner img-effect">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
 
-                                    </div>
-                                </div>
-                            </div><img data-lazyloaded="1"
-                                src="/Media/General/product-thumb.png"
-                                data-src="/Media/General/product-thumb.png"
-                                class="hover-image entered litespeed-loaded"
-                                alt="" decoding="async" loading="lazy"
-                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
-                                data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                data-ll-status="loaded"
-                                sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                width="1000" height="1000">
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Producto N. 3</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23292"
-                                data-product_sku="SKU 10659"
-                                aria-label="Lee más sobre “Producto N. 3”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23288 status-publish instock product_cat-camping-accesorios-varios product_tag-ceg has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Nuevo!</div>
-                            <div class="onsale">-5%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1530px) 100vw, 1530px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1530" height="1590">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
+                            <div class="product-content">
+                                <span class="category-list">
+                                    <a href="/catalog/` + item.category_id + `-` + item.category + `" 
+                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `-` + item.category + `', 'pages.catalog', Catalog_Load);" 
+                                        rel="tag">` + item.category + `</a></span>
+                                <a class="product-loop-title" href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
+                                </a>
+                                
+                                ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
+                                <span class="price">
+                                    <del aria-hidden="true">
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi>
+                                                <span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.price) + `
+                                            </bdi>
+                                        </span>
+                                    </del>
+                                    <ins>
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.offer) + `
+                                            </bdi>
+                                        </span>
+                                    </ins>
+                                </span>` : `<span class="price"><strong>$` + parsePrice(item.price) + `</strong></span>` ) + `
 
+                                <div class="add-links-wrap">
+                                    <div class="add-links no-effect clearfix">
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple view"
+                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow"><i class="icon-money"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">Producto Numero 4</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23288"
-                                data-product_sku="SKU 10657"
-                                aria-label="Lee más sobre “Producto Numero 4”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    `
+                    </li>
+                </div>`;
+            });
+
+            document.getElementById("page-products-new").innerHTML = list;
+        }
+    });
 }
 
 function getFeaturedProducts() {
-    return `
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Nuevo!</div>
-                            <div class="onhot">Destacado</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
+    doPost('products/get/featured', { })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code === 200) {
+            more = getKeyFromJson(language, fallbackLanguage, "product.more");
+            buy = getKeyFromJson(language, fallbackLanguage, "product.buy");
+            list = '';
+            
+            json.data.forEach((item) => {
+                list = list + `
+                <div class="owl-item active" style="width: 232.5px;">
+                    <li class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
+                        <div class="product-inner">
+                            <div class="product-image">
+                                <a href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <div class="inner">
+                                        <div class="container-image-and-badge  ">
+                                            <img src="/Media/General/product-thumb.png"
+                                                class="wp-post-image entered litespeed-loaded"
+                                                width="600" height="600">
+                                            ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
+                                            <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
+                                                <div class="yith-wcbm-badge__wrap">
+                                                    <div class="yith-wcbm-css-text">
+                                                        <div class="yith-wcbm-badge-text">` + Math.floor(parseInt(item.offer) / parseInt(item.price) * 100) + `% OFF!</div>
+                                                    </div>
+                                                </div>
+                                            </div>` : ``) + `
                                         </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
+                            <div class="product-content">
+                                <span class="category-list">
+                                    <a href="/catalog/` + item.category_id + `-` + item.category + `" 
+                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `-` + item.category + `', 'pages.catalog', Catalog_Load);" 
+                                        rel="tag">` + item.category + `</a></span>
+                                <a class="product-loop-title" href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
+                                </a>
+
+                                ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
+                                <span class="price">
+                                    <del aria-hidden="true">
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi>
+                                                <span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.price) + `
+                                            </bdi>
+                                        </span>
+                                    </del>
+                                    <ins>
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.offer) + `
+                                            </bdi>
+                                        </span>
+                                    </ins>
+                                </span>` : `<span class="price"><strong>$` + parsePrice(item.price) + `</strong></span>` ) + `
+
+                                <div class="add-links-wrap">
+                                    <div class="add-links no-effect clearfix">
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple view"
+                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow"><i class="icon-money"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto 2</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23297"
-                                data-product_sku="SKU 10660"
-                                aria-label="Lee más sobre “Nombre de Producto 2”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23293 status-publish last instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Destacado</div>
-                            <div class="onsale">-5%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1000" height="1000">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
+                    </li>
+                </div>`;
+            });
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23293"
-                                data-product_sku="SKU 10658"
-                                aria-label="Lee más sobre “Nombre de Producto”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23292 status-publish first instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Destacado</div>
-                        </div>
-                        <div class="inner img-effect">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div><img data-lazyloaded="1"
-                                src="/Media/General/product-thumb.png"
-                                data-src="/Media/General/product-thumb.png"
-                                class="hover-image entered litespeed-loaded"
-                                alt="" decoding="async" loading="lazy"
-                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
-                                data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                data-ll-status="loaded"
-                                sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                width="1000" height="1000">
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Producto N. 3</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23292"
-                                data-product_sku="SKU 10659"
-                                aria-label="Lee más sobre “Producto N. 3”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23288 status-publish instock product_cat-camping-accesorios-varios product_tag-ceg has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onhot">Destacado</div>
-                            <div class="onsale">-50%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1530px) 100vw, 1530px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1530" height="1590">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-                                        <div class="yith-wcbm-css-text">
-                                            <div
-                                                class="yith-wcbm-badge-text">
-                                                3 cuotas sin interés!</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">Varios</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">Producto Numero Cinco</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23288"
-                                data-product_sku="SKU 10657"
-                                aria-label="Lee más sobre “Producto Numero 4”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    `
+            document.getElementById("page-products-featured").innerHTML = list;
+        }
+    });
 }
 
 function getOffersProducts() {
-    return `
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onsale">-50%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
+    doPost('products/get/offers', { })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code === 200) {
+            list = '';
+            more = getKeyFromJson(language, fallbackLanguage, "product.more");
+            buy = getKeyFromJson(language, fallbackLanguage, "product.buy");
+            
+            json.data.forEach((item) => {
+                console.log(item);
+                list = list + `
+                <div class="owl-item active" style="width: 232.5px;">
+                    <li class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
+                        <div class="product-inner">
+                            <div class="product-image">
+                                <a href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <div class="inner">
+                                        <div class="container-image-and-badge  ">
+                                            <img src="/Media/General/product-thumb.png"
+                                                class="wp-post-image entered litespeed-loaded"
+                                                width="600" height="600">
+                                            ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
+                                            <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
+                                                <div class="yith-wcbm-badge__wrap">
+                                                    <div class="yith-wcbm-css-text">
+                                                        <div class="yith-wcbm-badge-text">` + Math.floor(parseInt(item.offer) / parseInt(item.price) * 100) + `% OFF!</div>
+                                                    </div>
+                                                </div>
+                                            </div>` : ``) + `
                                         </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
+                            <div class="product-content">
+                                <span class="category-list">
+                                    <a href="/catalog/` + item.category_id + `-` + item.category + `" 
+                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `-` + item.category + `', 'pages.catalog', Catalog_Load);" 
+                                        rel="tag">` + item.category + `</a></span>
+                                <a class="product-loop-title" href="/product/` + item.product_id + `_` + item.url_name + `"
+                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
+                                </a>
+                                
+                                ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
+                                <span class="price">
+                                    <del aria-hidden="true">
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi>
+                                                <span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.price) + `
+                                            </bdi>
+                                        </span>
+                                    </del>
+                                    <ins>
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.offer) + `
+                                            </bdi>
+                                        </span>
+                                    </ins>
+                                </span>` : `<span class="price"><strong>$` + parsePrice(item.price) + `</strong></span>` ) + `
+                                
+                                <div class="add-links-wrap">
+                                    <div class="add-links no-effect clearfix">
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple view"
+                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                        <a href="#0"
+                                            class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow"><i class="icon-money"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto 2</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23297"
-                                data-product_sku="SKU 10660"
-                                aria-label="Lee más sobre “Nombre de Producto 2”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23293 status-publish last instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onsale">-10%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1000" height="1000">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
+                    </li>
+                </div>`;
+            });
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23293"
-                                data-product_sku="SKU 10658"
-                                aria-label="Lee más sobre “Nombre de Producto”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23292 status-publish first instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onsale">-15%</div>
-                        </div>
-                        <div class="inner img-effect">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div><img data-lazyloaded="1"
-                                src="/Media/General/product-thumb.png"
-                                data-src="/Media/General/product-thumb.png"
-                                class="hover-image entered litespeed-loaded"
-                                alt="" decoding="async" loading="lazy"
-                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
-                                data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                data-ll-status="loaded"
-                                sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                width="1000" height="1000">
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Producto N. 3</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23292"
-                                data-product_sku="SKU 10659"
-                                aria-label="Lee más sobre “Producto N. 3”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23288 status-publish instock product_cat-camping-accesorios-varios product_tag-ceg has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="labels">
-                            <div class="onsale">-5%</div>
-                        </div>
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1530px) 100vw, 1530px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1530" height="1590">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">Varios</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">Producto Numero Cinco</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23288"
-                                data-product_sku="SKU 10657"
-                                aria-label="Lee más sobre “Producto Numero 4”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    `
-}
-
-function getRandomProducts() {
-    return `
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, index_files/tritanium-400x400.jpg 400w, index_files/tritanium-560x560.jpg 560w, index_files/tritanium-367x367.jpg 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23297 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto 2</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23297"
-                                data-product_sku="SKU 10660"
-                                aria-label="Lee más sobre “Nombre de Producto 2”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23293 status-publish last instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1000px) 100vw, 1000px"
-                                    srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1000" height="1000">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23293 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Nombre de Producto</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23293"
-                                data-product_sku="SKU 10658"
-                                aria-label="Lee más sobre “Nombre de Producto”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23292 status-publish first instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="inner img-effect">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    data-sizes="(max-width: 600px) 100vw, 600px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 600px) 100vw, 600px"
-                                    srcset="/Media/General/product-thumb.png 600w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w"
-                                    width="600" height="600">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23292 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div><img data-lazyloaded="1"
-                                src="/Media/General/product-thumb.png"
-                                data-src="/Media/General/product-thumb.png"
-                                class="hover-image entered litespeed-loaded"
-                                alt="" decoding="async" loading="lazy"
-                                data-srcset="/Media/General/product-thumb.png 1000w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-768x768.jpg 768w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-640x640.jpg 640w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-400x400.jpg 400w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-560x560.jpg 560w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-367x367.jpg 367w, https://www.florida-camping.com.ar/wp-content/uploads/2023/07/TAIRA-XP-3-600x600.jpg 600w"
-                                data-sizes="(max-width: 1000px) 100vw, 1000px"
-                                data-ll-status="loaded"
-                                sizes="(max-width: 1000px) 100vw, 1000px"
-                                srcset="/Media/General/product-thumb.png 1000w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 560w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                width="1000" height="1000">
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">categoria</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">
-                            Producto N. 3</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23292"
-                                data-product_sku="SKU 10659"
-                                aria-label="Lee más sobre “Producto N. 3”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    <div class="owl-item active" style="width: 232.5px;">
-        <li
-            class="product-col product-default show-links-hover product type-product post-23288 status-publish instock product_cat-camping-accesorios-varios product_tag-ceg has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
-            <div class="product-inner">
-                <div class="product-image"><a
-                        href="#0">
-                        <div class="inner">
-                            <div class="container-image-and-badge  ">
-                                <img data-lazyloaded="1"
-                                    src="/Media/General/product-thumb.png"
-                                    data-src="/Media/General/product-thumb.png"
-                                    class="wp-post-image entered litespeed-loaded"
-                                    alt="" decoding="async"
-                                    loading="lazy"
-                                    data-srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    data-sizes="(max-width: 1530px) 100vw, 1530px"
-                                    data-ll-status="loaded"
-                                    sizes="(max-width: 1530px) 100vw, 1530px"
-                                    srcset="/Media/General/product-thumb.png 1530w, /Media/General/product-thumb.png 985w, /Media/General/product-thumb.png 768w, /Media/General/product-thumb.png 1478w, /Media/General/product-thumb.png 640w, /Media/General/product-thumb.png 400w, /Media/General/product-thumb.png 367w, /Media/General/product-thumb.png 600w"
-                                    width="1530" height="1590">
-                                <div class="yith-wcbm-badge yith-wcbm-badge-21158 yith-wcbm-badge--on-product-23288 yith-wcbm-badge--anchor-point-bottom-right yith-wcbm-badge-css yith-wcbm-css-badge-21158"
-                                    data-position="{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;auto&quot;,&quot;right&quot;:0}">
-                                    <div class="yith-wcbm-badge__wrap">
-                                        <div class="yith-wcbm-css-s1">
-                                        </div>
-                                        <div class="yith-wcbm-css-s2">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a></div>
-                <div class="product-content">
-                    <span class="category-list"><a
-                            href="#0"
-                            rel="tag">Varios</a></span>
-                    <a class="product-loop-title"
-                        href="#0">
-                        <h3 class="woocommerce-loop-product__title">Producto Numero Cinco</h3>
-                    </a>
-                    <span class="price"><strong>$12.345</strong></span>
-                    <div class="add-links-wrap">
-                        <div class="add-links no-effect clearfix">
-                            <a href="#0"
-                                data-quantity="1"
-                                class="viewcart-style-3 button product_type_simple add_to_cart_read_more"
-                                data-product_id="23288"
-                                data-product_sku="SKU 10657"
-                                aria-label="Lee más sobre “Producto Numero 4”"
-                                aria-describedby="" rel="nofollow">Leer
-                                más</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </div>
-    `
+            document.getElementById("page-products-offers").innerHTML = list;
+        }
+    });
 }

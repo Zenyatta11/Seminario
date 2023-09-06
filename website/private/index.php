@@ -1,4 +1,7 @@
 <?php
+	use System\Router;
+	use System\Core\Domain\Util\HttpException;
+
 	spl_autoload_register(
 		function ($class) {
 			require_once(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php');
@@ -9,7 +12,9 @@
 		if (error_reporting() == 0) return;
 	
 		if (is_object($input)) {
-			$input->tossError();
+			if($input instanceof mysqli_sql_exception) die($input->getTraceAsString() . "<br>" . $input->getMessage());
+			else if($input instanceof HttpException) $input->tossError();
+			else die($input);
 		} else {
 			die("<strong>$file</strong>:$line - $msg | $context");
 		}
@@ -18,7 +23,7 @@
 	set_error_handler('custom_error_handler');
 	set_exception_handler('custom_error_handler');
 
-	use System\Router;
+	
 	$router = new Router();
 	
 	$section = $_GET['section'] ?? '';

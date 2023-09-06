@@ -18,6 +18,13 @@ class Category {
     public function getId(): int {
         return $this->id;
     }
+
+    public function toArray(): Array {
+        return Array(
+            "name" => $this->getName(),
+            "id" => $this->getId()
+        );
+    }
 }
 
 ?>

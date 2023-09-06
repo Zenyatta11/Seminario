@@ -15,6 +15,7 @@
 	<script src="/Sources/js/LoginPage/ResetPasswd.js"></script>
 
 	<script src="/Sources/js/Index.js"></script>
+	<script src="/Sources/js/Catalog.js"></script>
 
 	<link href="/Themes/CSS/font-awesome.css" rel="stylesheet" type="text/css">
 	<link href="/Sources/css/preloader.css" rel="stylesheet" type="text/css">
@@ -183,16 +184,16 @@
 									<a href="/" onclick="event.preventDefault(); navigateToPage('/', 'context.common.page.title', Index_Load);"><span class="translate" key="common.header.home"></span></a></li>
 								<li id="nav-menu-item-11809"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
-									href="/catalog/featured" onclick="event.preventDefault(); navigateToPage('/catalog/featured', 'common.header.featured', Index_Load);"><span class="translate" key="common.header.featured"></span></a></li>
+									href="/catalog/featured" onclick="event.preventDefault(); navigateToPage('/catalog/featured', 'common.header.featured', Catalog_Load);"><span class="translate" key="common.header.featured"></span></a></li>
 								<li id="nav-menu-item-11808"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
-									href="/catalog/offers" onclick="event.preventDefault(); navigateToPage('/catalog/offers', 'common.header.offers', Index_Load);"><span class="translate" key="common.header.offers"></span></a></li>
+									href="/catalog/offers" onclick="event.preventDefault(); navigateToPage('/catalog/offers', 'common.header.offers', Catalog_Load);"><span class="translate" key="common.header.offers"></span></a></li>
 								<li id="nav-menu-item-11810"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
-									href="/catalog" onclick="event.preventDefault(); navigateToPage('/catalog', 'common.header.catalog', Index_Load);"><span class="translate" key="common.header.catalog"></span></a></li>
+									href="/catalog" onclick="event.preventDefault(); navigateToPage('/catalog', 'common.header.catalog', Catalog_Load);"><span class="translate" key="common.header.catalog"></span></a></li>
 								<li id="nav-menu-item-11807"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
-									href="/contact" onclick="event.preventDefault(); navigateToPage('/contact', 'common.header.contact', Index_Load);"><span class="translate" key="common.header.contact"></span></a></li>
+									href="/contact" onclick="event.preventDefault(); navigateToPage('/contact', 'common.header.contact', Catalog_Load);"><span class="translate" key="common.header.contact"></span></a></li>
 								<li class="menu-custom-content pull-right">
 									<div class="menu-custom-block">
 										<ul class="top-links mega-menu show-arrow" id="menu-top-navigation">
@@ -292,7 +293,7 @@
 									</aside>
 									<aside id="woocommerce_products-2" class="widget woocommerce widget_products">
 										<h3 class="widget-title translate" key="common.header.featured">placeholder</h3>
-										<ul class="product_list_widget">
+										<ul id="sidebar-product-featured" class="product_list_widget">
 											<li>
 												<a class="product-image"
 													href="/https://seminario.batatas.club/"
@@ -335,8 +336,8 @@
 										</ul>
 									</aside>
 									<aside id="woocommerce_products-3" class="widget woocommerce widget_products">
-										<h3 class="widget-title translate" key="common.mostsold">placeholder</h3>
-										<ul class="product_list_widget">
+										<h3 class="widget-title translate" key="common.header.new">placeholder</h3>
+										<ul id="sidebar-product-new" class="product_list_widget">
 											<li>
 												<a class="product-image"
 													href="/https://seminario.batatas.club/"
@@ -490,8 +491,8 @@
 
 		async function doSpecificLoad() {
 			console.log("Page-specific data");
-			parseTranslations();
 			await hidePreloader(document.getElementById("preloader"));
+			parseTranslations();
 		}
 	</script>
 </body>

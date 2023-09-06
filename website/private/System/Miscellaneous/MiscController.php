@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace System\Miscellaneous;
 
+use System\Core\Exceptions\NotFoundException;
 use System\Core\Exceptions\NotLoggedInException;
 use System\Core\Exceptions\UnauthorizedException;
 use System\Core\Prefs;
 use System\Models\Category;
 use System\Models\Subcategory;
-use System\Products\ProductController;
+use System\Products\ProductRepository;
 use System\Router;
-use System\Users\UserController;
+use System\Users\UserRepository;
 
 class MiscController {
 	
 	public function __construct(
 		private MiscRepository $repository = new MiscRepository(),
-		private ProductController $productController = new ProductController(),
-		private UserController $userController = new UserController()
+		private ProductRepository $productRepository = new ProductRepository(),
+		private UserRepository $userRepository = new UserRepository()
 	) {}
 
 	public function getCategoryById(int $id): Category | null {
@@ -110,12 +111,16 @@ class MiscController {
 	}
 
 	private function getQuestionsByProductId(int $productId): Array {
-		$this->productController->getProductById($productId);
+		if($this->productRepository->getProductById($productId) === null)
+			throw new NotFoundException();
+		
         return $this->repository->getQuestionsByProductId($productId);
     }
 
     private function getQuestionsByUserId(int $userId): Array {
-        $this->userController->getUserById($userId);
+        if($this->userRepository->getUserById($userId) === null)
+			throw new NotFoundException();
+
         return $this->repository->getQuestionsByUserId($userId);
     }
     

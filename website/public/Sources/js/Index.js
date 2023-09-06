@@ -60,11 +60,7 @@ function Index_Load(main) {
                 <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-66021e7a"
                     data-id="66021e7a" data-element_type="column">
                     <div class="elementor-widget-wrap elementor-element-populated e-swiper-container">
-                        <div class="elementor-element elementor-element-4c04cd0 elementor-widget elementor-widget-image-carousel e-widget-swiper"
-                            data-id="4c04cd0" data-element_type="widget"
-                            data-settings="{&quot;slides_to_show&quot;:&quot;1&quot;,&quot;navigation&quot;:&quot;none&quot;,&quot;pause_on_hover&quot;:&quot;no&quot;,&quot;pause_on_interaction&quot;:&quot;no&quot;,&quot;autoplay_speed&quot;:3500,&quot;effect&quot;:&quot;fade&quot;,&quot;autoplay&quot;:&quot;yes&quot;,&quot;infinite&quot;:&quot;yes&quot;,&quot;speed&quot;:500}"
-                            data-widget_type="image-carousel.default" aria-roledescription="carousel"
-                            aria-label="Carrusel | Scroll horizontal: Flecha izquierda y derecha">
+                        <div class="elementor-element elementor-element-4c04cd0 elementor-widget elementor-widget-image-carousel e-widget-swiper">
                             <div class="elementor-widget-container">
                                 <div class="elementor-image-carousel-wrapper swiper-container swiper-container-fade swiper-container-initialized swiper-container-horizontal"
                                     dir="ltr">
@@ -99,9 +95,7 @@ function Index_Load(main) {
                                                 data-cur_page="1" data-max_page="1"
                                                 data-product_layout="product-default show-links-hover">
                                                 <div class="owl-stage-outer owl-height" style="height: 389.55px;">
-                                                    <div class="owl-stage"
-                                                        style="transition: all 0.25s ease 0s; width: 3720px;">
-                                                        ` + getNewProducts() + `
+                                                    <div id="page-products-new" class="owl-stage" style="transition: all 0.25s ease 0s; width: 3720px;">
                                                     </div>
                                                 </div>
                                                 <div class="owl-nav" hidden><button type="button" role="presentation"
@@ -122,9 +116,7 @@ function Index_Load(main) {
                                                 data-cur_page="1" data-max_page="1"
                                                 data-product_layout="product-default show-links-hover">
                                                 <div class="owl-stage-outer owl-height" style="height: 389.55px;">
-                                                    <div class="owl-stage"
-                                                        style="transition: all 0.25s ease 0s; width: 3720px;">
-                                                        ` + getFeaturedProducts() + `
+                                                    <div id="page-products-featured" class="owl-stage" style="transition: all 0.25s ease 0s; width: 3720px;">
                                                     </div>
                                                 </div>
                                                 <div class="owl-nav" hidden><button type="button" role="presentation"
@@ -145,9 +137,7 @@ function Index_Load(main) {
                                                 data-cur_page="1" data-max_page="1"
                                                 data-product_layout="product-default show-links-hover">
                                                 <div class="owl-stage-outer owl-height" style="height: 389.55px;">
-                                                    <div class="owl-stage"
-                                                        style="transition: all 0.25s ease 0s; width: 3720px;">
-                                                        ` + getOffersProducts() + `
+                                                    <div id="page-products-offers" class="owl-stage" style="transition: all 0.25s ease 0s; width: 3720px;">
                                                     </div>
                                                 </div>
                                                 <div class="owl-nav" hidden><button type="button" role="presentation"
@@ -158,41 +148,15 @@ function Index_Load(main) {
                                         </div>
                                     </div>
                                 </div>
-                                <div id="porto-products-8858" class="porto-products wpb_content_element ">
-                                    <h2 class="section-title slider-title"><span class="inline-title translate" key="index.catalog">placeholder</span><span
-                                            class="line"></span></h2>
-                                    <div class="slider-wrapper">
-                                        <div class="woocommerce columns-4 ">
-                                            <ul class="products products-container products-slider owl-carousel show-nav-middle pcols-lg-4 pcols-md-3 pcols-xs-3 pcols-ls-2 pwidth-lg-4 pwidth-md-3 pwidth-xs-2 pwidth-ls-1 is-shortcode owl-loaded owl-drag"
-                                                data-plugin-options="{&quot;themeConfig&quot;:true,&quot;lg&quot;:4,&quot;md&quot;:3,&quot;xs&quot;:3,&quot;ls&quot;:2,&quot;nav&quot;:true}"
-                                                data-cur_page="1" data-max_page="1"
-                                                data-product_layout="product-default show-links-hover">
-                                                <div class="owl-stage-outer owl-height" style="height: 389.55px;">
-                                                    <div class="owl-stage"
-                                                        style="transition: all 0.25s ease 0s; width: 3720px;">
-                                                        ` + getRandomProducts() + `
-                                                    </div>
-                                                </div>
-                                                <div class="owl-nav" hidden><button type="button" role="presentation"
-                                                        class="owl-prev"></button><button type="button" role="presentation"
-                                                        class="owl-next"></button></div>
-                                                <div class="owl-dots disabled"></div>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                </div>&nbsp;<p></p>
-                                <h2 class="slider-title"><span class="inline-title translate" key="index.payments">placeholder</span></h2>
-                                <p></p>
-                                <div class="lshowcase-clear-both">&nbsp;</div>
-                                <p></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
-`
+    </div>`;
+
+    getNewProducts();
+    getFeaturedProducts();
+    getOffersProducts();
 }
