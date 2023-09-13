@@ -150,8 +150,8 @@ class UserRepository extends Repository {
     public function setActiveCart(User $user, int $id) {
         $statement = "UPDATE users SET active_cart=? WHERE user_id=?";
         return $this->connection->execute_query($statement, Array(
-            $user->getId(),
-            $id
+            $id,
+            $user->getId()
         ));
     }
 

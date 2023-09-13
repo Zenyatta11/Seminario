@@ -73,7 +73,6 @@ class OrdersRepository extends Repository{
 
     public function getActiveCartByUserId(int $id): Order {
         $statement = "SELECT o.* FROM orders o, users u WHERE order_id = u.active_cart AND u.user_id = ? LIMIT 1;";
-
         $result = $this->connection->execute_query($statement, Array($id));
         if($result->num_rows === 0) throw new NotFoundException();
 
@@ -83,7 +82,7 @@ class OrdersRepository extends Repository{
         
         $userRepository = new UserRepository();
 
-        return new Order($id, null, OrderState::FROM_CHAR($orderData["state"]), $orderData['date_opened'], $orderProducts);
+        return new Order($orderData['order_id'], null, OrderState::FROM_CHAR($orderData["state"]), $orderData['date_opened'], $orderProducts);
     }
 
     private function getOrderProductsById(int $id): Array {

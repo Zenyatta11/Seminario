@@ -25,7 +25,7 @@ class OrdersHandler {
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
         if(!empty($subsection)) {
             switch($subsection) {
-                case "buy": return $this->quickBuy($action);
+                case "buy": return $this->quickBuy($action, $data['amount'] ?? "");
                 default: throw new NotFoundException();
             }
         }
@@ -38,15 +38,26 @@ class OrdersHandler {
             );
 
             case "get": return $this->getOrder($data['order_id'] ?? "");
+            case "remove": return $this->removeFromCart($data['order_id'] ?? "", $data['product_id'] ?? "");
             default: throw new NotFoundException();
         }
     }
 
-    private function quickBuy(string $productId): ResponseDTO {
+    private function quickBuy(string $productId, string $amount): ResponseDTO {
         if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
         if(!is_numeric($productId)) throw new InvalidArgumentException("INVALID_PRODUCT_ID");
+        $order = Router::$CURRENT_USER->getCart();
 
-        return new ResponseDTO($this->controller->createOrder(Router::$CURRENT_USER, $this->productController->getProductById(intval($productId)), 1));
+        if(empty($amount) || !empty($amount) && !is_numeric($amount)) $amountToAdd = 1;
+        else $amountToAdd = $amount;
+
+        $product = $this->productController->getProductById(intval($productId));
+        if($order === null) return new ResponseDTO($this->controller->createOrder(Router::$CURRENT_USER, $product, 1));
+        else return new ResponseDTO($this->controller->addToCart($order, $product, intval($amountToAdd)));
+    }
+
+    private function removeFromCart(string $orderId, string $productId): ResponseDTO {
+        $order = $this->controller->getOrderById(intval($orderId));
     }
 
     private function createNewOrder(string $userId, string $productId, string $amount): ResponseDTO {

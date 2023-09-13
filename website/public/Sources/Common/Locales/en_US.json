@@ -71,8 +71,8 @@
     },
     "product": {
         "new": "NEW!",
-        "more": "Read more",
-        "buy": "Buy now"
+        "more": "View",
+        "buy": "Add To Cart"
     },
     "cart": {
         "view": "View Cart",

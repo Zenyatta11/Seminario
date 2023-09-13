@@ -64,7 +64,7 @@ function Catalog_Load(main) {
                                     onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
                                     <div class="inner">
                                         <div class="container-image-and-badge  ">
-                                            <img src="/Media/General/product-thumb.png"
+                                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png"
                                                 class="wp-post-image entered litespeed-loaded"
                                                 width="600" height="600">
                                             ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
@@ -82,9 +82,8 @@ function Catalog_Load(main) {
 
                             <div class="product-content">
                                 <span class="category-list">
-                                    <a href="/catalog/` + item.category_id + `-` + item.category + `" 
-                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `-` + item.category + `', 'pages.catalog', Catalog_Load);" 
-                                        rel="tag">` + item.category + `</a></span>
+                                    <a href="/catalog/` + item.category_id + `_` + item.category_url_name + `"
+                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `_` + item.category_url_name + `', 'pages.catalog', Catalog_Load);">` + item.category + `</a></span>
                                 <a class="product-loop-title" href="/product/` + item.product_id + `_` + item.url_name + `"
                                     onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
                                     <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
@@ -113,9 +112,9 @@ function Catalog_Load(main) {
                                         <a href="#0"
                                             class="viewcart-style-3 button product_type_simple view"
                                             rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
-                                        <a href="#0"
+                                        <a href="javascript:AddToCart(` + item.product_id + `, 1);"
                                             class="viewcart-style-3 button product_type_simple buy_now"
-                                            rel="nofollow"><i class="icon-money"></i><span class="translate" key="product.buy">` + buy + `</span></a>
+                                            rel="nofollow"><i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>

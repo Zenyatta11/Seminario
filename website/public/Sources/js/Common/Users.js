@@ -44,3 +44,4 @@ function doUserLogout() {
         getUsersName(showUserPage, showGuestPage);
     });
 }
+

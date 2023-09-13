@@ -22,7 +22,7 @@ class MiscController {
 		private UserRepository $userRepository = new UserRepository()
 	) {}
 
-	public function getCategoryById(int $id): Category | null {
+	public function getCategoryById(int $id): Category {
 		return $this->repository->getCategoryById($id);
 	}
 
@@ -38,7 +38,9 @@ class MiscController {
 		return $this->repository->getCategoriesWithSubcategories();
 	}
 
-	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
+	public function getSubCategoryById(Category $category, int | null $id): Subcategory | null {
+		if($id === null) return null;
+		
 		return $this->repository->getSubCategoryByIdAndCategoryId($category, $id);
 	}
 

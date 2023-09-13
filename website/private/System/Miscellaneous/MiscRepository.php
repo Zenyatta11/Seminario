@@ -13,11 +13,14 @@ use System\Models\Subcategory;
 
 class MiscRepository extends Repository{
 
-	public function getCategoryById(int $id): Category | null {
+	public function getCategoryById(int $id): Category {
 		$statement = "SELECT name FROM categories WHERE category_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
-        return ($result->num_rows == 0 ? null : new Category($id, $result->fetch_assoc()["name"]));
+        $data = $result->fetch_assoc();
+
+        if($data === null) throw new NotFoundException();
+        return new Category($id, $data["name"]);
 	}
 
     public function checkCategoryExistsById(int $id): bool {

@@ -17,14 +17,11 @@ class ProductRepository extends Repository{
         $this->checkDiscountIntegrity();
     }
 
-	public function getProductById(int $id): Product | null {
+	public function getProductById(int $id): Product {
 		$statement = "SELECT * FROM products WHERE product_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
-        return ($result->num_rows == 0 ? null : Product::BUILD(
-                $result->fetch_assoc()
-            )
-        );
+        return Product::BUILD($result->fetch_assoc());
 	}
 
     public function getLatestProducts(): Array {
@@ -57,6 +54,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         
@@ -129,6 +127,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
 
@@ -243,6 +242,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         
@@ -282,6 +282,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         
@@ -317,6 +318,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         

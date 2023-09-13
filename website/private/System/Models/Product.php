@@ -105,7 +105,7 @@ class Product {
 
         if(isset($data['variation_id']))
             $data = $productController->getVariationDataById($data);
-        
+
         $miscController = new MiscController();
         $category = $miscController->getCategoryById($data['category_id']);
 

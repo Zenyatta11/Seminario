@@ -17,11 +17,11 @@ function getShoppingCart() {
                         <div class="cart-popup widget_shopping_cart">
                             <div class="widget_shopping_cart_content">
                                 <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
-                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view"); + `</a>
+                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                                 </div>
                                 <ul class="cart_list product_list_widget scrollbar-inner ">
                                     <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
-                                        ` + getKeyFromJson(language, fallbackLanguage, "cart.empty"); + `
+                                        ` + getKeyFromJson(language, fallbackLanguage, "cart.empty") + `
                                     </li>
                                 </ul>
                             </div>
@@ -87,9 +87,33 @@ function getShoppingCart() {
                             </p>
                         </div>
                     </div>`;
-
-                document.getElementById("cart-icon").innerHTML = cart;
             }
+            document.getElementById("cart-icon").innerHTML = cart;
+        } else if(json.status_code == 400 && json.data.message == "NO_ORDER") {
+            document.getElementById("cart-icon").innerHTML = `
+                <div id="mini-cart" class="mini-cart minicart-arrow-alt">
+                    <div class="cart-head">
+                        <span class="cart-icon">
+                            <i style="font-size: xx-large" class="icon-shopping-cart"></i>
+                            <span style="top: -15px;" class="cart-items">0</span>
+                        </span>
+                        <span class="cart-items-text">
+                            <i class="icon-shopping-cart"></i>
+                        </span>
+                    </div>
+                    <div class="cart-popup widget_shopping_cart">
+                        <div class="widget_shopping_cart_content">
+                            <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
+                                <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                            </div>
+                            <ul class="cart_list product_list_widget scrollbar-inner ">
+                                <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
+                                    ` + getKeyFromJson(language, fallbackLanguage, "cart.empty") + `
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
         }
     });
 }
@@ -101,6 +125,16 @@ function RemoveFromCart(orderId, productId) {
     })
     .then((response) => response.json())
     .then((json) => {
-        console.log(json);
+        getShoppingCart();
+    });
+}
+
+function AddToCart(productId, amount) {
+    doPost('orders/buy/' + productId, {
+        "amount": amount
+    })
+    .then((response) => response.json())
+    .then(() => {
+        getShoppingCart();
     });
 }

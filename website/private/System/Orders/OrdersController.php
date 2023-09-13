@@ -19,11 +19,15 @@ class OrdersController {
         return $this->repository->getCartById($id);
     }
 
-    public function createOrder(User $owner, Product | null $product = null, int $amount = 0) {
+    public function createOrder(User $owner, Product | null $product = null, int $amount = 1) {
         $cartId = $this->repository->createOrder($owner, $product, $amount);
         $this->userRepository->setActiveCart($owner, $cartId);
 
         return true;
+    }
+
+    public function addToCart(Order $order, Product $product, int $amount) {
+        return $this->repository->addProductToCart($order, $product, $amount);
     }
 
 }
