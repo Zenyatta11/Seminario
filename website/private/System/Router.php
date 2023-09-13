@@ -8,6 +8,7 @@ use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Prefs;
 use System\Handlers\MiscellaneousHandler;
+use System\Handlers\OrdersHandler;
 use System\Handlers\ProductHandler;
 use System\Handlers\UserHandler;
 use System\Models\User;
@@ -17,6 +18,7 @@ class Router {
 
     public function __construct(
         private UserHandler $userHandler = new UserHandler(),
+        private OrdersHandler $ordersHandler = new OrdersHandler(),
         private MiscellaneousHandler $miscHandler = new MiscellaneousHandler(),
         private ProductHandler $productHandler = new ProductHandler()
     ) {
@@ -79,7 +81,7 @@ class Router {
     }
 
     private function handleOrders(string $subsection, string $action): ResponseDTO {
-
+        return $this->ordersHandler->init($subsection, $action, $_POST);
     }
 
     private function handleCheckout(string $subsection, string $action): ResponseDTO {
@@ -89,7 +91,6 @@ class Router {
     private function handleMiscellaneous(string $subsection, string $action): ResponseDTO {
         return $this->miscHandler->init($subsection, $action, $_POST);
     }
-
    
 }
 

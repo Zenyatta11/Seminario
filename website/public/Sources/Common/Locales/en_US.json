@@ -73,5 +73,13 @@
         "new": "NEW!",
         "more": "Read more",
         "buy": "Buy now"
+    },
+    "cart": {
+        "view": "View Cart",
+        "subtotal": "Subtotal",
+        "empty": "Your cart is empty.",
+        "discounts": "Discounts are calculated at checkout time.",
+        "buy": "Checkout",
+        "delete": "Remove"
     }
 }

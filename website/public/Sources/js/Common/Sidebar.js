@@ -48,7 +48,7 @@ function Sidebar_GetFeaturedProducts() {
                         href="/product/` + url + `"
                         title="product title">
                         <div class="inner">
-                            <img src="/Media/General/product-thumb.png" alt="" width="85" height="85">
+                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
                         </div>
                     </a>
                     <div class="product-details">
@@ -93,7 +93,7 @@ function Sidebar_GetMostSoldProducts() {
                         href="/product/` + url + `"
                         title="product title">
                         <div class="inner">
-                            <img src="/Media/General/product-thumb.png" alt="" width="85" height="85">
+                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
                         </div>
                     </a>
                     <div class="product-details">

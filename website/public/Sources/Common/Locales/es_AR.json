@@ -73,5 +73,13 @@
         "new": "NUEVO!",
         "more": "Leer más",
         "buy": "Comprar"
+    },
+    "cart": {
+        "view": "Ver Carrito",
+        "subtotal": "Subtotal",
+        "buy": "Comprar Carrito",
+        "discounts": "Los descuentos se calculan al finalizar el checkout.",
+        "empty": "Su carrito se encuentra vacío.",
+        "delete": "Eliminar"
     }
 }

@@ -17,7 +17,7 @@ function getNewProducts() {
                                     onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
                                     <div class="inner">
                                         <div class="container-image-and-badge  ">
-                                            <img src="/Media/General/product-thumb.png"
+                                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" src="/Media/Products/` + item.product_id + `/0.png"
                                                 class="wp-post-image entered litespeed-loaded"
                                                 width="600" height="600">
                                             ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
@@ -100,7 +100,7 @@ function getFeaturedProducts() {
                                     onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
                                     <div class="inner">
                                         <div class="container-image-and-badge  ">
-                                            <img src="/Media/General/product-thumb.png"
+                                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" src="/Media/Products/` + item.product_id + `/0.png"
                                                 class="wp-post-image entered litespeed-loaded"
                                                 width="600" height="600">
                                             ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `
@@ -184,7 +184,7 @@ function getOffersProducts() {
                                     onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
                                     <div class="inner">
                                         <div class="container-image-and-badge  ">
-                                            <img src="/Media/General/product-thumb.png"
+                                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png"
                                                 class="wp-post-image entered litespeed-loaded"
                                                 width="600" height="600">
                                             ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date())? `

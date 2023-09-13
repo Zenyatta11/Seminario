@@ -18,6 +18,7 @@ function loadPageByURL() {
 
     getUsersName((name) => {
         showUserPage(name);
+        getShoppingCart();
         pageLoader();
     }, () => {
         showGuestPage();
@@ -31,6 +32,7 @@ function updateUserData(json) {
     console.log(json);
     getUsersName((name) => {
         showUserPage(name);
+        getShoppingCart();
         pageLoader();
     }, () => {
         showGuestPage();

@@ -20,7 +20,14 @@ class HttpException extends Exception {
     }
 
 	public function tossError(): void {
-		$response = new ResponseDTO($this->message, $this->statusCode);
+		$response = new ResponseDTO(
+			Array(
+				"message" => $this->message, 
+				"trace" => explode("\n", $this->getTraceAsString())
+			),
+			$this->statusCode
+		);
+
 		die($response->jsonify());
 	}
 }
