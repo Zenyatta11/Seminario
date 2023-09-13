@@ -7,6 +7,7 @@ use System\Core\Database\Repository;
 use System\Core\Exceptions\DatabaseWriteException;
 use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\NotFoundException;
+use System\Core\Util;
 use System\Models\Category;
 use System\Models\Subcategory;
 
@@ -26,6 +27,34 @@ class MiscRepository extends Repository{
         return ($result->num_rows != 0);
 	}
 
+    public function getCategoriesWithSubcategories(): Array {
+		$statement = "SELECT * FROM categories ORDER BY name ASC;";
+        $result = $this->connection->execute_query($statement);
+        if($result->num_rows === 0) throw new NotFoundException();
+
+        $categories = Array();
+        while($categories[] = $result->fetch_assoc());
+        $categories = array_filter($categories);
+
+        $returnValue = Array();
+        foreach($categories as $item) {
+            $subcategories = Array();
+
+            try {
+                $subcategories = $this->getSubCategoriesByCategoryId($item['category_id']);
+            } catch(NotFoundException $exception) { }
+
+            $returnValue[] = Array(
+                'category_id' => $item['category_id'],
+                'name' => $item['name'],
+                'url_name' => Util::URL_NAME($item['name']),
+                'subcategories' => $subcategories
+            );
+        }
+        
+        return $returnValue;
+	}
+
     public function getCategories(): Array {
 		$statement = "SELECT * FROM categories ORDER BY name ASC;";
         $result = $this->connection->execute_query($statement);
@@ -38,11 +67,11 @@ class MiscRepository extends Repository{
         return $returnValue;
 	}
 
-	public function getSubCategoryByIdAndCategoryId($categoryId, int $id): Subcategory | null {
+	public function getSubCategoryByIdAndCategoryId(Category $category, int $id): Subcategory | null {
 		$statement = "SELECT name FROM subcategories WHERE category_id=? AND subcategory_id=? LIMIT 1;";
-        $result = $this->connection->execute_query($statement, Array($categoryId, $id));
+        $result = $this->connection->execute_query($statement, Array($category->getId(), $id));
 
-        return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()["name"]));
+        return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()["name"], $category));
 	}
 
     public function checkSubCategoryExistsById(int $id, int $categoryId): bool {
@@ -58,8 +87,13 @@ class MiscRepository extends Repository{
         if($result->num_rows === 0) throw new NotFoundException();
 
         $returnValue = Array();
-        while($returnValue[] = $result->fetch_assoc());
-        $returnValue = array_filter($returnValue);
+        $max = $result->num_rows;
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $subcategoryArray = $result->fetch_assoc();
+            $subcategoryArray['url_name'] = Util::URL_NAME($subcategoryArray['name']);
+            $returnValue[] = $subcategoryArray;
+        }
 
         return $returnValue;
 	}
@@ -141,8 +175,9 @@ class MiscRepository extends Repository{
     }
 
     public function deleteSubCategory(int $id, int $categoryId): bool {
-        if($this->getCategoryById($categoryId) === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
-        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) 
+        $category = $this->getCategoryById($categoryId);
+        if($category === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
+        if($this->getSubCategoryByIdAndCategoryId($category, $id) === null) 
             throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
 
         $this->connection->begin_transaction();
@@ -158,8 +193,9 @@ class MiscRepository extends Repository{
     }
 
     public function updateSubCategory(string $name, int $id, int $categoryId): bool {
-        if($this->getCategoryById($categoryId) === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
-        if($this->getSubCategoryByIdAndCategoryId($categoryId, $id) === null) 
+        $category = $this->getCategoryById($categoryId);
+        if($category === null) throw new InvalidArgumentException("CATEGORY_NOT_FOUND");
+        if($this->getSubCategoryByIdAndCategoryId($category, $id) === null) 
             throw new InvalidArgumentException("SUBCATEGORY_NOT_FOUND");
 
         $this->connection->begin_transaction();

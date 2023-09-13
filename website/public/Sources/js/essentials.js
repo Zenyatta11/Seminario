@@ -1,6 +1,6 @@
 
 async function doPost(endpoint, data) {
-    return fetch('api/' + endpoint, {
+    return fetch('/api/' + endpoint, {
         method: 'POST',
         body: new URLSearchParams(data),
         headers: {
@@ -11,10 +11,6 @@ async function doPost(endpoint, data) {
 
 function getValueById(id) {
     return document.getElementById(id).value;
-}
-
-function setResponse(data) {
-    document.getElementById("response-bar").innerHTML = data;
 }
 
 function getOptionsFromJson(select, data, keyValue, keyText) {
@@ -92,6 +88,29 @@ function parseFromJSON(json, fallbackJson, key) {
     );
 }
 
+function getKeyFromJson(json, fallbackJson, key) {
+    let keys = key.split('.');
+    let jsonNest = {};
+
+    if(json !== undefined && json[keys[0]] !== undefined) jsonNest = json[keys[0]];
+    else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+        jsonNest = fallbackJson[keys[0]];
+    }
+
+    let i = 1;
+    for( ; i < keys.length; i = i + 1) {
+        if(jsonNest[keys[i]] !== undefined) {
+            if(i == keys.length - 1) {
+                return jsonNest[keys[i]];
+            } else jsonNest = jsonNest[keys[i]];
+        }
+    }
+
+    if(i === keys.length) 
+        return key;
+
+}
+
 function echo(content) {  
     var replacingElement = document.createElement("div");
     replacingElement.innerHTML = content;
@@ -122,4 +141,50 @@ function hidePreloader(element) {
             }
         );
     }
+}
+
+function navigateToPage(url, title, func) {
+    window.history.pushState('', '', url); 
+    setPage(title, func);
+}
+
+function setPage(title, func) {
+    if(title.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, title) ?? title;
+    else document.title = getKeyFromJson(contextData, { }, title.replace("context.", "")) ?? title;
+
+    func(document.getElementById("content"), document.getElementById("sidebar-content"));
+    document.getElementById("content").hidden = false;
+    document.getElementById("sidebar-content").hidden = false;
+    parseTranslations();
+}
+
+function setPageSectionHeader(site, title) {
+    sectionList = '';
+    sections = site.split('/');
+
+    for(var i = 0; i < sections.length - 1; i = i + 1)
+        sectionList = sectionList + `
+            <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                <a itemprop="item">
+                    <span itemprop="name" class="translate" key="` + sections[i] + `">placeholder</span>
+                </a>
+                <meta itemprop="position" content="1"><i class="delimiter"></i>
+            </li>`;
+    
+    sectionList = sectionList + `<li class="translate" key="` + sections[sections.length - 1] + `" style="color: #777777">placeholder</li>`;
+    document.getElementById('page-section-header').innerHTML = sectionList;
+    document.getElementById('page-section-title').innerHTML = `<h1 class="page-title translate" key="` + title + `" style="color: #777777">placeholder</h1>`
+}
+
+window.addEventListener('popstate', () => {
+        loadPageByURL()
+    }
+);
+
+function parsePrice(price) {
+    const parts = price.toString().split('.');
+    const integerPart = parts[0];
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const formattedPrice = parts.length > 1 ? formattedIntegerPart + '.' + parts[1] : formattedIntegerPart;
+    return formattedPrice;
 }

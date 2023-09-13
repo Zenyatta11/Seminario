@@ -9,23 +9,23 @@ use System\Models\Subcategory;
 
 class SearchRepository extends Repository{
 
-	public function getCategoryById(int $id) {
+	public function getCategoryById(int $id): Category | null {
 		$statement = "SELECT name FROM category WHERE category_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
-        return ($result->num_rows == 0 ? null : new Category($id, $result->fetch_assoc()[0])
+        return ($result->num_rows == 0 ? null : new Category($id, $result->fetch_assoc()['name'])
         );
 	}
 
-	public function getSubCategoryById(Category $category, int $id) {
+	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
 		$statement = "SELECT name FROM subcategory WHERE category_id=? AND subcategory_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($category->getId(), $id));
 
-        return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()[0])
+        return ($result->num_rows == 0 ? null : new Subcategory($id, $result->fetch_assoc()['name'], $category)
         );
 	}
 
-	public function pageSearchUsers(string $query, int $page) {
+	public function pageSearchUsers(string $query, int $page): Array {
 		$statement = "SELECT user_id, email, username, name FROM users WHERE username LIKE CONCAT(?,'%') LIMIT ?, ?";
 		$result = $this->connection->execute_query($statement, Array($query, intval(floor($page / 24), $page * 24)));
 
@@ -34,7 +34,7 @@ class SearchRepository extends Repository{
         return array_filter($returnValue);
 	}
 
-	public function getUsernamesAndIds(string $query) {
+	public function getUsernamesAndIds(string $query): Array {
 		$statement = "SELECT user_id, username, name FROM users WHERE username LIKE CONCAT(?,'%') LIMIT ?, ?";
 		$result = $this->connection->execute_query($statement, Array($query));
 

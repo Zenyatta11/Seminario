@@ -6,22 +6,26 @@
     ],
     "common": {
         "login": "Login",
+        "logout": "Logout",
         "register": "Register",
         "search": "Search...",
         "header": {
             "home": "Home",
             "featured": "Featured",
+            "new": "Novelties",
             "offers": "Offers",
             "catalog": "Catalog",
             "contact": "Contact Us"
         },
         "categories": "Categories",
-        "contactus": "Contact Us!"
+        "contactus": "Contact Us!",
+        "mostsold": "Most Sold"
     },
     "pages": {
         "home": "Home",
         "catalog": "Catalog",
-        "account": "My Profile"
+        "account": "My Profile",
+        "accounts": "Accounts"
     },
     "register": {
         "login": "Login",
@@ -29,6 +33,53 @@
         "email": "E-mail",
         "passwd": "Password",
         "reset": "Forgot your password?",
-        "newuser": "New user? Register here"
+        "newuser": "New user? Register here",
+        "name": "Full name",
+        "username": "Username (public)",
+        "confirmpasswd": "Confirm password",
+        "haveaccount": "Have an account? Login here",
+        "resetpassword": "Reset password",
+        "resetemailsent": "An email has been sent with instructions to reset your password.\nIt is important that you have provided a real email when you registered."
+    },
+    "errors": {
+        "login": {
+            "INVALID_PASSWD": "The password is invalid.",
+            "INCORRECT_PASSWORD": "The password is incorrect.",
+            "EMAIL_UNREGISTERED": "The email provided has no account.",
+            "ALREADY_LOGGED_IN": "You are already logged in. Redirecting...",
+            "INVALID_EMAIL": "The email provided is invalid."
+        },
+        "register": {
+            "INVALID_USERNAME": "The username provided is invalid. It must only contain letters and numbers.",
+            "INVALID_NAME": "The name provided is invalid. It must only contain letters and spaces.",
+            "INVALID_PASSWD": "The password must be between %register.passwd.min% and %register.passwd.max% characters long.",
+            "INVALID_PASSWD_CONFIRM": "You must confirm your password.",
+            "INVALID_EMAIL": "The email provided is invalid.",
+            "PASSWD_MISMATCH": "The passwords do not match.",
+            "EMAIL_IN_USE": "The email is already in use.",
+            "PASSWD_REQUIRED": "A password is required.",
+            "NAME_TOO_LONG": "The name provided is too long.",
+            "USERNAME_TOO_LONG": "The username provided is too long."
+        }
+    },
+    "index": {
+        "new": "New Items",
+        "featured": "Featured",
+        "offers": "Offers",
+        "catalog": "Catalog",
+        "payments": "Payment Methods"
+    },
+    "product": {
+        "new": "NEW!",
+        "more": "Read more",
+        "buy": "Buy now"
+    },
+    "cart": {
+        "view": "View Cart",
+        "subtotal": "Subtotal",
+        "empty": "Your cart is empty.",
+        "discounts": "Discounts are calculated at checkout time.",
+        "buy": "Checkout",
+        "delete": "Remove"
     }
 }

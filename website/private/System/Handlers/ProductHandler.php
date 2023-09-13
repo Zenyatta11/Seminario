@@ -6,29 +6,62 @@ namespace System\Handlers;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\NotFoundException;
+use System\Miscellaneous\MiscController;
 use System\Products\ProductController;
 
 class ProductHandler {
 
     public function __construct(
         private ProductController $controller = new ProductController(),
+        private MiscController $miscController = new MiscController()
     ) {
 
     }
 
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
+        switch($subsection) {
+            case "get": return $this->getProducts($action);
+            default: return $this->doUncategorized($action, $data);
+        }
+    }
+
+    private function doUncategorized(string $action, Array $data): ResponseDTO {
         switch($action) {
             case "new": return $this->createProduct(
-                    $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
-                    $data['price'] ?? '', $data['stock'] ?? '', $data['width'] ?? '', 
-                    $data['height'] ?? '', $data['length'] ?? '', $data['state'] ?? '', 
-                    $data['name'] ?? '', $data['description'] ?? '');
+                $data['category_id'] ?? '', $data['subcategory_id'] ?? '', $data['weight'] ?? '', 
+                $data['price'] ?? '', $data['stock'] ?? '', $data['width'] ?? '', 
+                $data['height'] ?? '', $data['length'] ?? '', $data['state'] ?? '', 
+                $data['name'] ?? '', $data['description'] ?? '');
 
             case "delete": return $this->deleteProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
 
             case "get": return $this->getProduct($data['product_id'] ?? '', $data['variation_id'] ?? '');
             default: throw new NotFoundException();
         }
+    }
+
+    private function getProducts(string $urlId): ResponseDTO {
+        $matches = Array();
+        if($urlId == "featured") {
+            return new ResponseDTO($this->controller->getFeaturedProducts());
+        } else if($urlId == "offers") {
+            return new ResponseDTO($this->controller->getDiscountProducts());
+        } else if($urlId == "latest") {
+            return new ResponseDTO($this->controller->getLatestProducts());
+        } else if(preg_match('/(\d+)-(\d+)_.*/', $urlId, $matches, PREG_OFFSET_CAPTURE)) {
+            $category = $this->miscController->getCategoryById(intval($matches[1][0]));
+            if($category === null) throw new NotFoundException();
+
+            $subcategory = $this->miscController->getSubCategoryById($category, intval($matches[2][0]));
+            if($subcategory === null) throw new NotFoundException();
+
+            return new ResponseDTO($this->controller->getProductsBySubcategory($subcategory));
+        } else if(preg_match('/(\d+)_.*/', $urlId, $matches, PREG_OFFSET_CAPTURE)) {
+            $category = $this->miscController->getCategoryById(intval($matches[1][0]));
+            if($category === null) throw new NotFoundException();
+
+            return new ResponseDTO($this->controller->getProductsByCategory($category));
+        } else return new ResponseDTO($this->controller->getProducts());
     }
 
     private function getProduct(string $id, string $variationId): ResponseDTO {

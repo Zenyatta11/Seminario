@@ -6,22 +6,26 @@
     ],
     "common": {
         "login": "Iniciar sesión",
+        "logout": "Salir",
         "register": "Registrarse",
         "search": "Buscar...",
         "header": {
             "home": "Inicio",
             "featured": "Destacados",
+            "new": "Novedades",
             "offers": "Ofertas",
             "catalog": "Catálogo",
             "contact": "Contacto"
         },
         "categories": "Categorías",
-        "contactus": "Contáctenos!"
+        "contactus": "Contáctenos!",
+        "mostsold": "Más Vendidos"
     },
     "pages": {
         "home": "Inicio",
         "catalog": "Catálogo",
-        "account": "Perfil"
+        "account": "Perfil",
+        "accounts": "Cuentas"
     },
     "register": {
         "login": "Acceder",
@@ -29,6 +33,53 @@
         "email": "Correo Electrónico",
         "passwd": "Contraseña",
         "reset": "¿Olvidó su contraseña?",
-        "newuser": "¿No tiene cuenta? Registrese aquí"
+        "newuser": "¿No tiene cuenta? Registrese aquí",
+        "name": "Nombre Completo",
+        "username": "Nombre de usuario (público)",
+        "confirmpasswd": "Confirmar contraseña",
+        "haveaccount": "¿Ya tiene cuenta? Inicie sesión",
+        "resetpassword": "Reestablecer Contraseña",
+        "resetemailsent": "Se le ha enviado un email con instrucciones para reestablecer su contraseña. Por favor revise su correo de spam si no lo ve.\nEs necesario que haya brindado un correo electronico real para poder reestablecer su contraseña"
+    },
+    "errors": {
+        "login": {
+            "INVALID_PASSWD": "La contraseña es inválida.",
+            "INCORRECT_PASSWORD": "La contraseña es incorrecta.",
+            "EMAIL_UNREGISTERED": "El email no tiene cuenta asociada.",
+            "ALREADY_LOGGED_IN": "Usted ya tiene la sesión iniciada. Será redirigido en breve.",
+            "INVALID_EMAIL": "El email es inválido."
+        },
+        "register": {
+            "INVALID_USERNAME": "El nombre de usuario es inválido. Debe contener solo números y letras, sin espacios ni símbolos especiales.",
+            "INVALID_NAME": "El nombre es inválido. Debe contener solo letras y espacios.",
+            "INVALID_PASSWD": "La contraseña debe tener entre %register.passwd.min% y %register.passwd.max% caracteres.",
+            "INVALID_PASSWD_CONFIRM": "Debe confirmar la contraseña",
+            "INVALID_EMAIL": "El email es inválido.",
+            "PASSWD_MISMATCH": "Las contraseñas no coinciden.",
+            "EMAIL_IN_USE": "El email ya esta en uso.",
+            "PASSWD_REQUIRED": "Se requiere una contraseña para registrarse.",
+            "NAME_TOO_LONG": "El nombre es muy largo.",
+            "USERNAME_TOO_LONG": "El nombre de usuario es muy largo."
+        }
+    },
+    "index": {
+        "new": "Novedades",
+        "featured": "Destacados",
+        "offers": "Ofertas",
+        "catalog": "Catálogo",
+        "payments": "Medios de Pago"
+    },
+    "product": {
+        "new": "NUEVO!",
+        "more": "Leer más",
+        "buy": "Comprar"
+    },
+    "cart": {
+        "view": "Ver Carrito",
+        "subtotal": "Subtotal",
+        "buy": "Comprar Carrito",
+        "discounts": "Los descuentos se calculan al finalizar el checkout.",
+        "empty": "Su carrito se encuentra vacío.",
+        "delete": "Eliminar"
     }
 }

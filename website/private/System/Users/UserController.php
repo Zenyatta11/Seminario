@@ -3,23 +3,24 @@
 declare(strict_types=1);
 
 namespace System\Users;
-use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Exceptions\AlreadyLoggedInException;
 use System\Core\Exceptions\EmailInUseException;
 use System\Core\Exceptions\EmailNotInUseException;
-use System\Core\Exceptions\RegisterException;
+use System\Core\Exceptions\NotFoundException;
 use System\Models\Order;
 use System\Models\User;
+use System\Orders\OrdersRepository;
 use System\Router;
 
 class UserController {
 
 	public function __construct(
-		private UserRepository $repository = new UserRepository()
+		private UserRepository $repository = new UserRepository(),
+		private OrdersRepository $ordersRepository = new OrdersRepository()
 	) { }
 
-	public function getCartByUserId(int $userId): Order | null {
-		return null;
+	public function getActiveCartByUserId(int $userId): Order | null {
+		return $this->ordersRepository->getActiveCartByUserId($userId);
 	}
 
 	public function getUserBySessionHash(string $hash): User | null {
@@ -64,6 +65,13 @@ class UserController {
 
 	public function getUsers(int $page): Array {
 		return $this->repository->getUsers($page);
+	}
+
+	public function getUserById(int $id): User {
+		$user = $this->repository->getUserById($id);
+
+		if($user === null) throw new NotFoundException();
+		return $user;
 	}
 
 	public function getUserData(string $fields, int | null $id): Array | null {

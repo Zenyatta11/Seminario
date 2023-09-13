@@ -19,29 +19,12 @@ class Util {
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 
-	public static function PARSE_PERMISSIONS(int $permissions): string {
-		// TODO: update
-		$returnValue = Array();
-
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_CREATE ? 'PRODUCTS_CREATE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_MODIFY ? 'PRODUCTS_MODIFY' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_PAUSE ? 'PRODUCTS_PAUSE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_DELETE ? 'PRODUCTS_DELETE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_ANSWER ? 'PRODUCTS_ANSWER' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_QUESTION_DELETE ? 'PRODUCTS_QUESTION_DELETE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::PRODUCTS_REVIEW_DELETE ? 'PRODUCTS_REVIEW_DELETE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::USERS_CREATE ? 'USERS_CREATE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::USERS_MODIFY ? 'USERS_MODIFY' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::USERS_DELETE ? 'USERS_DELETE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::ORDERS_MODIFY ? 'ORDERS_MODIFY' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::ORDERS_DELETE ? 'ORDERS_DELETE' : '';
-		$returnValue[] = $permissions & Prefs\Constants\Permissions::TOTAL_CONTROL ? 'TOTAL_CONTROL' : '';
-
-		$returnValue = array_filter($returnValue);
-		return implode(";", $returnValue);
+	public static function URL_NAME(string $name) {
+		$string = str_replace(' ', '-', $name);
+		return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
 	}
 
-	public static function ARRAY_TO_SEARCH_TREE(Array $data) {
+	public static function ARRAY_TO_SEARCH_TREE(Array $data): Array {
 		$returnTree = new SearchNode(Array(), null);
 
 		foreach($data as $key => $value) {
@@ -64,6 +47,10 @@ class Util {
 		if(strlen($passwd) < Prefs\Common::PASSWD_LENGTH_MIN) return false;
 		if(strlen($passwd) > Prefs\Common::PASSWD_LENGTH_MAX) return false;
 		return true;
+	}
+
+	public static function SEND_EMAIL(string $email, string $subject, string $body): bool {
+		return false;
 	}
 
 }

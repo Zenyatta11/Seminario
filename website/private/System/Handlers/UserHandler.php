@@ -29,6 +29,7 @@ class UserHandler {
                     $data['username'] ?? "",
                     $data['name'] ?? "",
                     $data['passwd'] ?? "",
+                    $data['passwdConfirm'] ?? "",
                     $data['email'] ?? ""
                 );
 
@@ -103,12 +104,17 @@ class UserHandler {
         );
     }
 
-    private function doRegister(string $username, string $name, string $passwd, string $email): ResponseDTO {
+    private function doRegister(string $username, string $name, string $passwd, string $confirmpasswd, string $email): ResponseDTO {
         $error = Array();
 
         if(empty($username) || !ctype_alnum($username)) $error[] = "INVALID_USERNAME";
+        else if(strlen($username) > 15) $error[] = "USERNAME_TOO_LONG";
         if(empty($name) || !ctype_alnum(str_replace(" ", "", $name))) $error[] = "INVALID_NAME";
-        if(empty($passwd) || !Util::VALID_PASSWD($passwd)) $error[] = "INVALID_PASSWD";
+        else if(strlen($name) > 63) $error[] = "NAME_TOO_LONG";
+        if(empty($passwd)) $error[] = "PASSWD_REQUIRED";
+        if(!empty($passwd) && !Util::VALID_PASSWD($passwd)) $error[] = "INVALID_PASSWD";
+        if(empty($confirmpasswd)) $error[] = "INVALID_PASSWD_CONFIRM";
+        if(!empty($passwd) && $confirmpasswd != $passwd) $error[] = "PASSWD_MISMATCH";
 
         if(empty($email)) $error[] = "INVALID_EMAIL";
         else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) $error[] = "INVALID_EMAIL";

@@ -17,23 +17,18 @@ class HttpException extends Exception {
 		Throwable $previous = null
 	) {
         parent::__construct($message, $code, $previous);
-        
-		if(!$this->isCaughtException()) {
-			$response = new ResponseDTO($this->message, $this->statusCode);
-        	die($response->jsonify());
-		}
     }
 
-	private function isCaughtException() {
-        $handler = set_exception_handler(
-			function ($exception) {
-            	return true;
-        	}
+	public function tossError(): void {
+		$response = new ResponseDTO(
+			Array(
+				"message" => $this->message, 
+				"trace" => explode("\n", $this->getTraceAsString())
+			),
+			$this->statusCode
 		);
-        
-        restore_exception_handler();
-        
-        return $handler !== null;
-    }
+
+		die($response->jsonify());
+	}
 }
 ?>

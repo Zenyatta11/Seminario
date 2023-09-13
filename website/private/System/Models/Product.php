@@ -63,7 +63,7 @@ class Product {
         return $this->subCategory;
     }
 
-    public function getvariationId(): int | null {
+    public function getVariationId(): int | null {
         return $this->variationId;
     }
 
@@ -103,7 +103,7 @@ class Product {
     public static function BUILD(Array $data): Product {
         $productController = new ProductController();
 
-        if($data['variation_id'])
+        if(isset($data['variation_id']))
             $data = $productController->getVariationDataById($data);
         
         $miscController = new MiscController();
@@ -126,7 +126,7 @@ class Product {
             $data['description'],
             $category,
             $miscController->getSubCategoryById($category, $data['subcategory_id']),
-            $data['variation_id']
+            $data['variation_id'] ?? null
         );
     }
 

@@ -22,13 +22,6 @@ class User {
     ) { }
     
     public static function BUILD(Array $data): User {
-        if(isset($data['active_cart'])) {
-            $ordersController = new OrdersController();
-            $activeCart = $ordersController->getOrderById($data['active_cart']);
-        } else {
-            $activeCart = null;
-        }
-
         $errors = Array();
         if(empty($data['user_id'])) $errors[] = "MISSING_USER_ID";
         if(empty($data['permissions'])) $errors[] = "MISSING_USER_ID";
@@ -44,8 +37,7 @@ class User {
             $data['email'],
             $data['username'],
             $data['name'],
-            $data['document'] ?? null,
-            $activeCart
+            $data['document'] ?? null
         );
     }
 
@@ -80,15 +72,20 @@ class User {
     public function getCart(): Order | null {
         if($this->activeCart != null) return $this->activeCart;
 
-        $this->activeCart = $this->userController->getCartByUserId($this->id);
+        $this->activeCart = $this->userController->getActiveCartByUserId($this->id);
         return $this->activeCart;
+    }
+
+    public function hasBoughtProduct(): bool {
+        return false;
+        //todo 
     }
 
     public function toArray($whitelist = null): Array {
         $returnValue = Array();
 
         if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->id;
-        if($whitelist === null || in_array('permissions', $whitelist)) $returnValue['permissions'] = Util::PARSE_PERMISSIONS($this->permissions);
+        // if($whitelist === null || in_array('permissions', $whitelist)) $returnValue['permissions'] = Util::PARSE_PERMISSIONS($this->permissions);
         if($whitelist === null || in_array('email', $whitelist)) $returnValue['email'] = $this->email;
         if($whitelist === null || in_array('username', $whitelist)) $returnValue['username'] = $this->username;
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
