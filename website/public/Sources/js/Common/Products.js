@@ -64,9 +64,11 @@ function getNewProducts() {
                                         <a href="#0"
                                             class="viewcart-style-3 button product_type_simple view"
                                             rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
-                                        <a href="javascript:AddToCart(` + item.product_id + `, 1);"
+                                        ` + (item.in_cart ? `<a href="javascript:;"
+                                            style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
                                             class="viewcart-style-3 button product_type_simple buy_now"
-                                            rel="nofollow"><i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
+                                            rel="nofollow">` ) + `<i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -146,9 +148,11 @@ function getFeaturedProducts() {
                                         <a href="#0"
                                             class="viewcart-style-3 button product_type_simple view"
                                             rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
-                                        <a href="javascript:AddToCart(` + item.product_id + `, 1);"
+                                            ` + (item.in_cart ? `<a href="javascript:;"
+                                            style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
                                             class="viewcart-style-3 button product_type_simple buy_now"
-                                            rel="nofollow"><i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
+                                            rel="nofollow">` ) + `<i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -229,9 +233,11 @@ function getOffersProducts() {
                                         <a href="#0"
                                             class="viewcart-style-3 button product_type_simple view"
                                             rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
-                                        <a href="javascript:AddToCart(` + item.product_id + `, 1);"
+                                            ` + (item.in_cart ? `<a href="javascript:;"
+                                            style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
+                                            rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
                                             class="viewcart-style-3 button product_type_simple buy_now"
-                                            rel="nofollow"><i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
+                                            rel="nofollow">` ) + `<i class="icon-shopping-cart"></i><span class="translate" key="product.buy">` + buy + `</span></a>
                                     </div>
                                 </div>
                             </div>

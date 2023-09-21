@@ -57,7 +57,15 @@ class OrdersHandler {
     }
 
     private function removeFromCart(string $orderId, string $productId): ResponseDTO {
-        $order = $this->controller->getOrderById(intval($orderId));
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+        if(!is_numeric($productId)) throw new InvalidArgumentException("INVALID_PRODUCT_ID");
+        if(!empty($orderId) && !is_numeric($orderId)) throw new InvalidArgumentException("INVALID_ORDER_ID");
+
+        if(empty($orderId)) $order = Router::$CURRENT_USER->getCart();
+        else $order = $this->controller->getOrderById(intval($orderId));
+
+        $product = $this->productController->getProductById(intval($productId));
+        return new ResponseDTO($this->controller->removeItemFromOrder($order, $product));
     }
 
     private function createNewOrder(string $userId, string $productId, string $amount): ResponseDTO {

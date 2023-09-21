@@ -126,15 +126,17 @@ function RemoveFromCart(orderId, productId) {
     .then((response) => response.json())
     .then((json) => {
         getShoppingCart();
+        refreshPage();
     });
 }
 
-function AddToCart(productId, amount) {
+function AddToCart(button, productId, amount) {
     doPost('orders/buy/' + productId, {
         "amount": amount
     })
     .then((response) => response.json())
-    .then(() => {
+    .then((json) => {
+        if(json.status_code == 200) button.setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
         getShoppingCart();
     });
 }

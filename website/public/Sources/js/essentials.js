@@ -1,3 +1,5 @@
+var pageTitle;
+var pageFunc;
 
 async function doPost(endpoint, data) {
     return fetch('/api/' + endpoint, {
@@ -56,6 +58,10 @@ function getCookie(cookieName) {
     }
 
     return "";
+}
+
+function refreshPage() {
+    setPage(pageTitle, pageFunc);
 }
 
 function parseFromJSON(json, fallbackJson, key) {
@@ -149,6 +155,9 @@ function navigateToPage(url, title, func) {
 }
 
 function setPage(title, func) {
+    pageTitle = title;
+    pageFunc = func;
+    
     if(title.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, title) ?? title;
     else document.title = getKeyFromJson(contextData, { }, title.replace("context.", "")) ?? title;
 

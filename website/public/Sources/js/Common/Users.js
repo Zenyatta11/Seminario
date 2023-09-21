@@ -41,7 +41,7 @@ function doUserLogout() {
         { }
     ).then((response) => response.json())
     .then(() => {
-        getUsersName(showUserPage, showGuestPage);
+        refreshPage()
     });
 }
 

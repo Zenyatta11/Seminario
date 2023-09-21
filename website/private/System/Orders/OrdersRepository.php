@@ -46,6 +46,30 @@ class OrdersRepository extends Repository{
         );
     }
 
+    public function removeProductFromCart(Order $cart, Product $product): bool {
+        $this->connection->begin_transaction();
+
+        try {
+            $statement = "DELETE FROM orders_products WHERE order_id=? AND product_id=?";
+
+            $success = $this->connection->execute_query(
+                $statement, 
+                Array(
+                    $cart->getId(),
+                    $product->getId()
+                )
+            );
+
+            $this->connection->commit();
+
+            if(!$success) $this->connection->rollback();
+            return $success;
+        } catch(\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            throw new DatabaseWriteException();
+        }
+    }
+
     public function getCartById(int $id): Order {
         $statement = "SELECT * FROM orders WHERE order_id = ? LIMIT 1;";
 
@@ -71,10 +95,10 @@ class OrdersRepository extends Repository{
         return ($result->num_rows == 0 ? null : User::BUILD($data));
     }
 
-    public function getActiveCartByUserId(int $id): Order {
+    public function getActiveCartByUserId(int $id): Order | null {
         $statement = "SELECT o.* FROM orders o, users u WHERE order_id = u.active_cart AND u.user_id = ? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
-        if($result->num_rows === 0) throw new NotFoundException();
+        if($result->num_rows === 0) return null;
 
         $orderData = $result->fetch_assoc();
         $orderProducts = $this->getOrderProductsById($orderData['order_id']);

@@ -30,6 +30,10 @@ class OrdersController {
         return $this->repository->addProductToCart($order, $product, $amount);
     }
 
+    public function removeItemFromOrder(Order $order, Product $product) {
+        return $this->repository->removeProductFromCart($order, $product);
+    }
+
 }
 
 ?>

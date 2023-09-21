@@ -9,6 +9,7 @@ use System\Core\Util;
 use System\Models\Category;
 use System\Models\Product;
 use System\Models\Subcategory;
+use System\Router;
 
 class ProductRepository extends Repository{
 
@@ -25,6 +26,7 @@ class ProductRepository extends Repository{
 	}
 
     public function getLatestProducts(): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "
                 SELECT
                 p.product_id,
@@ -54,6 +56,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
@@ -62,6 +65,7 @@ class ProductRepository extends Repository{
 	}
 
     public function getDiscountProducts(): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "SELECT
                 p.product_id,
                 p.weight,
@@ -84,8 +88,13 @@ class ProductRepository extends Repository{
         $max = $result->num_rows;
         $returnData = Array();
 
-        for($i = 0; $i < $max; $i = $i + 1)
-            $returnData[] = $result->fetch_assoc();
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $returnData[] = $productArray;
+        }
         
         return $returnData;
 	}
@@ -98,6 +107,7 @@ class ProductRepository extends Repository{
     }
 
     public function getFeaturedProducts(): Array {
+        $productIdList = $this->getProductsInCart();
         $statement = "
             SELECT
                 p.product_id,
@@ -127,6 +137,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
@@ -209,6 +220,7 @@ class ProductRepository extends Repository{
 	}
 
     public function getProductsBySubcategory(Subcategory $subcategory): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "
             SELECT
                 p.product_id,
@@ -242,6 +254,7 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
@@ -250,6 +263,8 @@ class ProductRepository extends Repository{
 	}
 
     public function getProductsByCategory(Category $category): Array {
+        $productIdList = $this->getProductsInCart();
+
         $statement = "
             SELECT
                 p.product_id,
@@ -283,6 +298,7 @@ class ProductRepository extends Repository{
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
             $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $returnData[] = $productArray;
         }
         
@@ -290,6 +306,8 @@ class ProductRepository extends Repository{
     }
 
     public function getProducts(): Array {
+        $productIdList = $this->getProductsInCart();
+
         $statement = "
             SELECT
                 p.product_id,
@@ -319,10 +337,26 @@ class ProductRepository extends Repository{
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
             $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $returnData[] = $productArray;
         }
         
         return $returnData;
+    }
+
+    private function getProductsInCart(): Array {
+        if(Router::$CURRENT_USER == null) return Array();
+        
+        $order = Router::$CURRENT_USER->getCart() ?? null;
+        if($order == null) return Array();
+
+        $productIds = Array();
+        $productsInCart = $order->getProducts();
+        foreach($productsInCart as $item) {
+            $productIds[] = $item['product']->getId();
+        }
+
+        return $productIds;
     }
 }
 
