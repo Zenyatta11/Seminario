@@ -8,15 +8,15 @@ function getShoppingCart() {
             <div id="mini-cart" class="mini-cart minicart-arrow-alt">
                 <div class="cart-head">
                     <span class="cart-icon"><i style="font-size: xx-large" class="icon-shopping-cart"></i><span
-                        style="top: -15px;" class="cart-items">` + json.data.products.length + `</span></span><span
+                        style="top: -15px;" id="cart-items-count" class="cart-items">` + json.data.products.length + `</span></span><span
                         class="cart-items-text"><i class="icon-shopping-cart"></i></span>
                 </div>`;
 
             if(json.data.products.length === 0) {
                 cart = cart + `
-                        <div class="cart-popup widget_shopping_cart">
+                        <div id="cart-content" class="cart-popup widget_shopping_cart">
                             <div class="widget_shopping_cart_content">
-                                <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
+                                <div class="total-count text-v-dark clearfix"><span id="cart-items-count-text">0 ITEMS</span>
                                     <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                                 </div>
                                 <ul class="cart_list product_list_widget scrollbar-inner ">
@@ -30,10 +30,10 @@ function getShoppingCart() {
             } else {
                 subtotal = 0;
                 cart = cart + `
-                    <div class="cart-popup widget_shopping_cart" style="width: max-content;">
+                    <div id="cart-content" class="cart-popup widget_shopping_cart" style="width: max-content;">
                         <div class="widget_shopping_cart_content" style="opacity: 1;">
                             <div class="total-count text-v-dark clearfix">
-                                <span>` + json.data.products.length + ` ITEM` + (json.data.products.length == 1 ? '' : 'S') + `</span>
+                                <span id="cart-items-count-text">` + json.data.products.length + ` ITEM` + (json.data.products.length == 1 ? '' : 'S') + `</span>
                                 <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                             </div>
 
@@ -41,6 +41,7 @@ function getShoppingCart() {
 
                 for(i = 0; i < json.data.products.length; i = i + 1) {
                     item = json.data.products[i];
+                    console.log(item);
                     subtotal = subtotal + item.product.price;
                     
                     cart = cart + `
@@ -50,7 +51,7 @@ function getShoppingCart() {
                                     <a href="/product/` + item.product.id + `_` + item.url_name + `" onclick="event.preventDefault(); navigateToPage('/product/` + item.product.id + `_` + item.url_name + `', 'pages.product', Index_Load);" aria-label="product">
                                         <img width="150" height="150" onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product.id + `/0.png" class="attachment-woocommerce_gallery_thumbnail size-woocommerce_gallery_thumbnail" alt="">
                                     </a>
-                                    <a href="javascript:RemoveFromCart(` + json.data.id + `, ` + item.product.id + `);" class="remove remove-product translate" key="cart.delete" aria-label="">
+                                    <a href="javascript:;" onclick="RemoveFromCart(this, ` + json.data.id + `, ` + item.product.id + `);" class="remove remove-product translate" key="cart.delete" aria-label="">
                                         ` + getKeyFromJson(language, fallbackLanguage, "cart.delete") + `
                                     </a>
                                 </div>
@@ -72,7 +73,7 @@ function getShoppingCart() {
 
                             <p class="woocommerce-mini-cart__total total">
                                 <strong class="translate" key="cart.subtotal">` + getKeyFromJson(language, fallbackLanguage, "cart.subtotal") + `:</strong>
-                                <span class="woocommerce-Price-amount amount"><bdi>
+                                <span class="woocommerce-Price-amount amount"><bdi id="cart-subtotal">
                                     <span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(subtotal) + `</bdi>
                                 </span>
                             </p>
@@ -103,7 +104,7 @@ function getShoppingCart() {
                     </div>
                     <div class="cart-popup widget_shopping_cart">
                         <div class="widget_shopping_cart_content">
-                            <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
+                            <div class="total-count text-v-dark clearfix"><span id="cart-items-count-text">0 ITEMS</span>
                                 <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                             </div>
                             <ul class="cart_list product_list_widget scrollbar-inner ">
@@ -118,14 +119,55 @@ function getShoppingCart() {
     });
 }
 
-function RemoveFromCart(orderId, productId) {
+function updateCart() {
+    doPost('orders/get', { })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code === 200) {
+            document.getElementById("cart-items-count").innerHTML = json.data.products.length;
+            document.getElementById("cart-items-count-text").innerHTML = json.data.products.length + ` ITEM` + (json.data.products.length == 1 ? '' : 'S');
+
+            if(json.data.products.length === 0) {
+                document.getElementById("cart-content").innerHTML = `
+                        <div class="cart-popup widget_shopping_cart">
+                            <div class="widget_shopping_cart_content">
+                                <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
+                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                </div>
+                                <ul class="cart_list product_list_widget scrollbar-inner ">
+                                    <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
+                                        ` + getKeyFromJson(language, fallbackLanguage, "cart.empty") + `
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>`;
+            } else {
+                subtotal = 0;
+                
+                for(i = 0; i < json.data.products.length; i = i + 1) {
+                    item = json.data.products[i];
+                    subtotal = subtotal + item.product.price;
+                    console.log(subtotal);
+                }
+
+                document.getElementById("cart-subtotal").innerHTML = '<span class="woocommerce-Price-currencySymbol">$</span>' + parsePrice(subtotal);
+            }
+        }
+    });
+}
+
+function RemoveFromCart(element, orderId, productId) {
     doPost('orders/remove', {
         "order_id": orderId,
         "product_id": productId
     })
     .then((response) => response.json())
     .then((json) => {
-        getShoppingCart();
+        if(json.status_code == 200) {
+            element.parentElement.parentElement.parentElement.remove();
+            updateCart();
+        }
+
         refreshPage();
     });
 }

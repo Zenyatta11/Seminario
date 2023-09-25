@@ -41,7 +41,13 @@ function doUserLogout() {
         { }
     ).then((response) => response.json())
     .then(() => {
-        refreshPage()
+        getUsersName((name) => {
+            showUserPage(name);
+            pageLoader();
+            refreshPage()
+        }, () => {
+            showGuestPage();
+            refreshPage()
+        });
     });
 }
-

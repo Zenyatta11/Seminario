@@ -349,8 +349,6 @@ function Product_Load(main) {
                                         class="button">
                                 </p>
                             </form>
-                            <script type="text/javascript"
-                                src="blob:https://www.florida-camping.com.ar/8b1e014b-3efd-469f-a24c-a9e546b0ed00"></script>
                         </div>
                         <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1">
                             <span class="resp-arrow"></span>
@@ -382,15 +380,38 @@ function Product_Load(main) {
                                         class="button">
                                 </p>
                             </form>
-                            <script type="text/javascript"
-                                src="blob:https://www.florida-camping.com.ar/8b1e014b-3efd-469f-a24c-a9e546b0ed00"></script>
                         </div>
                     </div>
-                    <script type="text/javascript"
-                        src="blob:https://www.florida-camping.com.ar/5caebbc9-0a6a-4246-8596-9ca312a5457e"></script>
                 </div>
             </div>`;
 
 }
 
 Product_Load(document.getElementById("content"));
+
+function toggleTab(caller) {
+    console.log(caller);
+
+    tabs = [
+        document.getElementById("tab-title-description"),
+        document.getElementById("tab-title-additional_information"),
+        document.getElementById("tab-title-product_enquiry")
+    ]
+
+    tabContents = [
+        document.getElementById("tab-description"),
+        document.getElementById("tab-additional_information"),
+        document.getElementById("tab-product_enquiry")
+    ]
+
+    for(i = 0; i < 3; i = i + 1) {
+        if(tabs[i] == caller) {
+            tabs[i].classList.add("resp-tab-active");
+            tabContents[i].classList.add("resp-tab-active");
+        } else {
+            tabs[i].classList.remove("resp-tab-active");
+            tabContents[i].classList.remove("resp-tab-active");
+        }
+    }
+    
+}

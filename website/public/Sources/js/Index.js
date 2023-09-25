@@ -74,7 +74,7 @@ function Index_Load(main) {
                                                     src="/Media/General/index_image.png" decoding="async"
                                                     class="swiper-slide-image entered litespeed-loading"
                                                     data-src="/Media/General/index_image.png"
-                                                    alt="florida-camping" data-ll-status="loading" width="1000"
+                                                    alt="Page Title" width="1000"
                                                     height="443"></figure>
                                         </div>
                                     </div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
