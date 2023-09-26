@@ -60,8 +60,7 @@ function Catalog_Load(main) {
                     <li class="product-col product-default show-links-hover product type-product post-23297 status-publish instock product_cat-pesca-monofilamento-y-multifilamento product_tag-galan has-post-thumbnail shipping-taxable product-type-simple yith-wcbm-product-has-badges">
                         <div class="product-inner">
                             <div class="product-image">
-                                <a href="/product/` + item.product_id + `_` + item.url_name + `"
-                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
+                                ` + ProductUrl(item.product_id, item.name,`
                                     <div class="inner">
                                         <div class="container-image-and-badge  ">
                                             <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png"
@@ -77,18 +76,13 @@ function Catalog_Load(main) {
                                             </div>` : ``) + `
                                         </div>
                                     </div>
-                                </a>
+                                    `, false) + `
                             </div>
 
                             <div class="product-content">
                                 <span class="category-list">
-                                    <a href="/catalog/` + item.category_id + `_` + item.category_url_name + `"
-                                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `_` + item.category_url_name + `', 'pages.catalog', Catalog_Load);">` + item.category + `</a></span>
-                                <a class="product-loop-title" href="/product/` + item.product_id + `_` + item.url_name + `"
-                                    onclick="event.preventDefault(); navigateToPage('/product/` + item.product_id + `_` + item.url_name + `', 'pages.product', Index_Load);">
-                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
-                                </a>
-                                
+                                    ` + CategoryUrl(item.category_id, item.category) + `</span>
+                                ` + ProductUrl(item.product_id, item.name, `<h3 class="woocommerce-loop-product__title">` + item.name + `</h3>`, `product-loop-title`) + `
                                 ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
                                 <span class="price">
                                     <del aria-hidden="true">

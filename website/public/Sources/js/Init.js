@@ -46,7 +46,7 @@ function pageLoader() {
         setPage('pages.catalog', Catalog_Load);
         return;
     } else if(url.includes('/product')) {
-        setPage('pages.product', Index_Load);
+        setPage('pages.product', Product_Load);
         return;
     }
 

@@ -197,3 +197,29 @@ function parsePrice(price) {
     const formattedPrice = parts.length > 1 ? formattedIntegerPart + '.' + parts[1] : formattedIntegerPart;
     return formattedPrice;
 }
+
+function CategoryUrl(id, name) {
+    urlName = getUrlName(name);
+
+    return `<a href="/catalog/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + id + `_` + urlName + `', 'pages.catalog', Catalog_Load);">` + name + `</a>`;
+}
+
+function ProductUrl(id, name, innerHTML, classValue) {
+    urlName = getUrlName(name);
+
+    return `<a ` + (classValue ? `class="` + classValue + `" ` : ``) + `href="/product/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/product/` + id + `_` + urlName + `', '` + name + `', Product_Load);">` + innerHTML + `</a>`;
+}
+
+function SubcategoryUrl(categoryId, categoryName, subcategoryId, subcategoryName) {
+    categoryUrlName = getUrlName(categoryName);
+    subcategoryUrlName = getUrlName(subcategoryName);
+
+    return `<a href="/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `', 'pages.catalog', Catalog_Load);">` + subcategoryName + `</a>`;
+}
+
+function getUrlName(name) {
+    let string = name.replace(/\s+/g, '-');
+    string = string.replace(/[^A-Za-z0-9\-]/g, '');
+    
+    return string;
+}

@@ -42,28 +42,33 @@ function getShoppingCart() {
                 for(i = 0; i < json.data.products.length; i = i + 1) {
                     item = json.data.products[i];
                     console.log(item);
-                    subtotal = subtotal + item.product.price;
+                    subtotal = subtotal + (item.product.price * item.amount);
                     
                     cart = cart + `
                         <li class="woocommerce-mini-cart-item mini_cart_item">
                             <div class="product-image">
                                 <div class="inner" style="text-align: center">
-                                    <a href="/product/` + item.product.id + `_` + item.url_name + `" onclick="event.preventDefault(); navigateToPage('/product/` + item.product.id + `_` + item.url_name + `', 'pages.product', Index_Load);" aria-label="product">
-                                        <img width="150" height="150" onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product.id + `/0.png" class="attachment-woocommerce_gallery_thumbnail size-woocommerce_gallery_thumbnail" alt="">
-                                    </a>
+                                    ` + ProductUrl(item.product.id, item.product.name, `<img width="150" height="150" onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product.id + `/0.png" class="attachment-woocommerce_gallery_thumbnail size-woocommerce_gallery_thumbnail" alt="">`, false) + `
                                     <a href="javascript:;" onclick="RemoveFromCart(this, ` + json.data.id + `, ` + item.product.id + `);" class="remove remove-product translate" key="cart.delete" aria-label="">
                                         ` + getKeyFromJson(language, fallbackLanguage, "cart.delete") + `
                                     </a>
                                 </div>
                             </div>
                             <div class="product-details">
-                                <a href="/product/` + item.product.id + `_` + item.url_name + `"
-                                onclick="event.preventDefault(); navigateToPage('/product/` + item.product.id + `_` + item.url_name + `', 'pages.product', Index_Load);" class="text-v-dark">` + item.product.name + `</a>
-                                <span class="quantity">` + item.amount + ` × 
-                                    <span class="woocommerce-Price-amount amount">
-                                        <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.product.price) + `</bdi>
+                                <div>
+                                ` + ProductUrl(item.product.id, item.product.name, item.product.name, ``) + `
+                                    <span id="shown_qty_` + item.product.id + `" class="quantity">` + item.amount + ` × 
+                                        <span class="woocommerce-Price-amount amount">
+                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(item.product.price) + `</bdi>
+                                        </span>
                                     </span>
-                                </span>
+                                </div>
+                                <div class="quantity buttons_added">
+                                    <button style="" id="sub_` + item.product.id + `" type="button" value="-" class="minus" onclick="SubAmount(` + item.product.id + `, ` + item.product.price + `);">-</button>
+                                    <input id="qty_` + item.product.id + `" class="qty" disabled="" value="` + item.amount + `" type="number" max="` + item.product.stock + `">
+                                    <input id="stock_` + item.product.id + `" type="hidden" value="` + item.product.stock + `">
+                                    <button style="" id="add_` + item.product.id + `" type="button" value="+" class="plus" onclick="AddAmount(` + item.product.id + `, ` + item.product.price + `);">+</button>
+                                </div>
                             </div>
                         </li>`;
                 }
@@ -146,7 +151,7 @@ function updateCart() {
                 
                 for(i = 0; i < json.data.products.length; i = i + 1) {
                     item = json.data.products[i];
-                    subtotal = subtotal + item.product.price;
+                    subtotal = subtotal + (item.product.price * item.amount);
                     console.log(subtotal);
                 }
 
@@ -180,5 +185,81 @@ function AddToCart(button, productId, amount) {
     .then((json) => {
         if(json.status_code == 200) button.setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
         getShoppingCart();
+    });
+}
+
+function SubAmount(id, price) {
+    if(document.getElementById("sub_" + id).getAttribute("style") != '') return;
+    
+    quantityBox = document.getElementById("qty_" + id);
+    quantityDiv = document.getElementById("shown_qty_" + id);
+    amount = parseInt(quantityBox.value);
+
+    document.getElementById("add_" + id).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
+    document.getElementById("sub_" + id).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
+
+    if(amount == 1) {
+        doPost('orders/remove', {
+            "order_id": orderId,
+            "product_id": id
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            if(json.status_code == 200) {
+                element.parentElement.parentElement.parentElement.remove();
+                updateCart();
+            }
+    
+            refreshPage();
+        });
+    } else {
+        doPost('orders/buy/' + id, {
+            "amount": (amount - 1)
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            if(json.status_code == 200) {
+                quantityBox.value = amount - 1;
+                quantityDiv.innerHTML = `
+                    ` + (amount - 1) + ` × 
+                    <span class="woocommerce-Price-amount amount">
+                        <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(price) + `</bdi>
+                    </span>`;
+
+                document.getElementById("add_" + id).setAttribute("style", '');
+                document.getElementById("sub_" + id).setAttribute("style", '');
+                updateCart();
+            }
+        });
+    }
+}
+
+function AddAmount(id, price) {
+    if(document.getElementById("add_" + id).getAttribute("style") != '') return;
+
+    quantityBox = document.getElementById("qty_" + id);
+    quantityDiv = document.getElementById("shown_qty_" + id);
+    amount = parseInt(quantityBox.value);
+
+    document.getElementById("add_" + id).setAttribute("style", 'background-color: #979696 !important; cursor: not-allowed;');
+    document.getElementById("sub_" + id).setAttribute("style", 'background-color: #979696 !important; cursor: not-allowed;');
+
+    doPost('orders/buy/' + id, {
+        "amount": (amount + 1)
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code == 200) {
+            quantityBox.value = amount + 1;
+            quantityDiv.innerHTML = `
+                ` + (amount + 1) + ` × 
+                <span class="woocommerce-Price-amount amount">
+                    <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(price) + `</bdi>
+                </span>`;
+            
+            if(parseInt(document.getElementById("stock_" + id).value) < amount) document.getElementById("add_" + id).setAttribute("style", '');
+            document.getElementById("sub_" + id).setAttribute("style", '');
+            updateCart();
+        }
     });
 }
