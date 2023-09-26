@@ -28,16 +28,14 @@ function getNewProducts() {
                                                 </div>
                                             </div>` : ``) + `
                                         </div>
-                                    </div>
-                                    ` + item.name + `</h3>`, false) + `
+                                    </div>`, false) + `
                             </div>
 
                             <div class="product-content">
                                 <span class="category-list">
                                     ` + CategoryUrl(item.category_id, item.category) + `</span>
                                 ` + ProductUrl(item.product_id, item.name, `
-                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
-                                ` + item.name + `</h3>`, false) + `
+                                    <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>`, false) + `
                                 ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
                                 <span class="price">
                                     <del aria-hidden="true">
@@ -108,16 +106,14 @@ function getFeaturedProducts() {
                                         </div>
                                     </div>` : ``) + `
                                 </div>
-                            </div>
-                            ` + item.name + `</h3>`, false) + `
+                            </div>`, false) + `
                     </div>
 
                     <div class="product-content">
                         <span class="category-list">
                             ` + CategoryUrl(item.category_id, item.category) + `</span>
                         ` + ProductUrl(item.product_id, item.name, `
-                            <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
-                        ` + item.name + `</h3>`, false) + `
+                            <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>`, false) + `
                         ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
                                 <span class="price">
                                     <del aria-hidden="true">
@@ -189,16 +185,14 @@ function getOffersProducts() {
                                         </div>
                                     </div>` : ``) + `
                                 </div>
-                            </div>
-                            ` + item.name + `</h3>`, false) + `
+                            </div>`, false) + `
                     </div>
 
                     <div class="product-content">
                         <span class="category-list">
                             ` + CategoryUrl(item.category_id, item.category) + `</span>
                         ` + ProductUrl(item.product_id, item.name, `
-                            <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>
-                        ` + item.name + `</h3>`, false) + `
+                            <h3 class="woocommerce-loop-product__title">` + item.name + `</h3>`, false) + `
                         ` + (item.offer != null && (item.start_date === null || new Date(item.start_date) < new Date()) ? `
                                 <span class="price">
                                     <del aria-hidden="true">

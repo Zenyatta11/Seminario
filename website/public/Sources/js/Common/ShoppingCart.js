@@ -41,15 +41,14 @@ function getShoppingCart() {
 
                 for(i = 0; i < json.data.products.length; i = i + 1) {
                     item = json.data.products[i];
-                    console.log(item);
                     subtotal = subtotal + (item.product.price * item.amount);
                     
                     cart = cart + `
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
+                        <li id="cart-item_` + item.product.id + `" class="woocommerce-mini-cart-item mini_cart_item">
                             <div class="product-image">
                                 <div class="inner" style="text-align: center">
                                     ` + ProductUrl(item.product.id, item.product.name, `<img width="150" height="150" onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product.id + `/0.png" class="attachment-woocommerce_gallery_thumbnail size-woocommerce_gallery_thumbnail" alt="">`, false) + `
-                                    <a href="javascript:;" onclick="RemoveFromCart(this, ` + json.data.id + `, ` + item.product.id + `);" class="remove remove-product translate" key="cart.delete" aria-label="">
+                                    <a href="javascript:;" onclick="RemoveFromCart(` + json.data.id + `, ` + item.product.id + `);" class="remove remove-product translate" key="cart.delete" aria-label="">
                                         ` + getKeyFromJson(language, fallbackLanguage, "cart.delete") + `
                                     </a>
                                 </div>
@@ -64,7 +63,7 @@ function getShoppingCart() {
                                     </span>
                                 </div>
                                 <div class="quantity buttons_added">
-                                    <button style="" id="sub_` + item.product.id + `" type="button" value="-" class="minus" onclick="SubAmount(` + item.product.id + `, ` + item.product.price + `);">-</button>
+                                    <button style="" id="sub_` + item.product.id + `" type="button" value="-" class="minus" onclick="SubAmount(` + json.data.id + `, ` + item.product.id + `, ` + item.product.price + `);">-</button>
                                     <input id="qty_` + item.product.id + `" class="qty" disabled="" value="` + item.amount + `" type="number" max="` + item.product.stock + `">
                                     <input id="stock_` + item.product.id + `" type="hidden" value="` + item.product.stock + `">
                                     <button style="" id="add_` + item.product.id + `" type="button" value="+" class="plus" onclick="AddAmount(` + item.product.id + `, ` + item.product.price + `);">+</button>
@@ -152,7 +151,6 @@ function updateCart() {
                 for(i = 0; i < json.data.products.length; i = i + 1) {
                     item = json.data.products[i];
                     subtotal = subtotal + (item.product.price * item.amount);
-                    console.log(subtotal);
                 }
 
                 document.getElementById("cart-subtotal").innerHTML = '<span class="woocommerce-Price-currencySymbol">$</span>' + parsePrice(subtotal);
@@ -161,7 +159,7 @@ function updateCart() {
     });
 }
 
-function RemoveFromCart(element, orderId, productId) {
+function RemoveFromCart(orderId, productId) {
     doPost('orders/remove', {
         "order_id": orderId,
         "product_id": productId
@@ -169,7 +167,7 @@ function RemoveFromCart(element, orderId, productId) {
     .then((response) => response.json())
     .then((json) => {
         if(json.status_code == 200) {
-            element.parentElement.parentElement.parentElement.remove();
+            document.getElementById("cart-item_" + productId).remove();
             updateCart();
         }
 
@@ -188,25 +186,25 @@ function AddToCart(button, productId, amount) {
     });
 }
 
-function SubAmount(id, price) {
-    if(document.getElementById("sub_" + id).getAttribute("style") != '') return;
+function SubAmount(orderId, productId, price) {
+    if(document.getElementById("sub_" + productId).getAttribute("style") != '') return;
     
-    quantityBox = document.getElementById("qty_" + id);
-    quantityDiv = document.getElementById("shown_qty_" + id);
+    quantityBox = document.getElementById("qty_" + productId);
+    quantityDiv = document.getElementById("shown_qty_" + productId);
     amount = parseInt(quantityBox.value);
 
-    document.getElementById("add_" + id).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
-    document.getElementById("sub_" + id).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
+    document.getElementById("add_" + productId).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
+    document.getElementById("sub_" + productId).setAttribute("style", 'background-color: #979696 !important;cursor: not-allowed;');
 
     if(amount == 1) {
         doPost('orders/remove', {
             "order_id": orderId,
-            "product_id": id
+            "product_id": productId
         })
         .then((response) => response.json())
         .then((json) => {
             if(json.status_code == 200) {
-                element.parentElement.parentElement.parentElement.remove();
+                document.getElementById("cart-item_" + productId).remove();
                 updateCart();
             }
     
@@ -257,7 +255,7 @@ function AddAmount(id, price) {
                     <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(price) + `</bdi>
                 </span>`;
             
-            if(parseInt(document.getElementById("stock_" + id).value) < amount) document.getElementById("add_" + id).setAttribute("style", '');
+            if(parseInt(document.getElementById("stock_" + id).value) > amount) document.getElementById("add_" + id).setAttribute("style", '');
             document.getElementById("sub_" + id).setAttribute("style", '');
             updateCart();
         }
