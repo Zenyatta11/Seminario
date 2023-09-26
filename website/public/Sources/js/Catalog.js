@@ -173,10 +173,10 @@ function Catalog_Load(main) {
                                                 <span class="inline-title">` + subcategoryTitle + `</span>
                                                 <span class="inline-title" style="float: right;">
                                                     <a class="link_button" href="` + window.location.href.replace("page=" + currentPage, "page=" + (currentPage < 1 ? 0 : currentPage - 1)) + `"
-                                                        onclick="event.preventDefault(); ` + (currentPage < 1 ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage - 1) + `')); refreshPage();`) + `">&lt;</a> 
+                                                        onclick="event.preventDefault(); ` + (currentPage < 1 ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage - 1) + `')); refreshPage();`) + `">` + (currentPage < 1 ? `&nbsp;` : `&lt;`) + `</a> 
                                                         Pagina ` + (currentPage + 1) + ` de ` + (pages + 1) + ` 
                                                     <a class="link_button" href="` + window.location.href.replace("page=" + currentPage, "page=" + (currentPage >= pages ? pages : currentPage + 1)) + `"
-                                                        onclick="event.preventDefault(); ` + (currentPage >= pages ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage + 1) + `')); refreshPage();`) + `">&gt;</a></span>
+                                                        onclick="event.preventDefault(); ` + (currentPage >= pages ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage + 1) + `')); refreshPage();`) + `">` + (currentPage < 1 ? `&nbsp;` : `&gt;`) + `</a></span>
                                                 <span class="line"></span></h2>
                                                 ` + list + `
                                             </div>
