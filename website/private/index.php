@@ -1,10 +1,12 @@
 <?php
+	use System\Redistributable\MercadoPago\MercadoPagoApi;
 	use System\Router;
 	use System\Core\Domain\Util\HttpException;
 
 	spl_autoload_register(
 		function ($class) {
-			require_once(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php');
+			if(file_exists(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php')) 
+				require_once(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php');
 		}
 	);
 

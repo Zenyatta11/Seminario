@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace System\Models;
 use System\Miscellaneous\MiscController;
+use System\Models\States\ProductState;
 use System\Products\ProductController;
 
 class Product {
@@ -19,7 +20,8 @@ class Product {
         private string $description,
         private Category $category,
         private Subcategory | null $subCategory = null,
-        private int | null $variationId = null
+        private int | null $variationId = null,
+        private float | null $offer = null
     ) {}
 
     public function getId(): int {
@@ -42,6 +44,9 @@ class Product {
         return $this->stock;
     }
 
+    public function getDiscountPrice(): float | null {
+        return $this->offer;
+    }
 
     public function getState(): string {
         return $this->state;
@@ -70,41 +75,31 @@ class Product {
     public function toArray($whitelist = null): Array {
         $returnValue = Array();
 
-        if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->id;
-        if($whitelist === null || in_array('weight', $whitelist)) $returnValue['weight'] = $this->weight;
-        if($whitelist === null || in_array('price', $whitelist)) $returnValue['price'] = $this->price;
-        if($whitelist === null || in_array('stock', $whitelist)) $returnValue['stock'] = $this->stock;
-        if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = $this->state;
-        if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
-        if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->description;
-        if($whitelist === null || in_array('variationId', $whitelist)) $returnValue['variationId'] = $this->variationId ?? '';
+        if($whitelist === null || in_array('id', $whitelist)) $returnValue['id'] = $this->getId();
+        if($whitelist === null || in_array('weight', $whitelist)) $returnValue['weight'] = $this->getWeight();
+        if($whitelist === null || in_array('price', $whitelist)) $returnValue['price'] = $this->getPrice();
+        if($whitelist === null || in_array('stock', $whitelist)) $returnValue['stock'] = $this->getStock();
+        if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = ProductState::TO_STRING($this->getState());
+        if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->getName();
+        if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->getDescription();
+        if($whitelist === null || in_array('variationId', $whitelist)) $returnValue['variationId'] = $this->getVariationId() ?? '';
+        if($whitelist === null || in_array('offer', $whitelist)) $returnValue['offer'] = $this->getDiscountPrice() ?? '';
 
-        if($whitelist === null || in_array('dimensions', $whitelist)) $returnValue['dimensions'] = Array(
-            'length' => $this->dimensions->getLength(),
-            'height' => $this->dimensions->getHeight(),
-            'width' => $this->dimensions->getWidth()
-        );
+        if($whitelist === null || in_array('dimensions', $whitelist)) $returnValue['dimensions'] = $this->getDimensions()->toArray();
 
-        if($whitelist === null || in_array('category', $whitelist)) $returnValue['category'] = Array(
-            'name' => $this->category->getName(),
-            'id' => $this->category->getId()
-        );
+        if($whitelist === null || in_array('category', $whitelist)) $returnValue['category'] = $this->getCategory()->toArray();
 
         if($whitelist === null || in_array('subcategory', $whitelist)) 
-            $returnValue['subcategory'] = ($this->subCategory === null ? '' : Array(
-                'name' => $this->subCategory->getName(),
-                'id' => $this->subCategory->getId()
-            )
-        );
+            $returnValue['subcategory'] = ($this->getSubCategory() === null ? '' : $this->getSubCategory()->toArray());
 
         return $returnValue;
     }
 
     public static function BUILD(Array $data): Product {
-        $productController = new ProductController();
+        //$productController = new ProductController();
 
-        if(isset($data['variation_id']))
-            $data = $productController->getVariationDataById($data);
+        //if(isset($data['variation_id']))
+        //    $data = $productController->getVariationDataById($data);
 
         $miscController = new MiscController();
         $category = $miscController->getCategoryById($data['category_id']);
@@ -126,7 +121,8 @@ class Product {
             $data['description'],
             $category,
             $miscController->getSubCategoryById($category, $data['subcategory_id']),
-            $data['variation_id'] ?? null
+            $data['variation_id'] ?? null,
+            $data['offer'] ?? null
         );
     }
 

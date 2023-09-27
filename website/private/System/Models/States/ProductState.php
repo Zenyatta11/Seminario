@@ -28,4 +28,13 @@ class ProductState {
 		}
 	}
 
+	public static function TO_STRING(string $state): string {
+		switch($state) {
+			case "A": return "ENABLED";
+			case "B": return "PAUSED";
+			case "C": return "DELETED";
+			default: throw new InvalidArgumentException("INVALID_PRODUCT_STATE");
+		}
+	}
+
 }

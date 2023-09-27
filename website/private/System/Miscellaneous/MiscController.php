@@ -8,6 +8,7 @@ use System\Core\Exceptions\NotFoundException;
 use System\Core\Exceptions\NotLoggedInException;
 use System\Core\Exceptions\UnauthorizedException;
 use System\Core\Prefs;
+use System\Models\Address;
 use System\Models\Category;
 use System\Models\Subcategory;
 use System\Products\ProductRepository;
@@ -221,5 +222,13 @@ class MiscController {
     private function getReviewsByUserId(int $userId): Array {
         return $this->repository->getReviewsByUserId($userId);
     }
+
+	public function getAddressesByUserId(int $userId): Array {
+		return $this->repository->getAddressesByUserId($userId);
+	}
+
+	public function getAddressById(int $id): Address {
+		return $this->repository->getAddressById($id);
+	}
 
 }

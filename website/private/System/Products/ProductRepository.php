@@ -19,10 +19,24 @@ class ProductRepository extends Repository{
     }
 
 	public function getProductById(int $id): Product {
-		$statement = "SELECT * FROM products WHERE product_id=? LIMIT 1;";
+		$statement = "
+            SELECT 
+                p.*,
+                o.price AS offer
+            FROM products p
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.product_id=? 
+            LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
         return Product::BUILD($result->fetch_assoc());
+	}
+
+    public function getDiscountPriceById(int $id): float | null {
+		$statement = "SELECT price FROM offers WHERE product_id=? AND start_date<=NOW() LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return $result->fetch_assoc();
 	}
 
     public function getLatestProducts(): Array {
@@ -43,7 +57,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=c.category_id
             ORDER BY p.product_id DESC
             LIMIT 4";
@@ -124,7 +138,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=c.category_id
             ORDER BY RAND()
             LIMIT 4";
@@ -237,7 +251,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=? AND p.subcategory_id=? AND p.category_id=c.category_id
             ORDER BY p.name";
 
@@ -281,7 +295,7 @@ class ProductRepository extends Repository{
                 p.description,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=? AND p.category_id=c.category_id
             ORDER BY p.name";
 
@@ -324,8 +338,8 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
-            WHERE state='A' AND c.category_id=p.category_id
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.state='A' AND c.category_id=p.category_id
             ORDER BY p.name";
 
         $result = $this->connection->execute_query($statement);

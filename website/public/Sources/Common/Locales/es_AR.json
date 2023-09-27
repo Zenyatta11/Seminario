@@ -23,9 +23,27 @@
     },
     "pages": {
         "home": "Inicio",
-        "catalog": "Catálogo",
+        "catalog": {
+            "page": "Página",
+            "pageof": "de",
+            "title": "Catálogo"
+        },
         "account": "Perfil",
-        "accounts": "Cuentas"
+        "accounts": "Cuentas",
+        "product": {
+            "info": "Leer Más",
+            "stock": "Disponibilidad",
+            "stocktext": "Unidades",
+            "category": "Categoría",
+            "subcategory": "Subcategoría",
+            "buy": "Agregar al Carrito",
+            "description": "Descripción",
+            "specifications": "Información Adicional",
+            "reviews": "Reseñas",
+            "questions": "Consultas",
+            "weight": "Peso",
+            "size": "Dimensiones"
+        }
     },
     "register": {
         "login": "Acceder",

@@ -27,7 +27,6 @@ function loadJSON(path, success, error) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                console.log(JSON.parse(xhr.responseText));
                 success(JSON.parse(xhr.responseText));
             }
             else {
@@ -198,23 +197,24 @@ function parsePrice(price) {
     return formattedPrice;
 }
 
-function CategoryUrl(id, name) {
+function CategoryUrl(id, name, className) {
     urlName = getUrlName(name);
 
-    return `<a href="/catalog/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + id + `_` + urlName + `', 'pages.catalog', Catalog_Load);">` + name + `</a>`;
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/catalog/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + id + `_` + urlName + `', 'pages.catalog.title', Catalog_Load);">` + name + `</a>`;
 }
 
-function ProductUrl(id, name, innerHTML, classValue) {
+function ProductUrl(id, name, innerHTML, className) {
     urlName = getUrlName(name);
+    safeName = name.replace("'", "\\'");
 
-    return `<a ` + (classValue ? `class="` + classValue + `" ` : ``) + `href="/product/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/product/` + id + `_` + urlName + `', '` + name + `', Product_Load);">` + innerHTML + `</a>`;
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/product/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/product/` + id + `_` + urlName + `', '` + safeName + `', Product_Load);">` + innerHTML + `</a>`;
 }
 
-function SubcategoryUrl(categoryId, categoryName, subcategoryId, subcategoryName) {
+function SubcategoryUrl(categoryId, categoryName, subcategoryId, subcategoryName, className) {
     categoryUrlName = getUrlName(categoryName);
     subcategoryUrlName = getUrlName(subcategoryName);
 
-    return `<a href="/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `', 'pages.catalog', Catalog_Load);">` + subcategoryName + `</a>`;
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `', 'pages.catalog.title', Catalog_Load);">` + subcategoryName + `</a>`;
 }
 
 function getUrlName(name) {

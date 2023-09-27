@@ -71,6 +71,12 @@ https://yellowpencil.waspthemes.com/
 	color: rgb(209, 53, 55);
 }
 
+.entry-summary .price .woocommerce-Price-discount {
+	text-decoration: line-through;
+	font-size: x-large;
+	color: grey;
+}
+
 .product-categories .current-cat a {
 	color: rgb(209, 53, 55) !important;
 }
@@ -583,4 +589,8 @@ div .active .product .product-inner .product-image a .inner .container-image-and
 		padding-left: 5px !important;
 		padding-right: 5px !important;
 	}
+}
+
+.attribute {
+	color: #777 !important;
 }

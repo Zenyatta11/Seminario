@@ -7,14 +7,12 @@ async function getContextData(context = null) {
         }
     ).then((response) => response.json())
     .then((json) => {
-        console.log(json);
         contextData = json.data;
 		parseFromJSON(json.data, { }, "context");
 	});
 }
 
 function loadPageByURL() {
-    console.log(window.location.pathname);
 
     getUsersName((name) => {
         showUserPage(name);
@@ -28,7 +26,6 @@ function loadPageByURL() {
 }
 
 function updateUserData(json) {
-    console.log(json);
     getUsersName((name) => {
         showUserPage(name);
         pageLoader();
@@ -43,10 +40,10 @@ function pageLoader() {
     const url = window.location.pathname;
 
     if(url.includes('/catalog')) {
-        setPage('pages.catalog', Catalog_Load);
+        setPage('pages.catalog.title', Catalog_Load);
         return;
     } else if(url.includes('/product')) {
-        setPage('pages.product', Product_Load);
+        setPage('pages.product.title', Product_Load);
         return;
     }
 

@@ -8,7 +8,10 @@ use System\Core\Exceptions\DatabaseWriteException;
 use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\NotFoundException;
 use System\Core\Util;
+use System\Models\Address;
 use System\Models\Category;
+use System\Models\City;
+use System\Models\Province;
 use System\Models\Subcategory;
 
 class MiscRepository extends Repository{
@@ -70,6 +73,37 @@ class MiscRepository extends Repository{
         return $returnValue;
 	}
 
+    public function getAddressesByUserId(int $userId): Array {
+		$statement = "SELECT * FROM addresses WHERE user_id=?;";
+        $result = $this->connection->execute_query($statement, Array($userId));
+        if($result->num_rows === 0) return Array();
+
+        $returnValue = Array();
+        while($returnValue[] = $result->fetch_assoc());
+        $returnValue = array_filter($returnValue);
+        
+        return $returnValue;
+	}
+
+    public function getAddressById(int $id): Address | null {
+		$statement = "SELECT * FROM addresses WHERE address_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement);
+        if($result->num_rows === 0) return null;
+
+        $data = $result->fetch_assoc();
+
+        return new Address(
+            $data['address_id'],
+            $data['user_id'],
+            $data['zip_code'],
+            $this->getProvinceById($data['province_id']),
+            $this->getCityById($data['city_id']),
+            $data['number'],
+            $data['street'],
+            $data['extra']
+        );
+	}
+
 	public function getSubCategoryByIdAndCategoryId(Category $category, int $id): Subcategory | null {
 		$statement = "SELECT name FROM subcategories WHERE category_id=? AND subcategory_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($category->getId(), $id));
@@ -109,6 +143,33 @@ class MiscRepository extends Repository{
         $returnValue = Array();
         while($returnValue[] = $result->fetch_assoc());
         return array_filter($returnValue);
+	}
+
+    public function getProvinceById(int $id): Province {
+		$statement = "SELECT * FROM provinces WHERE province_id=?;";
+        $result = $this->connection->execute_query($statement, Array($id));
+        if($result->num_rows === 0) throw new NotFoundException();
+
+        $data = $result->fetch_assoc();
+        
+        return new Province(
+            $data['province_id'], 
+            $data['name'], 
+            $data['ISO3166']);
+	}
+
+    public function getCityById(int $id): City {
+		$statement = "SELECT * FROM cities WHERE city_id=?;";
+        $result = $this->connection->execute_query($statement, Array($id));
+        if($result->num_rows === 0) throw new NotFoundException();
+
+        $data = $result->fetch_assoc();
+        
+        return new City(
+            $data['city_id'], 
+            $data['name'], 
+            $this->getProvinceById($data['province'])
+        );
 	}
 
     public function getCitiesByProvinceId(int $id): Array {

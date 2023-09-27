@@ -23,9 +23,28 @@
     },
     "pages": {
         "home": "Home",
-        "catalog": "Catalog",
+        "catalog": {
+            "page": "Page",
+            "pageof": "of",
+            "title": "Catalog"
+        },
         "account": "My Profile",
-        "accounts": "Accounts"
+        "accounts": "Accounts",
+        "product": {
+            "title": "Product",
+            "info": "View",
+            "stock": "Availability",
+            "stocktext": "Units",
+            "category": "Category",
+            "subcategory": "Subcategory",
+            "buy": "Add to Cart",
+            "description": "Description",
+            "specifications": "Additional Information",
+            "reviews": "Reviews",
+            "questions": "Questions",
+            "weight": "Weight",
+            "size": "Dimensions"
+        }
     },
     "register": {
         "login": "Login",

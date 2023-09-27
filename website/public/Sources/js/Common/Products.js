@@ -55,9 +55,7 @@ function getNewProducts() {
 
                                 <div class="add-links-wrap">
                                     <div class="add-links no-effect clearfix">
-                                        <a href="#0"
-                                            class="viewcart-style-3 button product_type_simple view"
-                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                    ` + ProductUrl(item.product_id, item.name,`<i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span>`, `viewcart-style-3 button product_type_simple view`) + `
                                         ` + (item.in_cart ? `<a href="javascript:;"
                                             style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
                                             rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
@@ -133,9 +131,7 @@ function getFeaturedProducts() {
 
                                 <div class="add-links-wrap">
                                     <div class="add-links no-effect clearfix">
-                                        <a href="#0"
-                                            class="viewcart-style-3 button product_type_simple view"
-                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                    ` + ProductUrl(item.product_id, item.name,`<i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span>`, `viewcart-style-3 button product_type_simple view`) + `
                                             ` + (item.in_cart ? `<a href="javascript:;"
                                             style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
                                             rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
@@ -212,9 +208,7 @@ function getOffersProducts() {
                                 
                                 <div class="add-links-wrap">
                                     <div class="add-links no-effect clearfix">
-                                        <a href="#0"
-                                            class="viewcart-style-3 button product_type_simple view"
-                                            rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                    ` + ProductUrl(item.product_id, item.name,`<i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span>`, `viewcart-style-3 button product_type_simple view`) + `
                                             ` + (item.in_cart ? `<a href="javascript:;"
                                             style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
                                             rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"

@@ -48,7 +48,7 @@ function Sidebar_GetFeaturedProducts() {
                     </div>
                     `, `product-image`) + `
                     <div class="product-details">
-                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, `product-image`) + `
+                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, ``) + `
                         <div class="star-rating" title="" data-bs-original-title="0">
                             <span style="width:0%">
                                 <strong class="rating">0</strong> de 5
@@ -85,7 +85,7 @@ function Sidebar_GetMostSoldProducts() {
                     </div>
                     `, `product-image`) + `
                     <div class="product-details">
-                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, `product-image`) + `
+                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, ``) + `
                         <div class="star-rating" title="" data-bs-original-title="0">
                             <span style="width:0%">
                                 <strong class="rating">0</strong> de 5

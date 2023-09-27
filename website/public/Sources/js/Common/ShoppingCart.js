@@ -66,7 +66,7 @@ function getShoppingCart() {
                                     <button style="" id="sub_` + item.product.id + `" type="button" value="-" class="minus" onclick="SubAmount(` + json.data.id + `, ` + item.product.id + `, ` + item.product.price + `);">-</button>
                                     <input id="qty_` + item.product.id + `" class="qty" disabled="" value="` + item.amount + `" type="number" max="` + item.product.stock + `">
                                     <input id="stock_` + item.product.id + `" type="hidden" value="` + item.product.stock + `">
-                                    <button style="" id="add_` + item.product.id + `" type="button" value="+" class="plus" onclick="AddAmount(` + item.product.id + `, ` + item.product.price + `);">+</button>
+                                    <button style="` + (item.product.stock > item.amount ? `` : `background-color: #979696 !important; cursor: not-allowed;`) + `" id="add_` + item.product.id + `" type="button" value="+" class="plus" onclick="AddAmount(` + item.product.id + `, ` + item.product.price + `);">+</button>
                                 </div>
                             </div>
                         </li>`;
@@ -88,7 +88,7 @@ function getShoppingCart() {
 
                             <p class="woocommerce-mini-cart__buttons buttons">
                                 <a href="#0" class="button wc-forward translate" key="cart.view">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
-                                <a href="#0" class="button checkout wc-forward translate" key="cart.buy">` + getKeyFromJson(language, fallbackLanguage, "cart.buy") + `</a>
+                                <a href="javascript:;" onclick="CartDoCheckout()" class="button checkout wc-forward translate" key="cart.buy">` + getKeyFromJson(language, fallbackLanguage, "cart.buy") + `</a>
                             </p>
                         </div>
                     </div>`;
@@ -211,7 +211,7 @@ function SubAmount(orderId, productId, price) {
             refreshPage();
         });
     } else {
-        doPost('orders/buy/' + id, {
+        doPost('orders/buy/' + productId, {
             "amount": (amount - 1)
         })
         .then((response) => response.json())
@@ -224,9 +224,10 @@ function SubAmount(orderId, productId, price) {
                         <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(price) + `</bdi>
                     </span>`;
 
-                document.getElementById("add_" + id).setAttribute("style", '');
-                document.getElementById("sub_" + id).setAttribute("style", '');
+                document.getElementById("add_" + productId).setAttribute("style", '');
+                document.getElementById("sub_" + productId).setAttribute("style", '');
                 updateCart();
+                refreshPage();
             }
         });
     }
@@ -255,9 +256,18 @@ function AddAmount(id, price) {
                     <bdi><span class="woocommerce-Price-currencySymbol">$</span>` + parsePrice(price) + `</bdi>
                 </span>`;
             
-            if(parseInt(document.getElementById("stock_" + id).value) > amount) document.getElementById("add_" + id).setAttribute("style", '');
+            if(parseInt(document.getElementById("stock_" + id).value) > (amount + 1)) document.getElementById("add_" + id).setAttribute("style", '');
             document.getElementById("sub_" + id).setAttribute("style", '');
             updateCart();
+            refreshPage();
         }
+    });
+}
+
+function CartDoCheckout() {
+    doPost('orders/checkout/', { })
+    .then((response) => response.json())
+    .then((json) => {
+        if(json.status_code == 200) window.location = json.data;
     });
 }

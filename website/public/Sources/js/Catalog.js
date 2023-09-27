@@ -1,6 +1,6 @@
 
 function Catalog_Load(main) {
-    setPageSectionHeader('pages.catalog', 'pages.catalog');
+    setPageSectionHeader('pages.catalog.title', 'pages.catalog.title');
 
     const subcategoryRegex = /(\d+)-(\d+)_.*/;
     const categoryRegex = /(\d+)_.*/;
@@ -24,8 +24,6 @@ function Catalog_Load(main) {
     const pageParameter = /page=([^&])/.exec(window.location.search);
     if(pageParameter !== null) currentPage = parseInt(pageParameter[1]);
     if(currentPage === NaN) currentPage = 0;
-
-    console.log("CurrentPage: " + currentPage);
 
     doPost('products/get/' + filter, { })
     .then((response) => response.json())
@@ -56,7 +54,6 @@ function Catalog_Load(main) {
 
             if(url == "/catalog/offers" || url == "/catalog/featured") json.data.products = json.data;
             pages = Math.floor(json.data.products.length / 16);
-            console.log("amt: " + json.data.products.length);
 
             json.data.products.forEach((item) => {
                 if(count > ((currentPage + 1) * 16 - 1)) return;
@@ -64,8 +61,6 @@ function Catalog_Load(main) {
                     count = count + 1;
                     return;
                 }
-
-                console.log(count + "; " + count % 4);
 
                 if(count % 4 === 0) list = list + `
                     <div class="slider-wrapper">
@@ -122,9 +117,7 @@ function Catalog_Load(main) {
 
                                     <div class="add-links-wrap">
                                         <div class="add-links no-effect clearfix">
-                                            <a href="#0"
-                                                class="viewcart-style-3 button product_type_simple view"
-                                                rel="nofollow"><i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span></a>
+                                        ` + ProductUrl(item.product_id, item.name,`<i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span>`, `viewcart-style-3 button product_type_simple view`) + `
                                                 ` + (item.in_cart ? `<a href="javascript:;"
                                                 style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
                                                 rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
@@ -172,11 +165,11 @@ function Catalog_Load(main) {
                                                 <span class="inline-title">` + categoryTitle + `</span>
                                                 <span class="inline-title">` + subcategoryTitle + `</span>
                                                 <span class="inline-title" style="float: right;">
-                                                    <a class="link_button" href="` + window.location.href.replace("page=" + currentPage, "page=" + (currentPage < 1 ? 0 : currentPage - 1)) + `"
-                                                        onclick="event.preventDefault(); ` + (currentPage < 1 ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage - 1) + `')); refreshPage();`) + `">` + (currentPage < 1 ? `&nbsp;` : `&lt;`) + `</a> 
-                                                        Pagina ` + (currentPage + 1) + ` de ` + (pages + 1) + ` 
-                                                    <a class="link_button" href="` + window.location.href.replace("page=" + currentPage, "page=" + (currentPage >= pages ? pages : currentPage + 1)) + `"
-                                                        onclick="event.preventDefault(); ` + (currentPage >= pages ? 'return;' : `window.history.pushState('', '', window.location.href.replace('page=` + currentPage + `', 'page=` + (currentPage + 1) + `')); refreshPage();`) + `">` + (currentPage < 1 ? `&nbsp;` : `&gt;`) + `</a></span>
+                                                    <a class="link_button" href="/catalog` + (currentPage < 1 ? `` : `?page=` + (currentPage - 1)) + `"
+                                                        onclick="event.preventDefault(); ` + (currentPage < 1 ? 'return;' : `window.history.pushState('', '', '/catalog` + (currentPage < 1 ? `` : `?page=` + (currentPage - 1)) + `'); refreshPage();`) + `">` + (currentPage < 1 ? `&nbsp;` : `&lt;`) + `</a> 
+                                                        <span class="translate" key="pages.catalog.page"></span> ` + (currentPage + 1) + ` <span class="translate" key="pages.catalog.pageof"></span> ` + (pages + 1) + ` 
+                                                    <a class="link_button" href="/catalog?page=` + (currentPage >= pages ? pages : currentPage + 1) + `"
+                                                        onclick="event.preventDefault(); ` + (currentPage >= pages ? 'return;' : `window.history.pushState('', '', '/catalog?page=` + (currentPage >= pages ? pages : currentPage + 1) + `'); refreshPage();`) + `">` + (currentPage >= pages ? `&nbsp;` : `&gt;`) + `</a></span>
                                                 <span class="line"></span></h2>
                                                 ` + list + `
                                             </div>
@@ -192,5 +185,3 @@ function Catalog_Load(main) {
         }
     });
 }
-
-Catalog_Load(document.getElementById("content")) 

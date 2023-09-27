@@ -44,10 +44,12 @@ function doUserLogout() {
         getUsersName((name) => {
             showUserPage(name);
             pageLoader();
-            refreshPage()
+            getShoppingCart();
+            refreshPage();
         }, () => {
             showGuestPage();
-            refreshPage()
+            getShoppingCart();
+            refreshPage();
         });
     });
 }
