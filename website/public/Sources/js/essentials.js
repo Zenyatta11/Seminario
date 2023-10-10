@@ -163,6 +163,8 @@ function setPage(title, func) {
     func(document.getElementById("content"), document.getElementById("sidebar-content"));
     document.getElementById("content").hidden = false;
     document.getElementById("sidebar-content").hidden = false;
+    
+    getShoppingCart();
     parseTranslations();
 }
 
