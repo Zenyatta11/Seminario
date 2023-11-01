@@ -20,7 +20,7 @@ class ProductHandler {
 
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
         switch($subsection) {
-            case "get": return $this->getProducts($action);
+            case "get": return $this->getProducts($action, $data['name'] ?? "");
             default: return $this->doUncategorized($action, $data);
         }
     }
@@ -40,9 +40,12 @@ class ProductHandler {
         }
     }
 
-    private function getProducts(string $urlId): ResponseDTO {
+    private function getProducts(string $urlId, $query): ResponseDTO {
         $matches = Array();
-        if($urlId == "featured") {
+
+        if($urlId == "search") {
+            return new ResponseDTO($this->controller->getProductsByQuery($query));
+        } else if($urlId == "featured") {
             return new ResponseDTO($this->controller->getFeaturedProducts());
         } else if($urlId == "offers") {
             return new ResponseDTO($this->controller->getDiscountProducts());
@@ -130,5 +133,7 @@ class ProductHandler {
             floatval($height), floatval($length), $state, htmlentities($name), htmlentities($description)
         ));
     }
+
+    
 
 }

@@ -1,31 +1,15 @@
 var isLoggedIn = false;
-
-function getUsername(success, fail) {
-    doPost('users/get',
-    { 
-        'fields': 'username'
-    }
-    ).then((response) => response.json())
-    .then((json) => {
-            if(json.status_code === 200) {
-                isLoggedIn = true;
-                success(json.data.username);
-            } else {
-                isLoggedIn = false;
-                fail(json.data);
-            }
-        }
-    );
-}
+var userData = {};
 
 function getUsersName(success, fail) {
     doPost('users/get',
-    { 
-        'fields': 'name'
-    }
+        { 
+            'fields': 'name;address;dni'
+        }
     ).then((response) => response.json())
     .then((json) => {
             if(json.status_code === 200) {
+                userData = json.data;
                 isLoggedIn = true;
                 success(json.data.name);
             } else {
@@ -42,6 +26,7 @@ function doUserLogout() {
     ).then((response) => response.json())
     .then(() => {
         getUsersName((name) => {
+            userData = {};
             showUserPage(name);
             pageLoader();
             getShoppingCart();

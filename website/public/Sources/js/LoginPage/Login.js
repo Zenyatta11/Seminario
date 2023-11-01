@@ -91,7 +91,7 @@ function doLogin() {
 				setPage('', Index_Load);
 			} else if(json.status_code === 403) {
 				statusText = ""; 
-				errors = json.data.split(';');
+				errors = json.data.message.split(';');
 
 				errors.forEach((item) => {
 					statusText = statusText + getKeyFromJson(language, fallbackLanguage, 'errors.login.' + item) + "<br>";
@@ -102,7 +102,7 @@ function doLogin() {
 				document.getElementById("login-submit-button").disabled = false;
 			} else if(json.status_code === 400) {
 				statusText = ""; 
-				errors = json.data.split(';');
+				errors = json.data.message.split(';');
 
 				errors.forEach((item) => {
 					statusText = statusText + getKeyFromJson(language, fallbackLanguage, 'errors.login.' + item) + "<br>";
@@ -110,8 +110,70 @@ function doLogin() {
 
 				document.getElementById("status-bar").innerHTML = statusText;
 
-				setTimeout(() => navigateToPage('/', 'context.common.page.title', Index_Load), 5000);
+				if(errors.find(function(str) { return str == "ALREADY_LOGGED_IN"; }))
+					setTimeout(() => navigateToPage('/', 'context.common.page.title', Index_Load), 5000);
+				else 
+					document.getElementById("login-submit-button").disabled = false;
 			}
 		}
 	);
+}
+
+
+function Administration_Index_Load(main) {
+	main.innerHTML = `<article class="post-11798 page type-page status-publish hentry">
+				
+	<h2 class="entry-title" style="display: none;">Detalles de la cuenta</h2><span class="vcard" style="display: none;"><span class="fn"><a href="/author/rayocreativo/" title="Entradas de Rayo Creativo" rel="author">Rayo Creativo</a></span></span><span class="updated" style="display:none">2018-05-24T04:14:12-03:00</span>
+	<div class="page-content">
+		<div class="woocommerce">
+<nav class="woocommerce-MyAccount-navigation">
+<h5 class="font-weight-bold text-md text-uppercase pt-1 m-b-sm">Administración</h5>
+<ul>
+		<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--dashboard">
+					<a href="/perfil/">Escritorio</a>
+</li>
+		<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--orders">
+					<a href="/perfil/pedido/">Usuarios</a>
+</li>
+<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+<a href="/perfil/descargas/">Productos</a>
+</li>
+<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+<a href="/perfil/descargas/">Stock</a>
+</li>
+<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+					<a href="/perfil/descargas/">Categorias</a>
+</li>
+<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+					<a href="/perfil/descargas/">Notificaciones</a>
+</li>
+		<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-address">
+					<a href="/perfil/direcciones/">Pedidos</a>
+</li>
+		<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-account is-active">
+					<a href="/perfil/cuenta/">Ajustes</a>
+</li>
+		<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout">
+					<a href="/perfil/cerrar-sesion/?_wpnonce=503df0b36e">Reportes</a>
+</li>
+</ul>
+</nav>
+
+
+
+<div class="woocommerce-MyAccount-content">
+<div class="align-left">
+<div class="box-content">
+	<div class="woocommerce-notices-wrapper"></div>
+<h3 class="account-sub-title mb-4 mt-2"><i class="porto-icon-user-2 align-middle m-r-sm"></i>Administración</h3>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+</article>`;
 }

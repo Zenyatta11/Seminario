@@ -1,5 +1,7 @@
 
 function getShoppingCart() {
+    if(window.location.pathname === '/checkout') return;
+
     doPost('orders/get', { })
     .then((response) => response.json())
     .then((json) => {
@@ -17,7 +19,7 @@ function getShoppingCart() {
                         <div id="cart-content" class="cart-popup widget_shopping_cart">
                             <div class="widget_shopping_cart_content">
                                 <div class="total-count text-v-dark clearfix"><span id="cart-items-count-text">0 ITEMS</span>
-                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="/profile/orders" onclick="event.preventDefault(); navigateToPage('/profile/orders/', 'pages.profile.titles.profiles.orders', Profile_Index_Load);">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                                 </div>
                                 <ul class="cart_list product_list_widget scrollbar-inner ">
                                     <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
@@ -34,7 +36,7 @@ function getShoppingCart() {
                         <div class="widget_shopping_cart_content" style="opacity: 1;">
                             <div class="total-count text-v-dark clearfix">
                                 <span id="cart-items-count-text">` + json.data.products.length + ` ITEM` + (json.data.products.length == 1 ? '' : 'S') + `</span>
-                                <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="/profile/orders" onclick="event.preventDefault(); navigateToPage('/profile/orders/', 'pages.profile.titles.profiles.orders', Profile_Index_Load);">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                             </div>
 
                             <ul class="cart_list product_list_widget scrollbar-inner ">`;
@@ -87,38 +89,49 @@ function getShoppingCart() {
                             </p>
 
                             <p class="woocommerce-mini-cart__buttons buttons">
-                                <a href="#0" class="button wc-forward translate" key="cart.view">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
-                                <a href="javascript:;" onclick="CartDoCheckout()" class="button checkout wc-forward translate" key="cart.buy">` + getKeyFromJson(language, fallbackLanguage, "cart.buy") + `</a>
+                                <a href="/profile/orders" onclick="event.preventDefault(); navigateToPage('/profile/orders/', 'pages.profile.titles.profiles.orders', Profile_Index_Load);" class="button wc-forward translate" key="cart.view">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                <a href="/checkout" onclick="event.preventDefault(); navigateToPage('/checkout', 'checkout.title', Checkout_Cart_Load);" class="button checkout wc-forward translate" key="cart.buy">` + getKeyFromJson(language, fallbackLanguage, "cart.buy") + `</a>
                             </p>
                         </div>
                     </div>`;
             }
             document.getElementById("cart-icon").innerHTML = cart;
-        } else if(json.status_code == 400 && json.data.message == "NO_ORDER") {
-            document.getElementById("cart-icon").innerHTML = `
-                <div id="mini-cart" class="mini-cart minicart-arrow-alt">
-                    <div class="cart-head">
-                        <span class="cart-icon">
-                            <i style="font-size: xx-large" class="icon-shopping-cart"></i>
-                            <span style="top: -15px;" class="cart-items">0</span>
-                        </span>
-                        <span class="cart-items-text">
-                            <i class="icon-shopping-cart"></i>
-                        </span>
-                    </div>
-                    <div class="cart-popup widget_shopping_cart">
-                        <div class="widget_shopping_cart_content">
-                            <div class="total-count text-v-dark clearfix"><span id="cart-items-count-text">0 ITEMS</span>
-                                <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
-                            </div>
-                            <ul class="cart_list product_list_widget scrollbar-inner ">
-                                <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
-                                    ` + getKeyFromJson(language, fallbackLanguage, "cart.empty") + `
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>`;
+        } else if(json.status_code == 400) {
+            if(json.data.message == "USER_HAS_NO_ORDER") {
+                doPost('orders/buy/', { })
+                .then((response) => response.json())
+                .then((json) => {
+                    if(json.status_code == 200) getShoppingCart();
+                    else 
+                        document.getElementById("cart-icon").innerHTML = `
+                            <div id="mini-cart" class="mini-cart minicart-arrow-alt">
+                                <div class="cart-head">
+                                    <span class="cart-icon">
+                                        <i style="font-size: xx-large" class="icon-shopping-cart"></i>
+                                        <span style="top: -15px;" class="cart-items">0</span>
+                                    </span>
+                                    <span class="cart-items-text">
+                                        <i class="icon-shopping-cart"></i>
+                                    </span>
+                                </div>
+                                <div class="cart-popup widget_shopping_cart">
+                                    <div class="widget_shopping_cart_content">
+                                        <div class="total-count text-v-dark clearfix"><span id="cart-items-count-text">0 ITEMS</span>
+                                            <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="/profile/orders" onclick="event.preventDefault(); navigateToPage('/profile/orders/', 'pages.profile.titles.profiles.orders', Profile_Index_Load);">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                        </div>
+                                        <ul class="cart_list product_list_widget scrollbar-inner ">
+                                            <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
+                                                ` + getKeyFromJson(language, fallbackLanguage, "cart.empty") + `
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>`;
+                });
+            } else {
+                cartIcon = document.getElementById("mini-cart");
+                if(cartIcon) cartIcon.innerHTML = ``;
+            }
         }
     });
 }
@@ -136,7 +149,7 @@ function updateCart() {
                         <div class="cart-popup widget_shopping_cart">
                             <div class="widget_shopping_cart_content">
                                 <div class="total-count text-v-dark clearfix"><span>0 ITEMS</span>
-                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="#0">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
+                                    <a class="text-v-dark pull-right text-uppercase translate" key="cart.view" href="/profile/orders" onclick="event.preventDefault(); navigateToPage('/profile/orders/', 'pages.profile.titles.profiles.orders', Profile_Index_Load);">` + getKeyFromJson(language, fallbackLanguage, "cart.view") + `</a>
                                 </div>
                                 <ul class="cart_list product_list_widget scrollbar-inner ">
                                     <li class="woocommerce-mini-cart__empty-message empty translate" key="cart.empty"> 
@@ -261,13 +274,5 @@ function AddAmount(id, price) {
             updateCart();
             refreshPage();
         }
-    });
-}
-
-function CartDoCheckout() {
-    doPost('orders/checkout/', { })
-    .then((response) => response.json())
-    .then((json) => {
-        if(json.status_code == 200) window.location = json.data;
     });
 }

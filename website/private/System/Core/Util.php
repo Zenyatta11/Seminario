@@ -24,7 +24,7 @@ class Util {
 		return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
 	}
 
-	public static function ARRAY_TO_SEARCH_TREE(Array $data): Array {
+	public static function ARRAY_TO_SEARCH_TREE(Array $data): SearchNode {
 		$returnTree = new SearchNode(Array(), null);
 
 		foreach($data as $key => $value) {

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace System\Miscellaneous;
+
 use System\Core\Database\Repository;
 use System\Core\Exceptions\DatabaseWriteException;
 use System\Core\Exceptions\InvalidArgumentException;
@@ -13,6 +14,7 @@ use System\Models\Category;
 use System\Models\City;
 use System\Models\Province;
 use System\Models\Subcategory;
+use System\Router;
 
 class MiscRepository extends Repository{
 
@@ -29,6 +31,27 @@ class MiscRepository extends Repository{
     public function checkCategoryExistsById(int $id): bool {
 		$statement = "SELECT name FROM categories WHERE category_id=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
+
+        return ($result->num_rows != 0);
+	}
+
+    public function checkAddressExistsById(int $id): bool {
+		$statement = "SELECT address_id FROM addresses WHERE address_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return ($result->num_rows != 0);
+	}
+
+    public function checkProvinceExistsById(int $id): bool {
+		$statement = "SELECT name FROM provinces WHERE province_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return ($result->num_rows != 0);
+	}
+
+    public function verifyCityId(int $provinceId, int $cityId): bool {
+		$statement = "SELECT name FROM cities WHERE city_id=? AND province=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($cityId, $provinceId));
 
         return ($result->num_rows != 0);
 	}
@@ -85,9 +108,12 @@ class MiscRepository extends Repository{
         return $returnValue;
 	}
 
-    public function getAddressById(int $id): Address | null {
-		$statement = "SELECT * FROM addresses WHERE address_id=? LIMIT 1;";
-        $result = $this->connection->execute_query($statement);
+    public function getActiveAddressesByUserId(int $userId): Address | null {
+		$statement = "
+            SELECT a.* 
+            FROM addresses a, users u
+            WHERE u.user_id=? AND u.active_address=a.address_id;";
+        $result = $this->connection->execute_query($statement, Array($userId));
         if($result->num_rows === 0) return null;
 
         $data = $result->fetch_assoc();
@@ -100,7 +126,26 @@ class MiscRepository extends Repository{
             $this->getCityById($data['city_id']),
             $data['number'],
             $data['street'],
-            $data['extra']
+            $data['extra'] ?? ""
+        );
+	}
+
+    public function getAddressById(int $id): Address | null {
+		$statement = "SELECT * FROM addresses WHERE address_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+        if($result->num_rows === 0) return null;
+
+        $data = $result->fetch_assoc();
+
+        return new Address(
+            $data['address_id'],
+            $data['user_id'],
+            $data['zip_code'],
+            $this->getProvinceById($data['province_id']),
+            $this->getCityById($data['city_id']),
+            $data['number'],
+            $data['street'],
+            $data['extra'] ?? ""
         );
 	}
 
@@ -212,7 +257,7 @@ class MiscRepository extends Repository{
             return $deleteSubCategories && $deleteCategory;
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
     }
 
@@ -227,7 +272,7 @@ class MiscRepository extends Repository{
             return $this->connection->commit();
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
     }
 
@@ -252,7 +297,20 @@ class MiscRepository extends Repository{
             return $this->connection->commit();
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
+        }
+    }
+
+    public function deleteAddress(Address $address): bool {
+        $this->connection->begin_transaction();
+
+        try {
+            $statement = "DELETE FROM addresses WHERE address_id=?";
+            $this->connection->execute_query($statement, Array($address->getId()));
+            return $this->connection->commit();
+        } catch(\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
     }
 
@@ -270,14 +328,69 @@ class MiscRepository extends Repository{
             return $this->connection->commit();
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
+    }
+
+    public function updateAddress(int $addressId, int $provinceId, int $cityId, int $zipCode, string $street, int $number, string $extra): bool {
+        if($this->getAddressById($addressId) === null) throw new InvalidArgumentException("ADDRESS_NOT_FOUND");
+
+        $this->connection->begin_transaction();
+
+        try {
+            $statement = "
+                UPDATE addresses
+                SET 
+                    zip_code=?,
+                    province_id=?,
+                    city_id=?,
+                    number=?,
+                    street=?,
+                    extra=?
+                WHERE address_id=? AND user_id=?";
+            $this->connection->execute_query($statement, 
+                Array(
+                    $zipCode,
+                    $provinceId,
+                    $cityId,
+                    $number,
+                    $street,
+                    $extra,
+                    $addressId,
+                    Router::$CURRENT_USER->getId()
+                )
+            );
+
+            return $this->connection->commit();
+        } catch(\mysqli_sql_exception $exception) {
+            $this->connection->rollback();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
+        }
+    }
+
+    public function createAddress(int $provinceId, int $cityId, int $zipCode, string $street, int $number, string $extra): bool | int {
+        $statement = "
+            INSERT INTO addresses (user_id, zip_code, province_id, city_id, number, street, extra)
+            VALUES(?,?,?,?,?,?,?);";
+        if($this->connection->execute_query($statement, 
+            Array(
+                Router::$CURRENT_USER->getId(),
+                $zipCode,
+                $provinceId,
+                $cityId,
+                $number,
+                $street,
+                $extra
+            )
+        )) return $this->connection->insert_id;
+        throw new DatabaseWriteException($this->connection->error);
     }
 
     private function deleteSubCategoriesByCategoryId(int $categoryId): bool {
         $statement = "DELETE FROM subcategories WHERE category_id=?";
         return $this->connection->execute_query($statement, Array($categoryId));
     }
+    
 }
 
 ?>

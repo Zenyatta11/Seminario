@@ -1,5 +1,4 @@
 <?php
-	use System\Redistributable\MercadoPago\MercadoPagoApi;
 	use System\Router;
 	use System\Core\Domain\Util\HttpException;
 
@@ -37,6 +36,9 @@
 		header('Content-Disposition: inline; filename="' . $action . '.png"');
 		die($router->getResponse($section, $subsection, $action)->getData());
 	} else {
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 		header('Content-type: application/json');
 		die($router->getResponse($section, $subsection, $action)->jsonify());
 	}

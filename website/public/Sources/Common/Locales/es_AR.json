@@ -8,7 +8,10 @@
         "login": "Iniciar sesión",
         "logout": "Salir",
         "register": "Registrarse",
-        "search": "Buscar...",
+        "search": {
+            "placeholder": "Buscar...",
+            "empty": "Presione Enter para buscar"
+        },
         "header": {
             "home": "Inicio",
             "featured": "Destacados",
@@ -39,10 +42,63 @@
             "buy": "Agregar al Carrito",
             "description": "Descripción",
             "specifications": "Información Adicional",
-            "reviews": "Reseñas",
-            "questions": "Consultas",
+            "reviews": {
+                "title": "Reseñas",
+                "none": "No hay reseñas para mostrar."
+            },
+            "questions": {
+                "title": "Consultas",
+                "none": "No hay consultas para mostrar. Sé el primero!"
+            },
             "weight": "Peso",
             "size": "Dimensiones"
+        },
+        "profile": {
+            "titles": {
+                "addresses": "Domicilios",
+                "orders": "Pedidos",
+                "profile": "Perfil",
+                "reviews": "Reseñas",
+                "questions": "Consultas",
+                "dashboard": "Escritorio",
+                "notifications": "Notificaciones",
+                "logout": "Cerrar Sesión",
+                "account": "Cuenta"
+            },
+            "orders": {
+                "products": "Productos",
+                "date": "Fecha",
+                "shipping": "Envío",
+                "total": "Total",
+                "state": "Estado",
+                "empty": "No hay contenido para mostrar"
+            },
+            "notifications": {
+                "empty": "No hay notificaciones configuradas.",
+                "products": "Producto",
+                "trigger": "Tipo de Aviso",
+                "triggers": {
+                    "NEW_STOCK": "Stock Ingresado",
+                    "NO_STOCK": "Faltante",
+                    "DISCOUNT": "Oferta"
+                }
+            },
+            "questions": {
+                "empty": "No realizó consultas en productos.",
+                "products": "Producto",
+                "queries": "Consultas"
+            },
+            "reviews": {
+                "empty": "No realizó reseñas en productos.",
+                "products": "Producto",
+                "review": "Reseña"
+            },
+            "account": {
+                "name": "Nombre Completo",
+                "username": "Nombre de usuario (público)",
+                "dni": "DNI / CUIT",
+                "email": "E-Mail"
+            }
         }
     },
     "register": {
@@ -75,9 +131,14 @@
             "INVALID_EMAIL": "El email es inválido.",
             "PASSWD_MISMATCH": "Las contraseñas no coinciden.",
             "EMAIL_IN_USE": "El email ya esta en uso.",
+            "USERNAME_IN_USE": "El nombre de usuario ya esta en uso.",
             "PASSWD_REQUIRED": "Se requiere una contraseña para registrarse.",
             "NAME_TOO_LONG": "El nombre es muy largo.",
             "USERNAME_TOO_LONG": "El nombre de usuario es muy largo."
+        },
+        "checkout": {
+            "TOO_BIG": "El pedido es muy grande, comuníquese con nosotros o elimine items.",
+            "NO_STOCK": "Uno o más productos en su pedido no estan disponibles en la cantidad deseada."
         }
     },
     "index": {
@@ -99,5 +160,55 @@
         "discounts": "Los descuentos se calculan al finalizar el checkout.",
         "empty": "Su carrito se encuentra vacío.",
         "delete": "Eliminar"
+    },
+    "checkout": {
+        "title": "Finalizar Compra",
+        "address": {
+            "title": "Domicilios",
+            "new": "Nuevo Domicilio",
+            "select": {
+                "province": "Elegir provincia...",
+                "city": "Elegir localidad..."
+            },
+            "province": "Provincia",
+            "nocity": "Seleccione una provincia",
+            "city": "Localidad",
+            "street": "Calle",
+            "streetnumber": "N°",
+            "dni": "DNI",
+            "extra": "Extra",
+            "save": "Guardar",
+            "modify": "Editar",
+            "cancel": "Cancelar",
+            "delete": "Eliminar",
+            "shipping": "Cotizar Envío",
+            "shippingfetch": "Cotizando Envío...",
+            "continue": "Continuar a Pagar",
+            "zipcode": "Código Postal"
+        },
+        "header": {
+            "products": "Confirmar Productos",
+            "shipping": "Cotizar Envío",
+            "payments": "Pagos",
+            "confirmation": "Confirmación"
+        },
+        "products": {
+            "product": "Artículo",
+            "price": "Precio",
+            "amount": "Cantidad",
+            "available": "Disponibles",
+            "subtotal": "Subtotal",
+            "totals": {
+                "subtotal": "Subtotal: ",
+                "discounts": "Descuentos: ",
+                "totals": "Total: ",
+                "shipping": "Continuar al Envío"
+            }
+        },
+        "finish": {
+            "products": "Total de Productos: $",
+            "shipping": "Costo del Envio: $",
+            "total": "Total a Pagar: $"
+        }
     }
 }

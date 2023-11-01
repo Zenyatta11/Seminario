@@ -129,8 +129,8 @@ function Product_Load(main) {
                         style="display: block; width: 100%;">
                         <ul class="resp-tabs-list" role="tablist">
                             <li class="description_tab resp-tab-product resp-tab-active" id="tab-title-description" onclick="toggleTab(this);"><span class="translate" key="pages.product.description">Disponibilidad</span></li>
-                            <li class="additional_information_tab resp-tab-product" id="tab-title-additional_information" onclick="toggleTab(this);"><span class="translate" key="pages.product.reviews">Disponibilidad</span></li>
-                            <li class="product_enquiry_tab resp-tab-product" id="tab-title-product_enquiry" onclick="toggleTab(this);"><span class="translate" key="pages.product.questions">Consulta de Producto</span></li>
+                            <li class="additional_information_tab resp-tab-product" id="tab-title-additional_information" onclick="toggleTab(this);"><span class="translate" key="pages.product.reviews.title">Disponibilidad</span></li>
+                            <li class="product_enquiry_tab resp-tab-product" id="tab-title-product_enquiry" onclick="toggleTab(this);"><span class="translate" key="pages.product.questions.title">Consulta de Producto</span></li>
                         </ul>
 
                         <div class="resp-tabs-container">
@@ -163,31 +163,53 @@ function Product_Load(main) {
                             </div>
                             <h2 class="resp-accordion" role="tab">
                                 <span class="resp-arrow"></span>
-                                <span class="translate" key="pages.product.questions">Consulta de Producto</span>
+                                <span class="translate" key="pages.product.questions.title">Consulta de Producto</span>
                             </h2>
                             <h2 class="resp-accordion" role="tab">
                                 <span class="resp-arrow"></span>
-                                <span class="translate" key="pages.product.reviews">Reseñas</span>
+                                <span class="translate" key="pages.product.reviews.title">Reseñas</span>
                             </h2>
                             <div class="tab-content resp-tab-content" id="tab-additional_information">
-                                todo
+                                <h2><span class="translate" key="pages.product.description">Descripción</span></h2>
+                                <p><strong>` + product.name + `</strong></p>
+                                <p>` + product.description + `</p>
+                                <hr>
+                                <h2><span class="translate" key="pages.product.reviews.title">Información Adicional</span></h2>
+                                <table class="woocommerce-product-attributes shop_attributes table table-striped">
+                                    <tbody>
+                                        <tr class="woocommerce-product-attributes-product woocommerce-product-attributes-product--weight">
+                                            <td colspan="2" class="woocommerce-product-attributes-json.data__value translate" key="pages.product.reviews.none">No hay reseñas para mostrar.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="tab-content resp-tab-content" id="tab-product_enquiry">
-                                <h2><span class="translate" key="pages.product.questions">Consulta de Producto</span></h2>
-                                todo
+                                <h2><span class="translate" key="pages.product.description">Descripción</span></h2>
+                                <p><strong>` + product.name + `</strong></p>
+                                <p>` + product.description + `</p>
+                                <hr>
+                                <h2><span class="translate" key="pages.product.questions.title">Información Adicional</span></h2>
+                                <table class="woocommerce-product-attributes shop_attributes table table-striped">
+                                    <tbody>
+                                        <tr class="woocommerce-product-attributes-product woocommerce-product-attributes-product--weight">
+                                            <td colspan="2" class="woocommerce-product-attributes-json.data__value translate" key="pages.product.questions.none">No hay consultas para mostrar.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <h2 class="resp-accordion" role="tab" aria-controls="tab_json.data-1">
                                 <span class="resp-arrow"></span>
-                                <span class="translate" key="pages.product.reviews">Reseñas</span>
+                                <span class="translate" key="pages.product.reviews.title">Reseñas</span>
                             </h2>
                             <div class="tab-content resp-tab-content" id="tab-product_enquiry" aria-labelledby="tab_json.data-2">
-                                <h2><span class="translate" key="pages.product.reviews">Reseñas</span></h2>
+                                <h2><span class="translate" key="pages.product.reviews.title">Reseñas</span></h2>
                             </div>
                         </div>
                     </div>
                 </div>`;
 
             loadProductCartButtons(product.id, product.stock, product.price);
+            toggleTab(document.getElementById("tab-title-description"));
             parseTranslations();
         }
     });

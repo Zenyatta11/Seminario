@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace System\Redistributable\Enviopack;
 
+use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\ServerException;
 use System\Models\Address;
 use System\Models\Order;
 use System\Models\User;
 use System\Orders\OrdersController;
 use System\Users\UserController;
+use System\Core\Prefs;
 
 class Enviopack {
     private string $token;
@@ -22,8 +24,8 @@ class Enviopack {
     }
 
     private function fetchToken(): string {
-        $apiKey = '39557825c13efa5d28b0dfbb4ec21f8cf2e2823d';
-        $secretKey = '5ed2b662a7c942729cbeda48bde22137d15611b1';
+        $apiKey = Prefs\Common::$SETTINGS['ep_api_key'];
+        $secretKey = Prefs\Common::$SETTINGS['ep_secret_key'];
 
         $url = 'https://api.enviopack.com/auth';
 
@@ -77,7 +79,7 @@ class Enviopack {
             "provincia" => $address->getProvince()->getISO3166(),
             "codigo_postal" => $address->getZipcode(),
             "peso" => $weight,
-            "paquetes" => implode(";", $packages)
+            "paquetes" => implode(",", $packages)
         );
 
         $apiUrl = 'https://api.enviopack.com/cotizar/costo';
@@ -92,7 +94,8 @@ class Enviopack {
 
         if ($response === false) throw new ServerException(curl_error($curl));
         curl_close($curl);
-
+        
+        if(count(json_decode($response, true)) === 0) throw new InvalidArgumentException("TOO_BIG");
         preg_match_all('/"valor":(\d*.?\d*)/', $response, $values, PREG_PATTERN_ORDER);
         
         return floatval(max($values[1]));

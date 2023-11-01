@@ -12,13 +12,7 @@ abstract class Repository {
 
 	public function __construct() {
 		$this->connection = DatabaseController::CONNECT();
-        mysqli_autocommit($this->connection, true);
 	}
-
-    public function __destruct() {
-        if ($this->connection)
-            $this->connection->close();
-    }
 }
 
 ?>

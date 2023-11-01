@@ -4,12 +4,20 @@ function Catalog_Load(main) {
 
     const subcategoryRegex = /(\d+)-(\d+)_.*/;
     const categoryRegex = /(\d+)_.*/;
+    const searchRegex = /\/search\/(.*)/;
 
     let filter = 'all';
     const url = window.location.pathname;
     const subcategoryAndCategoryMatch = subcategoryRegex.exec(url);
+    const searchRegexMatch = searchRegex.exec(url);
 
-    if(subcategoryAndCategoryMatch) {
+    payload = { };
+    
+    if(searchRegexMatch) {
+        if(document.getElementById('search-field')) document.getElementById('search-field').value = searchRegexMatch[1];
+        filter = "search";
+        payload = { 'name': searchRegexMatch[1] };
+    } else if(subcategoryAndCategoryMatch) {
         filter = subcategoryAndCategoryMatch[0];
     } else {
         const categoryMatch = categoryRegex.exec(url);
@@ -25,7 +33,7 @@ function Catalog_Load(main) {
     if(pageParameter !== null) currentPage = parseInt(pageParameter[1]);
     if(currentPage === NaN) currentPage = 0;
 
-    doPost('products/get/' + filter, { })
+    doPost('products/get/' + filter, payload )
     .then((response) => response.json())
     .then((json) => {
         if(json.status_code === 200) {
@@ -118,7 +126,7 @@ function Catalog_Load(main) {
                                     <div class="add-links-wrap">
                                         <div class="add-links no-effect clearfix">
                                         ` + ProductUrl(item.product_id, item.name,`<i class="icon-search"></i><span class="translate" key="product.more">` + more + `</span>`, `viewcart-style-3 button product_type_simple view`) + `
-                                                ` + (item.in_cart ? `<a href="javascript:;"
+                                                ` + (item.in_cart || !isLoggedIn  ? `<a href="javascript:;"
                                                 style="background-color: #979696 !important;cursor: not-allowed;" class="viewcart-style-3 button product_type_simple buy_now"
                                                 rel="nofollow">` : `<a href="javascript:;" onclick="AddToCart(this, ` + item.product_id + `, 1);"
                                                 class="viewcart-style-3 button product_type_simple buy_now"

@@ -7,6 +7,8 @@ namespace System;
 use System\Auth\AuthController;
 use System\Core\Domain\DTO\ResponseDTO;
 use System\Core\Prefs;
+use System\Core\SystemRepository;
+use System\Core\Util;
 use System\Handlers\MiscellaneousHandler;
 use System\Handlers\OrdersHandler;
 use System\Handlers\ProductHandler;
@@ -22,6 +24,9 @@ class Router {
         private MiscellaneousHandler $miscHandler = new MiscellaneousHandler(),
         private ProductHandler $productHandler = new ProductHandler()
     ) {
+        $systemRepository = new SystemRepository();
+        $systemRepository->loadSettings();
+
         $authController = new AuthController();
         Router::$CURRENT_USER = $authController->getAuthenticatedUser();
     }
@@ -39,17 +44,26 @@ class Router {
     }
 
     public function getData(string $section, string $subsection, string $action): ResponseDTO {
+        $systemRepository = new SystemRepository();
+
         return new ResponseDTO(Array(
                 'common' => Array(
                     'page' => Array(
-                        'title' => "Page Title",
-                        'description' => "Page Description",
-                        'author' => 'Page Author'
+                        'title' => Prefs\Common::$SETTINGS['page_title'],
+                        'description' => Prefs\Common::$SETTINGS['page_description'],
+                        'author' => Prefs\Common::$SETTINGS['page_author'],
+                        'address' => Prefs\Common::$SETTINGS['contact_address'],
+                        'telephone1' => Prefs\Common::$SETTINGS['contact_telephone1'],
+                        'telephone2' => Prefs\Common::$SETTINGS['contact_telephone2'],
+                        'hours' => Prefs\Common::$SETTINGS['contact_hours'],
+                        'email' => Prefs\Common::$SETTINGS['contact_email'],
+                        'whatsapp' => Prefs\Common::$SETTINGS['contact_whatsapp']
                     ),
                     'header' => Array(
                         'welcomeText' => "Welcome %user%!",
                     ),
-                    'fallbackLocale' => "es_AR"
+                    'fallbackLocale' => Prefs\Common::$SETTINGS['fallback_locale'],
+                    'productSearchCache' => $systemRepository->getCachedProductTree()
                 ),
                 'register' => Array(
                     'passwd' => Array(

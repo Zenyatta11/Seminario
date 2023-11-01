@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 namespace System\Models;
+use JsonSerializable;
 use System\Miscellaneous\MiscController;
 use System\Models\States\ProductState;
-use System\Products\ProductController;
 
-class Product {
+class Product implements JsonSerializable {
 
     public function __construct(
         private int $id,
@@ -79,7 +79,7 @@ class Product {
         if($whitelist === null || in_array('weight', $whitelist)) $returnValue['weight'] = $this->getWeight();
         if($whitelist === null || in_array('price', $whitelist)) $returnValue['price'] = $this->getPrice();
         if($whitelist === null || in_array('stock', $whitelist)) $returnValue['stock'] = $this->getStock();
-        if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = ProductState::TO_STRING($this->getState());
+        if($whitelist === null || in_array('state', $whitelist)) $returnValue['state'] = ProductState::FROM_VALUE($this->getState());
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->getName();
         if($whitelist === null || in_array('description', $whitelist)) $returnValue['description'] = $this->getDescription();
         if($whitelist === null || in_array('variationId', $whitelist)) $returnValue['variationId'] = $this->getVariationId() ?? '';
@@ -93,6 +93,10 @@ class Product {
             $returnValue['subcategory'] = ($this->getSubCategory() === null ? '' : $this->getSubCategory()->toArray());
 
         return $returnValue;
+    }
+
+    public function jsonSerialize(): Array {
+        return $this->toArray();
     }
 
     public static function BUILD(Array $data): Product {

@@ -32,6 +32,16 @@ class ProductRepository extends Repository{
         return Product::BUILD($result->fetch_assoc());
 	}
 
+    public function getStockById(int $id): int | null {
+		$statement = "
+            SELECT stock
+            FROM products
+            WHERE product_id=?;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return $result->fetch_assoc()['stock'];
+	}
+
     public function getDiscountPriceById(int $id): float | null {
 		$statement = "SELECT price FROM offers WHERE product_id=? AND start_date<=NOW() LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
@@ -167,7 +177,7 @@ class ProductRepository extends Repository{
             return $this->connection->execute_query($statement, Array($id));
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
 	}
 
@@ -179,7 +189,7 @@ class ProductRepository extends Repository{
             return $this->connection->execute_query($statement, Array($id, $variationId));
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
 	}
 
@@ -343,6 +353,45 @@ class ProductRepository extends Repository{
             ORDER BY p.name";
 
         $result = $this->connection->execute_query($statement);
+        
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $returnData[] = $productArray;
+        }
+        
+        return $returnData;
+    }
+
+    public function getProductsByQuery(string $query): Array {
+        $productIdList = $this->getProductsInCart();
+
+        $statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                c.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.state='A' AND c.category_id=p.category_id AND p.name LIKE CONCAT('%',?,'%')
+            ORDER BY p.name";
+
+        $result = $this->connection->execute_query($statement, Array($query));
         
         $max = $result->num_rows;
         $returnData = Array();

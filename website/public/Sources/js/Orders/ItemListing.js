@@ -1,15 +1,5 @@
 function Orders_ItemListing_Load(main) {
     main.innerHTML = `
-    <style>
-        .table-totals td {
-            padding: 5px 5px;
-        }
-
-        .table-totals {
-            border-bottom: none !important;
-        }
-    </style>
-
     <div class="align-left">
   <div class="box-content">
     <div class="woocommerce-notices-wrapper"></div>

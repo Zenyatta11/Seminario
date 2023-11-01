@@ -2,29 +2,6 @@ function Address_Manager_Load(main) {
     document.getElementById("mini-cart")?.remove();
 
     main.innerHTML = `
-    <style>
-        .table-totals td {
-            padding: 5px 5px;
-        }
-
-        .table-totals {
-            border-bottom: none !important;
-        }
-
-        .standalone-list {
-            background-color: initial;
-        }
-
-        .standalone-list a span {
-            color: initial;
-        }
-
-        .standalone-list > li .delimiter::before {
-            content: "/ ";
-            position: relative;
-            right: -2px;
-        }
-    </style>
 <article class="post-11798 page type-page status-publish hentry">
 			<div class="page-content">
 				<div class="woocommerce">

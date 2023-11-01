@@ -8,7 +8,10 @@
         "login": "Login",
         "logout": "Logout",
         "register": "Register",
-        "search": "Search...",
+        "search": {
+            "placeholder": "Search...",
+            "empty": "Enter to search"
+        },
         "header": {
             "home": "Home",
             "featured": "Featured",
@@ -40,10 +43,63 @@
             "buy": "Add to Cart",
             "description": "Description",
             "specifications": "Additional Information",
-            "reviews": "Reviews",
-            "questions": "Questions",
+            "reviews": {
+                "title": "Reviews",
+                "none": "There are no ratings for this product."
+            },
+            "questions": {
+                "title": "Questions",
+                "none": "No one has asked a question yet. Be the first!"
+            },
             "weight": "Weight",
             "size": "Dimensions"
+        },
+        "profile": {
+            "titles": {
+                "addresses": "Addresses",
+                "orders": "Orders",
+                "profile": "Profile",
+                "reviews": "Ratings",
+                "questions": "Questions",
+                "dashboard": "Dashboard",
+                "notifications": "Notifications",
+                "logout": "Log out",
+                "account": "Account"
+            },
+            "orders": {
+                "products": "Products",
+                "date": "Date",
+                "shipping": "Shipping",
+                "total": "Total",
+                "state": "State",
+                "empty": "There is no content to show."
+            },
+            "notifications": {
+                "empty": "You do not have alerts configured.",
+                "products": "Product",
+                "trigger": "Trigger",
+                "triggers": {
+                    "NEW_STOCK": "New Stock",
+                    "NO_STOCK": "Sold Out",
+                    "DISCOUNT": "Sale"
+                }
+            },
+            "questions": {
+                "empty": "You have not asked questions about a product.",
+                "products": "Product",
+                "queries": "Question"
+            },
+            "reviews": {
+                "empty": "You have not reviewed a product.",
+                "products": "Product",
+                "review": "Review"
+            },
+            "account": {
+                "name": "Full name",
+                "username": "Username (public)",
+                "dni": "DNI / CUIT",
+                "email": "E-Mail"
+            }
         }
     },
     "register": {
@@ -76,9 +132,14 @@
             "INVALID_EMAIL": "The email provided is invalid.",
             "PASSWD_MISMATCH": "The passwords do not match.",
             "EMAIL_IN_USE": "The email is already in use.",
+            "USERNAME_IN_USE": "The username is already taken.",
             "PASSWD_REQUIRED": "A password is required.",
             "NAME_TOO_LONG": "The name provided is too long.",
             "USERNAME_TOO_LONG": "The username provided is too long."
+        },
+        "checkout": {
+            "TOO_BIG": "The order is too large. Please contact us or remove items from the order.",
+            "NO_STOCK": "The requested amount of one or more products is higher than the available stock."
         }
     },
     "index": {
@@ -100,5 +161,55 @@
         "discounts": "Discounts are calculated at checkout time.",
         "buy": "Checkout",
         "delete": "Remove"
+    },
+    "checkout": {
+        "title": "Checkout Order",
+        "address": {
+            "title": "Addresses",
+            "province": "Province",
+            "new": "New Address",
+            "select": {
+                "province": "Select province...",
+                "city": "Select city..."
+            },
+            "nocity": "Select a province",
+            "city": "City",
+            "street": "Street",
+            "streetnumber": "N°",
+            "dni": "ID",
+            "extra": "Extra",
+            "save": "Save",
+            "modify": "Edit",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "shipping": "Estimate Shipping",
+            "shippingfetch": "Estimating...",
+            "continue": "Checkout",
+            "zipcode": "Zip Code"
+        },
+        "header": {
+            "products": "Confirm Products",
+            "shipping": "Quote Shipping",
+            "payments": "Payment",
+            "confirmation": "Confirmation"
+        },
+        "products": {
+            "product": "Item",
+            "price": "Price",
+            "amount": "Quantity",
+            "available": "Stock",
+            "subtotal": "Subtotal",
+            "totals": {
+                "subtotal": "Subtotal: ",
+                "discounts": "Discounts: ",
+                "totals": "Total: ",
+                "shipping": "Continue to Shipping"
+            }
+        },
+        "finish": {
+            "products": "Product Total: $",
+            "shipping": "Shipping Estimate: $",
+            "total": "Total: $"
+        }
     }
 }

@@ -9,7 +9,7 @@ use System\Core\Domain\Util\HttpStatusCode;
 
 class DatabaseWriteException extends HttpException {
 
-	public function __construct() {
-		parent::__construct("DATABASE_WRITE_EXCEPTION", HttpStatusCode::SERVER_ERROR);
+	public function __construct($error = "") {
+		parent::__construct("DATABASE_WRITE_EXCEPTION: " . $error, HttpStatusCode::SERVER_ERROR);
 	}
 }

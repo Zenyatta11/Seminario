@@ -1,6 +1,8 @@
 var pageTitle;
 var pageFunc;
 
+const translationDebug = true;
+
 async function doPost(endpoint, data) {
     return fetch('/api/' + endpoint, {
         method: 'POST',
@@ -15,9 +17,11 @@ function getValueById(id) {
     return document.getElementById(id).value;
 }
 
-function getOptionsFromJson(select, data, keyValue, keyText) {
-    var returnValue = '<option value="" disabled selected>' + select + '</option>';
-    data.forEach((item) => returnValue = returnValue + '<option value="' + item[keyValue] + '">' + item[keyText] + '</option>');
+function getOptionsFromJson(select, data, keyValue, keyText, selectedId) {
+    var returnValue = "";
+    data.forEach((item) => returnValue = returnValue + '<option ' + (selectedId && item[keyValue] == selectedId ? 'selected ' : '') + 'value="' + item[keyValue] + '">' + item[keyText] + '</option>');
+    
+    if(returnValue === "" || !selectedId) returnValue = '<option value="" disabled selected>' + select + '</option>' + returnValue;
 
     return returnValue;
 }
@@ -60,7 +64,14 @@ function getCookie(cookieName) {
 }
 
 function refreshPage() {
-    setPage(pageTitle, pageFunc);
+    if(pageTitle.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, pageTitle) ?? pageTitle;
+    else document.title = getKeyFromJson(contextData, { }, pageTitle.replace("context.", "")) ?? pageTitle;
+
+    pageFunc(document.getElementById("content"), document.getElementById("sidebar-content"));
+    document.getElementById("content").hidden = false;
+    document.getElementById("sidebar-content").hidden = false;
+
+    parseTranslations();
 }
 
 function parseFromJSON(json, fallbackJson, key) {
@@ -71,7 +82,7 @@ function parseFromJSON(json, fallbackJson, key) {
             let attrib = element.getAttribute("attributename");
 
             if(json !== undefined && json[keys[0]] !== undefined) jsonNest = json[keys[0]];
-            else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+            else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined && !translationDebug) {
                 jsonNest = fallbackJson[keys[0]];
             }
 
@@ -160,11 +171,11 @@ function setPage(title, func) {
     if(title.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, title) ?? title;
     else document.title = getKeyFromJson(contextData, { }, title.replace("context.", "")) ?? title;
 
+    getShoppingCart();
     func(document.getElementById("content"), document.getElementById("sidebar-content"));
     document.getElementById("content").hidden = false;
     document.getElementById("sidebar-content").hidden = false;
-    
-    getShoppingCart();
+
     parseTranslations();
 }
 

@@ -6,16 +6,17 @@ namespace System\Redistributable\MercadoPago;
 use System\Models\Address;
 use System\Models\Order;
 use System\Models\User;
+use System\Core\Prefs;
 
 class MercadoPagoApi {
-    private string $accessToken = "APP_USR-4044403267233506-011314-ee1feb17008c08619d58e2096acd65ef-152454178";
-    private string $publicKey = "APP_USR-75172eaf-a531-4eba-97bb-f1d61a74f44b";
+    private string $accessToken;
 
     public function __construct( ) { 
+        $this->accessToken = Prefs\Common::$SETTINGS['mp_access_token'];
         require(__DIR__ . '/../vendor/autoload.php');
     }
 
-    public function getRedirect(Order $order, User $user, Address $address, float $montoEnvio): string {
+    public function getRedirect(Order $order, User $user, Address $address, float $montoEnvio, int $confirmationId): string {
         \MercadoPago\SDK::setAccessToken($this->accessToken);
         $preference = new \MercadoPago\Preference();
         
@@ -46,9 +47,9 @@ class MercadoPagoApi {
         $preference->auto_return = 'all';
         
         $preference->back_urls = array(
-            "success" => 'https://seminario.batatas.club/api/order/approved/' . hash("sha256", "ORDER" . $order->getId()),
-            "failure" => 'https://seminario.batatas.club/api/order/failed/' . hash("sha256", "ORDER" . $order->getId()),
-            "pending" => 'https://seminario.batatas.club/api/order/pending/' . hash("sha256", "ORDER" . $order->getId())
+            "success" => 'https://seminario.batatas.club/api/order/approved/' . hash("sha256", "ORDER" . $confirmationId),
+            "failure" => 'https://seminario.batatas.club/api/order/failed/' . hash("sha256", "ORDER" . $confirmationId),
+            "pending" => 'https://seminario.batatas.club/api/order/pending/' . hash("sha256", "ORDER" . $confirmationId)
         );
         
         $preference->items = $items;
