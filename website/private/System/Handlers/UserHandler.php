@@ -42,6 +42,8 @@ class UserHandler {
                     $data['passwdNew'] ?? "",
                     $data['passwdConfirm'] ?? "",
                     $data['email'] ?? "",
+                    $data['active_cart_id'] ?? "",
+                    $data['active_address_id'] ?? "",
                     $data['id'] ?? ""
                 );
 
@@ -72,6 +74,8 @@ class UserHandler {
         string $passwdNew,
         string $passwdConfirm,
         string $email,
+        string $activeCart,
+        string $activeAddress,
         string $id
     ): ResponseDTO {
         $error = Array();
@@ -79,8 +83,9 @@ class UserHandler {
         if(!empty($username) && !ctype_alnum($username)) $error[] = "INVALID_USERNAME";
         if(!empty($document) && !preg_match("/^(\d{6,8}|\d{2}-\d{6,8}-\d{1})$/", $username)) $error[] = "INVALID_DOCUMENT";
         if(!empty($name) && !ctype_alnum(str_replace(" ", "", $name))) $error[] = "INVALID_NAME";
-        if(!empty($name) && !is_numeric($permissions)) $error[] = "INVALID_NAME";
-        if(empty($passwdCurrent)) $error[] = "PASSWD_REQUIRED";
+        if(!empty($permissions) && !is_numeric($permissions)) $error[] = "INVALID_PERMISSIONS";
+        if(!empty($activeCart) && !is_numeric($activeCart)) $error[] = "INVALID_CART";
+        if(!empty($activeAddress) && !is_numeric($activeAddress)) $error[] = "INVALID_ADDRESS";
         if(!empty($passwdCurrent) && !Util::VALID_PASSWD($passwdCurrent)) $error[] = "INVALID_PASSWD";
         if(!empty($passwdNew) && !Util::VALID_PASSWD($passwdNew)) $error[] = "INVALID_NEW_PASSWD";
         if(!empty($passwdConfirm) && !Util::VALID_PASSWD($passwdConfirm)) $error[] = "INVALID_CONFIRM_PASSWD";
@@ -98,8 +103,10 @@ class UserHandler {
                 $passwdCurrent, 
                 $passwdNew, 
                 $passwdConfirm,
+                empty($activeCart) ? null : intval($activeCart),
+                empty($activeAddress) ? null : intval($activeAddress),
                 $email, 
-                intval($id)
+                empty($id) ? null : intval($id)
             )
         );
     }

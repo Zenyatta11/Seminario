@@ -71,6 +71,12 @@ https://yellowpencil.waspthemes.com/
 	color: rgb(209, 53, 55);
 }
 
+.entry-summary .price .woocommerce-Price-discount {
+	text-decoration: line-through;
+	font-size: x-large;
+	color: grey;
+}
+
 .product-categories .current-cat a {
 	color: rgb(209, 53, 55) !important;
 }
@@ -333,10 +339,6 @@ ul.products li.product-category .product-loop-title:hover {
 	color: #190000 !important;
 }
 
-#product-tab .resp-tabs-list .resp-tab-item:nth-child(2) {
-	display: none;
-}
-
 .header-top .container .header-left .share-links .share-instagram {
 	color: #ffffff !important;
 }
@@ -587,4 +589,107 @@ div .active .product .product-inner .product-image a .inner .container-image-and
 		padding-left: 5px !important;
 		padding-right: 5px !important;
 	}
+}
+
+.attribute {
+	color: #777 !important;
+}
+
+.table-totals td {
+	padding: 5px 5px;
+}
+
+.table-totals {
+	border-bottom: none !important;
+}
+
+.standalone-list {
+	background-color: initial;
+}
+
+.standalone-list a span {
+	color: initial;
+}
+
+.standalone-list > li .delimiter::before {
+	content: "/ ";
+	position: relative;
+	right: -2px;
+}
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.caption-text {
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.slider-active, .slider-dot:hover {
+  background-color: #717171;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+.orders-table td {
+	padding: 5px;
+}
+
+.orders-table i {
+	font-size: x-large;
+}
+
+.orders-table a {
+	margin: 5px;
+}
+
+input:disabled {
+	background-color: #c8c6c6 !important;
+}
+
+select:disabled {
+	background-color: #c8c6c6 !important;
+}
+
+textarea:disabled {
+	background-color: #c8c6c6 !important;
 }

@@ -7,18 +7,15 @@ async function getContextData(context = null) {
         }
     ).then((response) => response.json())
     .then((json) => {
-        console.log(json);
         contextData = json.data;
 		parseFromJSON(json.data, { }, "context");
 	});
 }
 
 function loadPageByURL() {
-    console.log(window.location.pathname);
 
     getUsersName((name) => {
         showUserPage(name);
-        getShoppingCart();
         pageLoader();
     }, () => {
         showGuestPage();
@@ -29,10 +26,8 @@ function loadPageByURL() {
 }
 
 function updateUserData(json) {
-    console.log(json);
     getUsersName((name) => {
         showUserPage(name);
-        getShoppingCart();
         pageLoader();
     }, () => {
         showGuestPage();
@@ -41,13 +36,20 @@ function updateUserData(json) {
 }
 
 function pageLoader() {
+    getShoppingCart();
     const url = window.location.pathname;
 
     if(url.includes('/catalog')) {
-        setPage('pages.catalog', Catalog_Load);
+        setPage('pages.catalog.title', Catalog_Load);
         return;
     } else if(url.includes('/product')) {
-        setPage('pages.product', Index_Load);
+        setPage('pages.product.title', Product_Load);
+        return;
+    } else if(url.includes('/search')) {
+        setPage('pages.catalog.title', Catalog_Load);
+        return;
+    } else if(url.includes('/profile')) {
+        setPage('pages.profile.titles.profile', Profile_Index_Load);
         return;
     }
 
@@ -55,6 +57,7 @@ function pageLoader() {
         case '/login': setPage('register.login', Login_Login_Load); break;
         case '/register': setPage('register.register', Login_Register_Load); break;
         case '/reset-password': setPage('register.resetpassword', Login_ResetPasswd_Load); break;
+        case '/checkout': setPage('checkout.title', Checkout_Cart_Load); break;
         default: setPage('pages.home', Index_Load); break;
     }
 }

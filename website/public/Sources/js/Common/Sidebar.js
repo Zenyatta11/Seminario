@@ -8,16 +8,14 @@ function Sidebar_GetCategories() {
             json.data.forEach((item) => {
                 list = list + `
                 <li class="cat-item cat-item-21 cat-parent">
-                    <a href="/catalog/` + item.category_id + `_` + item.url_name + `"
-                        onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `_` + item.url_name + `', 'pages.catalog', Catalog_Load);">` + item.name + `</a>
+                    ` + CategoryUrl(item.category_id, item.name) + `
                     ` + (item.subcategories.length === 0 ? `` : `<span class="toggle" onclick="toggleChildList(this)"></span>
                     <ul class="children">`);
 
                 item.subcategories.forEach((subitem) => {
                     list = list + `
                         <li class="cat-item cat-item-30">
-                            <a href="/catalog/` + item.category_id + `-` + subitem.subcategory_id + `_` + item.url_name + `-` + subitem.url_name + `"
-                                onclick="event.preventDefault(); navigateToPage('/catalog/` + item.category_id + `-` + subitem.subcategory_id + `_` + item.url_name + `-` + subitem.url_name + `', 'pages.catalog', Catalog_Load);">` + subitem.name + `</a>
+                            ` + SubcategoryUrl(item.category_id, item.name, subitem.subcategory_id, subitem.name) + `
                         </li>`;
                 });
                 list = list + `
@@ -44,21 +42,13 @@ function Sidebar_GetFeaturedProducts() {
                 
                 list = list + `
                 <li class="cat-item cat-item-21 cat-parent">
-                    <a class="product-image"
-                        href="/product/` + url + `"
-                        title="product title">
-                        <div class="inner">
-                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
-                        </div>
-                    </a>
+                    ` + ProductUrl(item.product_id, item.name, `
+                    <div class="inner">
+                        <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
+                    </div>
+                    `, `product-image`) + `
                     <div class="product-details">
-                        <a class="product-image"
-                            style="width: 100%"
-                            href="/product/` + url + `" 
-                            title="` + item.name + `" 
-                            onclick="event.preventDefault(); navigateToPage('/products/` + url + `', 'pages.product', Index_Load);">
-                            <span class="product-title">` + item.name + `</span>
-                        </a>
+                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, ``) + `
                         <div class="star-rating" title="" data-bs-original-title="0">
                             <span style="width:0%">
                                 <strong class="rating">0</strong> de 5
@@ -89,21 +79,13 @@ function Sidebar_GetMostSoldProducts() {
                 
                 list = list + `
                 <li class="cat-item cat-item-21 cat-parent">
-                    <a class="product-image"
-                        href="/product/` + url + `"
-                        title="product title">
-                        <div class="inner">
-                            <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
-                        </div>
-                    </a>
+                    ` + ProductUrl(item.product_id, item.name, `
+                    <div class="inner">
+                        <img onerror="this.src='/Media/General/product-thumb.png'" src="/Media/Products/` + item.product_id + `/0.png" alt="" width="85" height="85">
+                    </div>
+                    `, `product-image`) + `
                     <div class="product-details">
-                        <a class="product-image"
-                            style="width: 100%"
-                            href="/product/` + url + `" 
-                            title="` + item.name + `" 
-                            onclick="event.preventDefault(); navigateToPage('/products/` + url + `', 'pages.product', Index_Load);">
-                            <span class="product-title">` + item.name + `</span>
-                        </a>
+                        ` + ProductUrl(item.product_id, item.name, `<span class="product-title">` + item.name + `</span>`, ``) + `
                         <div class="star-rating" title="" data-bs-original-title="0">
                             <span style="width:0%">
                                 <strong class="rating">0</strong> de 5

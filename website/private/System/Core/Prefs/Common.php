@@ -10,6 +10,8 @@ class Common {
 	public const PASSWD_LENGTH_MAX = 32;
 
 	public const SEARCH_STRING_MIN = 3;
+	public static $SETTINGS = Array();
+	public static $SYSTEM_USER = Array();
 }
 
 ?>

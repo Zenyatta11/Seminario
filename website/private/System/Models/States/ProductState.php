@@ -19,11 +19,11 @@ class ProductState {
 		}
 	}
 
-	public static function FROM_CHAR(string $state): string {
+	public static function FROM_VALUE(string $state): string {
 		switch($state) {
-			case "A": return ProductState::ENABLED;
-			case "B": return ProductState::PAUSED;
-			case "C": return ProductState::DELETED;
+			case ProductState::ENABLED: return "ENABLED";
+			case ProductState::PAUSED: return "PAUSED";
+			case ProductState::DELETED: return "DELETED";
 			default: throw new InvalidArgumentException("INVALID_PRODUCT_STATE");
 		}
 	}

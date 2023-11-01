@@ -1,8 +1,3 @@
-var fallbackLanguage = {};
-var language = {};
-const fallbackLocale = "es_AR";
-
-loadJSON("/Sources/Common/Locales/es_AR.json", function(data) { fallbackLanguage = data; },'jsonp');
 
 function loadLanguage(select) {
     var locale = localStorage.getItem("locale");

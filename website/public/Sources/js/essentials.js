@@ -1,3 +1,7 @@
+var pageTitle;
+var pageFunc;
+
+const translationDebug = true;
 
 async function doPost(endpoint, data) {
     return fetch('/api/' + endpoint, {
@@ -13,9 +17,11 @@ function getValueById(id) {
     return document.getElementById(id).value;
 }
 
-function getOptionsFromJson(select, data, keyValue, keyText) {
-    var returnValue = '<option value="" disabled selected>' + select + '</option>';
-    data.forEach((item) => returnValue = returnValue + '<option value="' + item[keyValue] + '">' + item[keyText] + '</option>');
+function getOptionsFromJson(select, data, keyValue, keyText, selectedId) {
+    var returnValue = "";
+    data.forEach((item) => returnValue = returnValue + '<option ' + (selectedId && item[keyValue] == selectedId ? 'selected ' : '') + 'value="' + item[keyValue] + '">' + item[keyText] + '</option>');
+    
+    if(returnValue === "" || !selectedId) returnValue = '<option value="" disabled selected>' + select + '</option>' + returnValue;
 
     return returnValue;
 }
@@ -25,7 +31,6 @@ function loadJSON(path, success, error) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                console.log(JSON.parse(xhr.responseText));
                 success(JSON.parse(xhr.responseText));
             }
             else {
@@ -58,6 +63,17 @@ function getCookie(cookieName) {
     return "";
 }
 
+function refreshPage() {
+    if(pageTitle.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, pageTitle) ?? pageTitle;
+    else document.title = getKeyFromJson(contextData, { }, pageTitle.replace("context.", "")) ?? pageTitle;
+
+    pageFunc(document.getElementById("content"), document.getElementById("sidebar-content"));
+    document.getElementById("content").hidden = false;
+    document.getElementById("sidebar-content").hidden = false;
+
+    parseTranslations();
+}
+
 function parseFromJSON(json, fallbackJson, key) {
     Array.from(document.getElementsByClassName(key))
     .forEach((element) => {
@@ -66,7 +82,7 @@ function parseFromJSON(json, fallbackJson, key) {
             let attrib = element.getAttribute("attributename");
 
             if(json !== undefined && json[keys[0]] !== undefined) jsonNest = json[keys[0]];
-            else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined) {
+            else if(fallbackJson !== undefined && fallbackJson[keys[0]] !== undefined && !translationDebug) {
                 jsonNest = fallbackJson[keys[0]];
             }
 
@@ -149,12 +165,17 @@ function navigateToPage(url, title, func) {
 }
 
 function setPage(title, func) {
+    pageTitle = title;
+    pageFunc = func;
+    
     if(title.search("context") === -1) document.title = getKeyFromJson(language, fallbackLanguage, title) ?? title;
     else document.title = getKeyFromJson(contextData, { }, title.replace("context.", "")) ?? title;
 
+    getShoppingCart();
     func(document.getElementById("content"), document.getElementById("sidebar-content"));
     document.getElementById("content").hidden = false;
     document.getElementById("sidebar-content").hidden = false;
+
     parseTranslations();
 }
 
@@ -187,4 +208,31 @@ function parsePrice(price) {
     const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     const formattedPrice = parts.length > 1 ? formattedIntegerPart + '.' + parts[1] : formattedIntegerPart;
     return formattedPrice;
+}
+
+function CategoryUrl(id, name, className) {
+    urlName = getUrlName(name);
+
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/catalog/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + id + `_` + urlName + `', 'pages.catalog.title', Catalog_Load);">` + name + `</a>`;
+}
+
+function ProductUrl(id, name, innerHTML, className) {
+    urlName = getUrlName(name);
+    safeName = name.replace("'", "\\'");
+
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/product/` + id + `_` + urlName + `" onclick="event.preventDefault(); navigateToPage('/product/` + id + `_` + urlName + `', '` + safeName + `', Product_Load);">` + innerHTML + `</a>`;
+}
+
+function SubcategoryUrl(categoryId, categoryName, subcategoryId, subcategoryName, className) {
+    categoryUrlName = getUrlName(categoryName);
+    subcategoryUrlName = getUrlName(subcategoryName);
+
+    return `<a ` + (className ? `class="` + className + `" ` : ``) + `href="/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `" onclick="event.preventDefault(); navigateToPage('/catalog/` + categoryId + `-` + subcategoryId + `_` + categoryUrlName + `-` + subcategoryUrlName + `', 'pages.catalog.title', Catalog_Load);">` + subcategoryName + `</a>`;
+}
+
+function getUrlName(name) {
+    let string = name.replace(/\s+/g, '-');
+    string = string.replace(/[^A-Za-z0-9\-]/g, '');
+    
+    return string;
 }

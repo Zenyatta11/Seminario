@@ -26,9 +26,9 @@ class Dimension {
 
     public function toArray(): Array {
         return Array(
-            $this->length,
-            $this->width,
-            $this->height
+            "length" => $this->length,
+            "width" => $this->width,
+            "height" => $this->height
         );
     }
 }

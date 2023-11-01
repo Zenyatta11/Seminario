@@ -17,10 +17,10 @@ class OrderState {
 		}
 	}
 
-	public static function FROM_CHAR(string $state): string {
+	public static function FROM_VALUE(string $state): string {
 		switch($state) {
-			case "A": return OrderState::ENABLED;
-			case "B": return OrderState::DELETED;
+			case "A": return "ENABLED";
+			case "B": return "DELETED";
 			default: throw new InvalidArgumentException("INVALID_ORDER_STATE");
 		}
 	}

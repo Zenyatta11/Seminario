@@ -9,7 +9,7 @@ use System\Core\Domain\Util\HttpStatusCode;
 
 class NotFoundException extends HttpException {
 
-	public function __construct() {
-		parent::__construct("NOT_FOUND", HttpStatusCode::NOT_FOUND);
+	public function __construct($msg = "NOT_FOUND") {
+		parent::__construct($msg, HttpStatusCode::NOT_FOUND);
 	}
 }

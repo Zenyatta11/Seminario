@@ -9,6 +9,7 @@ use System\Core\Util;
 use System\Models\Category;
 use System\Models\Product;
 use System\Models\Subcategory;
+use System\Router;
 
 class ProductRepository extends Repository{
 
@@ -17,17 +18,39 @@ class ProductRepository extends Repository{
         $this->checkDiscountIntegrity();
     }
 
-	public function getProductById(int $id): Product | null {
-		$statement = "SELECT * FROM products WHERE product_id=? LIMIT 1;";
+	public function getProductById(int $id): Product {
+		$statement = "
+            SELECT 
+                p.*,
+                o.price AS offer
+            FROM products p
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.product_id=? 
+            LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($id));
 
-        return ($result->num_rows == 0 ? null : Product::BUILD(
-                $result->fetch_assoc()
-            )
-        );
+        return Product::BUILD($result->fetch_assoc());
+	}
+
+    public function getStockById(int $id): int | null {
+		$statement = "
+            SELECT stock
+            FROM products
+            WHERE product_id=?;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return $result->fetch_assoc()['stock'];
+	}
+
+    public function getDiscountPriceById(int $id): float | null {
+		$statement = "SELECT price FROM offers WHERE product_id=? AND start_date<=NOW() LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
+
+        return $result->fetch_assoc();
 	}
 
     public function getLatestProducts(): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "
                 SELECT
                 p.product_id,
@@ -44,7 +67,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=c.category_id
             ORDER BY p.product_id DESC
             LIMIT 4";
@@ -57,6 +80,8 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         
@@ -64,6 +89,7 @@ class ProductRepository extends Repository{
 	}
 
     public function getDiscountProducts(): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "SELECT
                 p.product_id,
                 p.weight,
@@ -86,8 +112,13 @@ class ProductRepository extends Repository{
         $max = $result->num_rows;
         $returnData = Array();
 
-        for($i = 0; $i < $max; $i = $i + 1)
-            $returnData[] = $result->fetch_assoc();
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $returnData[] = $productArray;
+        }
         
         return $returnData;
 	}
@@ -100,6 +131,7 @@ class ProductRepository extends Repository{
     }
 
     public function getFeaturedProducts(): Array {
+        $productIdList = $this->getProductsInCart();
         $statement = "
             SELECT
                 p.product_id,
@@ -116,7 +148,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=c.category_id
             ORDER BY RAND()
             LIMIT 4";
@@ -129,6 +161,8 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
 
@@ -143,7 +177,7 @@ class ProductRepository extends Repository{
             return $this->connection->execute_query($statement, Array($id));
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
 	}
 
@@ -155,7 +189,7 @@ class ProductRepository extends Repository{
             return $this->connection->execute_query($statement, Array($id, $variationId));
         } catch(\mysqli_sql_exception $exception) {
             $this->connection->rollback();
-            throw new DatabaseWriteException();
+            throw new DatabaseWriteException($exception->getMessage() . $exception->getTraceAsString());
         }
 	}
 
@@ -210,6 +244,7 @@ class ProductRepository extends Repository{
 	}
 
     public function getProductsBySubcategory(Subcategory $subcategory): Array {
+        $productIdList = $this->getProductsInCart();
 		$statement = "
             SELECT
                 p.product_id,
@@ -226,7 +261,7 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=? AND p.subcategory_id=? AND p.category_id=c.category_id
             ORDER BY p.name";
 
@@ -243,6 +278,8 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
             $returnData[] = $productArray;
         }
         
@@ -250,6 +287,8 @@ class ProductRepository extends Repository{
 	}
 
     public function getProductsByCategory(Category $category): Array {
+        $productIdList = $this->getProductsInCart();
+
         $statement = "
             SELECT
                 p.product_id,
@@ -266,7 +305,7 @@ class ProductRepository extends Repository{
                 p.description,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
             WHERE p.state='A' AND p.category_id=? AND p.category_id=c.category_id
             ORDER BY p.name";
 
@@ -282,6 +321,8 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $returnData[] = $productArray;
         }
         
@@ -289,6 +330,8 @@ class ProductRepository extends Repository{
     }
 
     public function getProducts(): Array {
+        $productIdList = $this->getProductsInCart();
+
         $statement = "
             SELECT
                 p.product_id,
@@ -305,8 +348,8 @@ class ProductRepository extends Repository{
                 c.name AS category,
                 o.start_date
             FROM categories c, products p 
-            LEFT JOIN offers o ON o.product_id=p.product_id 
-            WHERE state='A' AND c.category_id=p.category_id
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.state='A' AND c.category_id=p.category_id
             ORDER BY p.name";
 
         $result = $this->connection->execute_query($statement);
@@ -317,10 +360,66 @@ class ProductRepository extends Repository{
         for($i = 0; $i < $max; $i = $i + 1) {
             $productArray = $result->fetch_assoc();
             $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
             $returnData[] = $productArray;
         }
         
         return $returnData;
+    }
+
+    public function getProductsByQuery(string $query): Array {
+        $productIdList = $this->getProductsInCart();
+
+        $statement = "
+            SELECT
+                p.product_id,
+                p.weight,
+                p.price,
+                o.price AS offer,
+                p.width,
+                p.height,
+                p.length,
+                p.stock,
+                p.name,
+                p.description,
+                c.category_id,
+                c.name AS category,
+                o.start_date
+            FROM categories c, products p 
+            LEFT JOIN offers o ON o.product_id=p.product_id AND o.start_date<=NOW()
+            WHERE p.state='A' AND c.category_id=p.category_id AND p.name LIKE CONCAT('%',?,'%')
+            ORDER BY p.name";
+
+        $result = $this->connection->execute_query($statement, Array($query));
+        
+        $max = $result->num_rows;
+        $returnData = Array();
+
+        for($i = 0; $i < $max; $i = $i + 1) {
+            $productArray = $result->fetch_assoc();
+            $productArray['url_name'] = Util::URL_NAME($productArray['name']);
+            $productArray['category_url_name'] = Util::URL_NAME($productArray['category']);
+            $productArray['in_cart'] = in_array($productArray['product_id'], $productIdList);
+            $returnData[] = $productArray;
+        }
+        
+        return $returnData;
+    }
+
+    private function getProductsInCart(): Array {
+        if(Router::$CURRENT_USER == null) return Array();
+        
+        $order = Router::$CURRENT_USER->getCart() ?? null;
+        if($order == null) return Array();
+
+        $productIds = Array();
+        $productsInCart = $order->getProducts();
+        foreach($productsInCart as $item) {
+            $productIds[] = $item['product']->getId();
+        }
+
+        return $productIds;
     }
 }
 

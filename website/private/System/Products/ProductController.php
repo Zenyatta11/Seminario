@@ -56,6 +56,12 @@ class ProductController {
 		);
 	}
 
+	public function getProductsByQuery(string $query): Array {
+		return Array(
+			"products" => $this->repository->getProductsByQuery(htmlspecialchars($query))
+		);
+	}
+
 	public function getProductsByCategory(Category $category): Array {
 		$returnValue = Array();
 		$returnValue['category'] = $category->toArray();
@@ -87,6 +93,10 @@ class ProductController {
 	public function replaceDataWithVariation(Array $data): Array {
 		if(!$data['variation_id']) return $data;
 		return $this->repository->replaceDataWithVariation($data);
+	}
+
+	public function addStock(Product $product, User $user, int $reason): int {
+		$newStock = $this->repository->addStockByProductId($product->getId());
 	}
 
 	private function createProduct(

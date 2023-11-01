@@ -7,16 +7,29 @@
 
 	<script src="/Sources/js/Common/Language.js"></script>
 	<script src="/Sources/js/Common/Products.js"></script>
+	<script src="/Sources/js/Common/Searchbar.js"></script>
 	<script src="/Sources/js/Common/Sidebar.js"></script>
 	<script src="/Sources/js/Common/ShoppingCart.js"></script>
 	<script src="/Sources/js/Common/Users.js"></script>
+
+	<script src="/Sources/js/Checkout/Checkout.js"></script>
+	<script src="/Sources/js/Checkout/Address.js"></script>
 
 	<script src="/Sources/js/LoginPage/Login.js"></script>
 	<script src="/Sources/js/LoginPage/Register.js"></script>
 	<script src="/Sources/js/LoginPage/ResetPasswd.js"></script>
 
+	<script src="/Sources/js/Profile/Account.js"></script>
+	<script src="/Sources/js/Profile/Addresses.js"></script>
+	<script src="/Sources/js/Profile/Notifications.js"></script>
+	<script src="/Sources/js/Profile/Orders.js"></script>
+	<script src="/Sources/js/Profile/Questions.js"></script>
+	<script src="/Sources/js/Profile/Reviews.js"></script>
+	<script src="/Sources/js/Profile/Profile.js"></script>
+
 	<script src="/Sources/js/Index.js"></script>
 	<script src="/Sources/js/Catalog.js"></script>
+	<script src="/Sources/js/Product.js"></script>
 
 	<link href="/Themes/CSS/font-awesome.css" rel="stylesheet" type="text/css">
 	<link href="/Sources/css/preloader.css" rel="stylesheet" type="text/css">
@@ -55,10 +68,19 @@
 	<link rel="stylesheet" id="porto-dynamic-style-css" href="/Sources/css/dynamic_style.css" media="all">
 	<link rel="stylesheet" id="porto-style-css" href="/Sources/css/style.css" media="all">
 	<link href="/Sources/css/css_009.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" id="styles-child-css" href="/Sources/css/style_002.css" media="all">
 	<link href="/Sources/css/css_010.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="/Sources/css/css_003.css" media="all">
 	<link href="/Sources/css/css_011.css" rel="stylesheet" type="text/css">
+
+	<script>
+		document.addEventListener("wheel", function(event){
+			if(document.activeElement.type === "number"){
+				document.activeElement.blur();
+			}
+		});
+
+		searchTimeout = null;
+	</script>
 </head>
 
 <body onload="doCommonLoad(); doSpecificLoad();"
@@ -110,20 +132,25 @@
 				<div class="header-main" style="top: 0px;">
 					<div class="container">
 						<div class="header-left">
-							<div class="searchform-popup"><a class="search-toggle"><svg
+							<div class="searchform-popup">
+								<a class="search-toggle">
+									<svg
 										class="svg-inline--fa fa-search fa-w-16" aria-hidden="true" data-prefix="fas"
 										data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512" data-fa-i2svg="">
 										<path fill="currentColor"
 											d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z">
 										</path>
-									</svg><!-- <i class="fas fa-search"></i> --><span
-										class="search-text translate" key="common.search"></span></a>
-								<form action="https://seminario.batatas.club/" method="get"
-									class="searchform searchform-cats">
+									</svg><!-- <i class="fas fa-search"></i> -->
+									<span class="search-text translate" key="common.search.placeholder"></span>
+								</a>
+								<div id="live-search-container" class="searchform searchform-cats">
 									<div class="searchform-fields">
-										<span class="text"><input name="searchField" class="translate" key="common.search" attributename="placeholder" type="text" placeholder="Buscar…"
-												autocomplete="off"></span>
+										<span class="text">
+											<input id="search-field" onblur="searchTimeout = setTimeout(() => clearSuggestions(), 1000);" name="searchField" class="translate" 
+												key="common.search.placeholder" attributename="placeholder" type="text" placeholder="Buscar…" 
+												autocomplete="off" oninput="onSearchUpdated(this)" onfocus="onSearchUpdated(this)">
+										</span>
 										<span class="button-wrap">
 											<button class="btn btn-special" title="Buscar" type="submit"><svg
 													class="svg-inline--fa fa-search fa-w-16" aria-hidden="true"
@@ -136,12 +163,12 @@
 												</svg><!-- <i class="fas fa-search"></i> --></button>
 										</span>
 									</div>
-									<div class="live-search-list">
+									<div id="live-search-list">
 										<div class="autocomplete-suggestions"
 											style="position: absolute; display: none; max-height: 300px; z-index: 9999;">
 										</div>
 									</div>
-								</form>
+								</div>
 							</div> <a class="mobile-toggle" href="/#"><svg class="svg-inline--fa fa-bars fa-w-14"
 									aria-hidden="true" data-prefix="fas" data-icon="bars" role="img"
 									xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
@@ -180,9 +207,9 @@
 								<li id="nav-menu-item-11810"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
 									href="/catalog" onclick="event.preventDefault(); navigateToPage('/catalog', 'common.header.catalog', Catalog_Load);"><span class="translate" key="common.header.catalog"></span></a></li>
-								<li id="nav-menu-item-11807"
+								<!--<li id="nav-menu-item-11807"
 									class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a
-									href="/contact" onclick="event.preventDefault(); navigateToPage('/contact', 'common.header.contact', Catalog_Load);"><span class="translate" key="common.header.contact"></span></a></li>
+									href="/contact" onclick="event.preventDefault(); navigateToPage('/contact', 'common.header.contact', Administration_Index_Load);"><span>Administración</span></a></li>-->
 								<li class="menu-custom-content pull-right">
 									<div class="menu-custom-block">
 										<ul class="top-links mega-menu show-arrow" id="menu-top-navigation">
@@ -213,7 +240,7 @@
 				</div>
 			</div>
 		</section>
-		<div id="main" class="column2 column2-left-sidebar boxed"><!-- main -->
+		<div id="main" class="column2 column2-left-sidebar boxed" style="min-height: 1500px;"><!-- main -->
 			<div class="container">
 				<div class="row main-content-wrap">
 					<!-- main content -->
@@ -412,12 +439,12 @@
 										<h3 class="widget-title translate" key="common.contactus">placeholder</h3>
 										<div class="textwidget">
 											<ul>
-												<li>address</li>
-												<li>tel 1</li>
-												<li>tel 2</li>
-												<li>horarios</li>
-												<li>email</li>
-												<li>whatsapp</li>
+												<li class="context" key="common.page.address">address</li>
+												<li class="context" key="common.page.telephone1">tel 1</li>
+												<li class="context" key="common.page.telephone2">tel 2</li>
+												<li class="context" key="common.page.hours">horarios</li>
+												<li class="context" key="common.page.email">email</li>
+												<li class="context" key="common.page.whatsapp">whatsapp</li>
 											</ul>
 										</div>
 									</aside>
@@ -467,15 +494,29 @@
 	</style>
 
 	<script>
+		var fallbackLanguage = {};
+		var language = {};
+		const fallbackLocale = "es_AR";
+
+		loadJSON("/Sources/Common/Locales/es_AR.json", 
+			function(data) { 
+				fallbackLanguage = data;
+				document.getElementById("languageSelect").innerHTML = getLanguageSelector();
+			}
+			,'jsonp'
+		);
+
 		async function doCommonLoad() {
 			console.log("Common data");
-			await loadLanguage(null);
-			document.getElementById("languageSelect").innerHTML = await getLanguageSelector();
-			await getContextData();
+			getContextData();
+			loadLanguage(null);
+			
 			Sidebar_GetCategories()
 			Sidebar_GetFeaturedProducts()
 			Sidebar_GetMostSoldProducts()
+			
 			loadPageByURL()
+			onSearchUpdated(document.getElementById("search-field"));
 		}
 
 		async function doSpecificLoad() {
@@ -483,5 +524,13 @@
 			await hidePreloader(document.getElementById("preloader"));
 			parseTranslations();
 		}
+
+		
+		document.getElementById("search-field").addEventListener("keypress", function(event) {
+			if (event.key === "Enter") {
+				navigateToPage('/catalog/search/' + event.target.value, 'pages.catalog.title', Catalog_Load);
+			}
+		}); 
+
 	</script>
 </body>

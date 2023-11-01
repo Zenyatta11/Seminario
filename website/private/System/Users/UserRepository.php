@@ -55,7 +55,7 @@ class UserRepository extends Repository {
     public function getUserBySessionHash(string $hash): User | null {
         $statement = "SELECT u.* FROM users u, sessions s WHERE s.session_id=? AND s.user_id=u.user_id LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($hash));
-
+        
         return ($result->num_rows == 0 ? null : User::BUILD(
                 $this->censor($result->fetch_assoc())
             )
@@ -82,6 +82,19 @@ class UserRepository extends Repository {
     public function checkExistsByEmail(string $email): bool {
         $statement = "SELECT user_id FROM users WHERE email=? LIMIT 1;";
         $result = $this->connection->execute_query($statement, Array($email));
+
+        return $result->num_rows != 0;
+    }
+
+    public function checkExistsByUsername(string $email): bool {
+        $statement = "SELECT user_id FROM users WHERE username=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($email));
+
+        return $result->num_rows != 0;
+    }
+    public function checkExistsById(int $id): bool {
+        $statement = "SELECT user_id FROM users WHERE user_id=? LIMIT 1;";
+        $result = $this->connection->execute_query($statement, Array($id));
 
         return $result->num_rows != 0;
     }
@@ -122,6 +135,28 @@ class UserRepository extends Repository {
         return;
     }
 
+    public function registerLogin(string $email): bool {
+        $sessionHash = hash("sha256", Util::RANDOM_UUID());
+        $userId = $this->getUserIdByEmail($email);
+
+        $statement = "INSERT INTO sessions VALUES(?,?)";
+        $this->connection->execute_query($statement, Array(
+            $sessionHash,
+            $userId
+        ));
+        
+        if(!setcookie(Prefs\Common::SESSION_COOKIE, $sessionHash, 0, "/")) {
+            $statement = "DELETE FROM sessions WHERE session_id=?)";
+            $this->connection->execute_query($statement, Array(
+                $sessionHash
+            ));
+
+            throw new CookiesDisabledException();
+        }
+
+        return true;
+    }
+
     public function updateUser(User $user): bool {
 
         $statement = "UPDATE users SET permissions=?, email=?, document=? WHERE user_id=?";
@@ -150,8 +185,16 @@ class UserRepository extends Repository {
     public function setActiveCart(User $user, int $id) {
         $statement = "UPDATE users SET active_cart=? WHERE user_id=?";
         return $this->connection->execute_query($statement, Array(
-            $user->getId(),
-            $id
+            $id,
+            $user->getId()
+        ));
+    }
+
+    public function setActiveAddress(User $user, int $id) {
+        $statement = "UPDATE users SET active_address=? WHERE user_id=?";
+        return $this->connection->execute_query($statement, Array(
+            $id,
+            $user->getId()
         ));
     }
 

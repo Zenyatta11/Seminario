@@ -4,7 +4,8 @@
 
 	spl_autoload_register(
 		function ($class) {
-			require_once(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php');
+			if(file_exists(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php')) 
+				require_once(__DIR__ . '/' . str_replace('\\', '/', $class) . '.php');
 		}
 	);
 
@@ -35,6 +36,9 @@
 		header('Content-Disposition: inline; filename="' . $action . '.png"');
 		die($router->getResponse($section, $subsection, $action)->getData());
 	} else {
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 		header('Content-type: application/json');
 		die($router->getResponse($section, $subsection, $action)->jsonify());
 	}

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1)0b1;
+declare(strict_types=1);
 
 namespace System\Core\Prefs\Constants;
 
@@ -29,6 +29,8 @@ class Permissions {
     public const USERS_CREATE = 2097152;
     public const USERS_DELETE = 4194304;
     public const USERS_MODIFY = 8388608;
+    public const ADDRESS_MODIFY = 16777216;
+    public const ADDRESS_DELETE = 33554432;
 }
 
 ?>

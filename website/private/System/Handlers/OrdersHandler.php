@@ -9,6 +9,9 @@ use System\Core\Exceptions\InvalidArgumentException;
 use System\Core\Exceptions\NotFoundException;
 use System\Core\Exceptions\NotLoggedInException;
 use System\Core\Exceptions\UnauthorizedException;
+use System\Core\Prefs\Constants\Permissions;
+use System\Miscellaneous\MiscController;
+use System\Models\Address;
 use System\Orders\OrdersController;
 use System\Products\ProductController;
 use System\Users\UserController;
@@ -19,13 +22,14 @@ class OrdersHandler {
     public function __construct(
         private UserController $userController = new UserController(),
         private ProductController $productController = new ProductController(),
-        private OrdersController $controller = new OrdersController()
+        private OrdersController $controller = new OrdersController(),
+        private MiscController $miscController = new MiscController()
     ) { }
 
     public function init(string $subsection, string $action, Array $data): ResponseDTO {
         if(!empty($subsection)) {
             switch($subsection) {
-                case "buy": return $this->quickBuy($action);
+                case "buy": return $this->quickBuy($action, $data['amount'] ?? "");
                 default: throw new NotFoundException();
             }
         }
@@ -38,15 +42,82 @@ class OrdersHandler {
             );
 
             case "get": return $this->getOrder($data['order_id'] ?? "");
+            case "confirmStock": return $this->confirmStock($data['data'] ?? "");
+            case "delete": return $this->deleteOrder($data['order_id'] ?? "");
+            case "getAll": return $this->getAllOrders($data['user_id'] ?? "");
+            case "cotizar": return $this->cotizarEnvio($data['order_id'] ?? "", $data['user_id'] ?? "", $data['address_id'] ?? "");
+            case "checkout": return $this->doCheckout($data['order_id'] ?? "", $data['user_id'] ?? "", $data['address_id'] ?? "");
+            case "check": return $this->checkInOrder($data['order_id'] ?? "", $data['product_id'] ?? "");
+            case "remove": return $this->removeFromCart($data['order_id'] ?? "", $data['product_id'] ?? "");
             default: throw new NotFoundException();
         }
     }
 
-    private function quickBuy(string $productId): ResponseDTO {
+    private function quickBuy(string $productId, string $amount): ResponseDTO {
         if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
         if(!is_numeric($productId)) throw new InvalidArgumentException("INVALID_PRODUCT_ID");
+        $order = Router::$CURRENT_USER->getCart();
 
-        return new ResponseDTO($this->controller->createOrder(Router::$CURRENT_USER, $this->productController->getProductById(intval($productId)), 1));
+        if(empty($amount) || !empty($amount) && !is_numeric($amount)) $amountToAdd = 1;
+        else $amountToAdd = $amount;
+
+        $product = $this->productController->getProductById(intval($productId));
+        if($order === null) return new ResponseDTO($this->controller->createOrder(Router::$CURRENT_USER, $product, 1));
+        else return new ResponseDTO($this->controller->addToCart($order, $product, intval($amountToAdd)));
+    }
+
+    private function confirmStock(string $json): ResponseDTO {
+        $data = json_decode($json, true);
+
+        if(count($data) == 0) return new ResponseDTO(Array());
+        return new ResponseDTO($this->controller->confirmStock($data));
+    }
+
+    private function deleteOrder(string $orderId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+        if(empty($orderId)) throw new InvalidArgumentException("NO_ORDER_ID");
+
+        if(!is_numeric($orderId)) throw new InvalidArgumentException("INVALID_ORDER_ID");
+        $order = $this->controller->getOrderById(intval($orderId));
+
+        if(
+            $order->getOwner()->getId() != Router::$CURRENT_USER->getId() && 
+            !Router::$CURRENT_USER->isAllowedTo(Permissions::ORDERS_DELETE)
+        ) throw new UnauthorizedException("ORDERS_DELETE");
+
+        return new ResponseDTO($this->controller->deleteOrder($order));
+    }
+
+    private function removeFromCart(string $orderId, string $productId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+        if(!is_numeric($productId)) throw new InvalidArgumentException("INVALID_PRODUCT_ID");
+        if(!empty($orderId) && !is_numeric($orderId)) throw new InvalidArgumentException("INVALID_ORDER_ID");
+
+        if(empty($orderId)) $order = Router::$CURRENT_USER->getCart();
+        else $order = $this->controller->getOrderById(intval($orderId));
+
+        $product = $this->productController->getProductById(intval($productId));
+        return new ResponseDTO($this->controller->removeItemFromOrder($order, $product));
+    }
+
+    private function checkInOrder(string $orderId, string $productId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+        if(!is_numeric($productId)) throw new InvalidArgumentException("INVALID_PRODUCT_ID");
+        if(!empty($orderId) && !is_numeric($orderId)) throw new InvalidArgumentException("INVALID_ORDER_ID");
+
+        if(empty($orderId)) $order = Router::$CURRENT_USER->getCart();
+        else $order = $this->controller->getOrderById(intval($orderId));
+
+        if(!$order) 
+            return new ResponseDTO(
+                Array(
+                    "amount" => -1,
+                    "order_id" => -1
+                )
+            );
+
+        $product = $this->productController->getProductById(intval($productId));
+        return new ResponseDTO($this->controller->checkInOrder($order, $product));
     }
 
     private function createNewOrder(string $userId, string $productId, string $amount): ResponseDTO {
@@ -84,5 +155,96 @@ class OrdersHandler {
             if(!is_numeric($orderId)) throw new InvalidArgumentException("NO_ORDER_ID");
             return new ResponseDTO($this->controller->getOrderById(intval($orderId)));
         }
+    }
+
+    private function getAllOrders(string $userId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new InvalidArgumentException("NOT_LOGGED_IN");
+        if(empty($userId)) {
+            return new ResponseDTO($this->controller->getAllOrdersByUserId(Router::$CURRENT_USER->getId()));
+        } else {
+            if(!Router::$CURRENT_USER->isAllowedTo(Permissions::ORDERS_MODIFY)) throw new UnauthorizedException("ORDERS_MODIFY");
+            if(!is_numeric($userId)) throw new InvalidArgumentException("INVALID_USER_ID");
+            return new ResponseDTO($this->controller->getAllOrdersByUserId(intval($userId)));
+        }
+    }
+
+    private function cotizarEnvio(string $orderId, string $userId, string $addressId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+
+        $errors = Array();
+        $order = null;
+
+        if(!empty($orderId) && !is_numeric($orderId)) $errors[] = "INVALID_ORDER_ID";
+        if(!empty($userId) && !is_numeric($userId)) $errors[] = "INVALID_USER_ID";
+        if(!empty($addressId) && !is_numeric($addressId)) $errors[] = "INVALID_ADDRESS_ID";
+
+        if(empty($userId)) $user = Router::$CURRENT_USER;
+        else if(is_numeric($userId)) $user = $this->userController->getUserById(intval($userId));
+
+        if(empty($orderId)) {
+            $order = $user->getCart();
+
+            if($order === null) $errors[] = "NO_ACTIVE_CART";
+            else if(empty($order->getProducts())) $errors[] = "EMPTY_CART";
+        } else if(is_numeric($orderId)) {
+            $order = $this->controller->getOrderById(intval($orderId));
+            if($order === null) $errors[] = "ORDER_DOES_NOT_EXIST";
+            else if(empty($order->getProducts())) $errors[] = "EMPTY_ORDER";
+        }
+
+        if(empty($addressId)) {
+            $addresses = $this->miscController->getAddressesByUserId($user->getId());
+
+            $amountOfAddresses = count($addresses);
+            if($amountOfAddresses == 0) $errors[] = 'NO_ADDRESS_DEFINED';
+            else if($amountOfAddresses != 1) $errors[] = 'AMBIGOUS_ADDRESS';
+            else $address = Address::BUILD($addresses[0]);
+        } else {
+            $address = $this->miscController->getAddressById(intval($addressId));
+        }
+
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return new ResponseDTO($this->controller->cotizarEnvio($order, $user, $address));
+    }
+
+    private function doCheckout(string $orderId, string $userId, string $addressId): ResponseDTO {
+        if(Router::$CURRENT_USER === null) throw new NotLoggedInException();
+
+        $errors = Array();
+        $order = null;
+
+        if(!empty($orderId) && !is_numeric($orderId)) $errors[] = "INVALID_ORDER_ID";
+        if(!empty($userId) && !is_numeric($userId)) $errors[] = "INVALID_USER_ID";
+        if(!empty($addressId) && !is_numeric($addressId)) $errors[] = "INVALID_ADDRESS_ID";
+
+        if(empty($userId)) $user = Router::$CURRENT_USER;
+        else if(is_numeric($userId)) $user = $this->userController->getUserById(intval($userId));
+
+        if(empty($orderId)) {
+            $order = $user->getCart();
+
+            if($order === null) $errors[] = "NO_ACTIVE_CART";
+            else if(empty($order->getProducts())) $errors[] = "EMPTY_CART";
+        } else if(is_numeric($orderId)) {
+            $order = $this->controller->getOrderById(intval($orderId));
+            if($order === null) $errors[] = "ORDER_DOES_NOT_EXIST";
+            else if(empty($order->getProducts())) $errors[] = "EMPTY_ORDER";
+        }
+
+        if(empty($addressId)) {
+            $addresses = $this->miscController->getAddressesByUserId($user->getId());
+
+            $amountOfAddresses = count($addresses);
+            if($amountOfAddresses == 0) $errors[] = 'NO_ADDRESS_DEFINED';
+            else if($amountOfAddresses != 1) $errors[] = 'AMBIGOUS_ADDRESS';
+            else $address = Address::BUILD($addresses[0]);
+        } else {
+            $address = $this->miscController->getAddressById(intval($addressId));
+        }
+
+        if(!empty($errors)) throw new InvalidArgumentException($errors);
+
+        return new ResponseDTO($this->controller->doCheckout($order, $user, $address));
     }
 }

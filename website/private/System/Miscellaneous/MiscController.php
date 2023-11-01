@@ -8,6 +8,8 @@ use System\Core\Exceptions\NotFoundException;
 use System\Core\Exceptions\NotLoggedInException;
 use System\Core\Exceptions\UnauthorizedException;
 use System\Core\Prefs;
+use System\Core\Prefs\Constants\Permissions;
+use System\Models\Address;
 use System\Models\Category;
 use System\Models\Subcategory;
 use System\Products\ProductRepository;
@@ -22,7 +24,7 @@ class MiscController {
 		private UserRepository $userRepository = new UserRepository()
 	) {}
 
-	public function getCategoryById(int $id): Category | null {
+	public function getCategoryById(int $id): Category {
 		return $this->repository->getCategoryById($id);
 	}
 
@@ -38,7 +40,9 @@ class MiscController {
 		return $this->repository->getCategoriesWithSubcategories();
 	}
 
-	public function getSubCategoryById(Category $category, int $id): Subcategory | null {
+	public function getSubCategoryById(Category $category, int | null $id): Subcategory | null {
+		if($id === null) return null;
+		
 		return $this->repository->getSubCategoryByIdAndCategoryId($category, $id);
 	}
 
@@ -219,5 +223,43 @@ class MiscController {
     private function getReviewsByUserId(int $userId): Array {
         return $this->repository->getReviewsByUserId($userId);
     }
+
+	public function getAddressesByUserId(int $userId): Array {
+		return $this->repository->getAddressesByUserId($userId);
+	}
+
+	public function getAddressById(int $id): Address | null {
+		return $this->repository->getAddressById($id);
+	}
+
+	public function deleteAddress(Address $address): bool {
+		if($address->getUser()->getId() != Router::$CURRENT_USER->getId() && !Router::$CURRENT_USER->isAllowedTo(Permissions::ADDRESS_DELETE))
+			throw new UnauthorizedException("ADDRESS_DELETE");
+
+		return $this->repository->deleteAddress($address);
+	}
+
+	public function updateAddress(int $addressId, int $provinceId, int $cityId, int $zipCode, string $street, int $number, string $extra): bool {
+		$address = $this->repository->getAddressById($addressId);
+
+		if(!$address) throw new NotFoundException("ADDRESS_NOT_FOUND");
+		
+		if($address->getUser()->getId() != Router::$CURRENT_USER->getId() && !Router::$CURRENT_USER->isAllowedTo(Permissions::ADDRESS_MODIFY))
+			throw new UnauthorizedException("ADDRESS_MODIFY");
+
+		if(!$this->repository->checkProvinceExistsById($provinceId)) throw new NotFoundException("PROVINCE_DOES_NOT_EXIST");
+		if(!$this->repository->verifyCityId($provinceId, $cityId)) throw new NotFoundException("CITY_DOES_NOT_EXIST");
+		if(!$this->repository->verifyZipcode($zipCode, $provinceId)) throw new NotFoundException("INCORRECT_ZIPCODE_FOR_PROVINCE");
+
+		return $this->repository->updateAddress($addressId, $provinceId, $cityId, $zipCode, $street, $number, $extra);
+	}
+
+	public function createAddress(int $provinceId, int $cityId, int $zipCode, string $street, int $number, string $extra): bool | int {
+		if(!$this->repository->checkProvinceExistsById($provinceId)) throw new NotFoundException("PROVINCE_DOES_NOT_EXIST");
+		if(!$this->repository->verifyCityId($provinceId, $cityId)) throw new NotFoundException("CITY_DOES_NOT_EXIST");
+		if(!$this->repository->verifyZipcode($zipCode, $provinceId)) throw new NotFoundException("INCORRECT_ZIPCODE_FOR_PROVINCE");
+
+		return $this->repository->createAddress($provinceId, $cityId, $zipCode, $street, $number, $extra);
+	}
 
 }

@@ -21,7 +21,7 @@ function showGuestPage() {
 function showUserPage(name) {
     document.getElementById("menu-top-navigation").innerHTML = `
         <li class="menu-item">
-            <a class="porto-link-login" href="/profile" onclick="event.preventDefault(); navigateToPage('/profile', 'register.resetpassword', Profile_Index_Load);">
+            <a class="porto-link-login" href="/profile" onclick="event.preventDefault(); navigateToPage('/profile/orders', 'pages.profile.titles.profiles.profile', Profile_Index_Load);">
                 <svg class="svg-inline--fa fa-user fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
                     <path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path>
                 </svg>
@@ -49,6 +49,8 @@ function showUserPage(name) {
         </li>`
 }
 
+let slideIndex = 0;
+
 function Index_Load(main) {
     setPageSectionHeader('pages.home', 'pages.home');
     main.innerHTML = `
@@ -69,15 +71,35 @@ function Index_Load(main) {
                                         <div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev"
                                             role="group" aria-roledescription="slide" aria-label="2 de 2"
                                             data-swiper-slide-index="1"
-                                            style="width: 900px; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-                                            <figure class="swiper-slide-inner"><img data-lazyloaded="1"
-                                                    src="/Media/General/index_image.png" decoding="async"
-                                                    class="swiper-slide-image entered litespeed-loading"
-                                                    data-src="/Media/General/index_image.png"
-                                                    alt="florida-camping" data-ll-status="loading" width="1000"
-                                                    height="443"></figure>
+                                            style="width: 900px;">
+                                            <div class="slideshow-container" style="box-sizing:border-box">
+
+                                                <div class="mySlides fade slider-active">
+                                                    <div style="height: 90%;">
+                                                        <img onerror="this.src='/Media/General/index_image.png'" src="/Media/General/Slider/0.png" alt="" width="1000" height="43" style="width:100%">
+                                                    </div>
+                                                    <div class="caption-text" style="bottom: -10%;">Unmatched offers!</div>
+                                                </div>
+                                            
+                                                <div class="mySlides fade">
+                                                    <div style="height: 90%;">
+                                                        <img onerror="this.src='/Media/General/index_image.png'" src="/Media/General/Slider/1.png" alt="" width="1000" height="43" style="width:100%">
+                                                    </div>
+                                                    <div class="caption-text" style="bottom: -10%;">Try the next-gen websites!</div>
+                                                </div>
+                                            
+                                                <div class="mySlides fade">
+                                                    <div style="height: 90%;">
+                                                        <img onerror="this.src='/Media/General/index_image.png'" src="/Media/General/Slider/2.png" alt="" width="1000" height="43" style="width:100%">
+                                                    </div>
+                                                    <div class="caption-text" style="bottom: -10%;">All of your electro needs!</div>
+                                                </div>
+                                            
+                                                <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+                                                <a class="next" onclick="moveSlide(1)">&#10095;</a>
+                                            </div>
                                         </div>
-                                    </div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,22 +108,15 @@ function Index_Load(main) {
                             <div class="elementor-widget-container">
                                 <p></p>
                                 <div id="porto-products-8858" class="porto-products wpb_content_element ">
-                                    <h2 class="section-title slider-title"><span class="inline-title translate" key="index.new">placeholder</span><span
-                                            class="line"></span></h2>
+                                    <h2 class="section-title slider-title"><span class="inline-title translate" key="index.new">placeholder</span>
+                                    <span class="line"></span></h2>
                                     <div class="slider-wrapper">
                                         <div class="woocommerce columns-4 ">
-                                            <ul class="products products-container products-slider owl-carousel show-nav-middle pcols-lg-4 pcols-md-3 pcols-xs-3 pcols-ls-2 pwidth-lg-4 pwidth-md-3 pwidth-xs-2 pwidth-ls-1 is-shortcode owl-loaded owl-drag"
-                                                data-plugin-options="{&quot;themeConfig&quot;:true,&quot;lg&quot;:4,&quot;md&quot;:3,&quot;xs&quot;:3,&quot;ls&quot;:2,&quot;nav&quot;:true}"
-                                                data-cur_page="1" data-max_page="1"
-                                                data-product_layout="product-default show-links-hover">
+                                            <ul class="products products-container products-slider owl-carousel show-nav-middle pcols-lg-4 pcols-md-3 pcols-xs-3 pcols-ls-2 pwidth-lg-4 pwidth-md-3 pwidth-xs-2 pwidth-ls-1 is-shortcode owl-loaded owl-drag">
                                                 <div class="owl-stage-outer owl-height" style="height: 389.55px;">
                                                     <div id="page-products-new" class="owl-stage" style="transition: all 0.25s ease 0s; width: 3720px;">
                                                     </div>
                                                 </div>
-                                                <div class="owl-nav" hidden><button type="button" role="presentation"
-                                                        class="owl-prev"></button><button type="button" role="presentation"
-                                                        class="owl-next"></button></div>
-                                                <div class="owl-dots disabled"></div>
                                             </ul>
                                         </div>
                                     </div>
@@ -159,4 +174,36 @@ function Index_Load(main) {
     getNewProducts();
     getFeaturedProducts();
     getOffersProducts();
+    showSlides();
 }
+
+let sliderLoop;
+
+function moveSlide(n) {
+    clearTimeout(sliderLoop);
+    showSlides(slideIndex + n);
+}
+
+function showSlides() {
+    let slides = document.getElementsByClassName("mySlides");
+
+    if(slides.length == 0) {
+        console.log("Slider is no longer shown, stopping cycle...");
+        clearTimeout(sliderLoop);
+        return;
+    }
+
+    if(slideIndex >= slides.length) slideIndex = 0;
+    else if(slideIndex < 0) slideIndex = slides.length - 1;
+
+    for(let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        slides[i].style.opacity = "0";
+    }
+    
+    slides[slideIndex].style.display = "block";
+    slides[slideIndex].style.opacity = "100";
+    slideIndex = slideIndex + 1;
+
+    sliderLoop = setTimeout(showSlides, 5000); 
+} 

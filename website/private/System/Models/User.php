@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace System\Models;
 use System\Core\Exceptions\InvalidArgumentException;
-use System\Core\Util;
 use System\Users\UserController;
-use System\Orders\OrdersController;
 
 class User {
 
@@ -18,22 +16,22 @@ class User {
         private string $name,
         private string | null $dni,
         private Order | null $activeCart = null,
+        private Address | null $activeAddress = null,
         private UserController $userController = new UserController()
     ) { }
     
     public static function BUILD(Array $data): User {
         $errors = Array();
         if(empty($data['user_id'])) $errors[] = "MISSING_USER_ID";
-        if(empty($data['permissions'])) $errors[] = "MISSING_USER_ID";
-        if(empty($data['email'])) $errors[] = "MISSING_USER_ID";
-        if(empty($data['username'])) $errors[] = "MISSING_USER_ID";
-        if(empty($data['name'])) $errors[] = "MISSING_USER_ID";
+        if(empty($data['email'])) $errors[] = "MISSING_EMAIL";
+        if(empty($data['username'])) $errors[] = "MISSING_USERNAME";
+        if(empty($data['name'])) $errors[] = "MISSING_Name";
 
         if(!empty($errors)) throw new InvalidArgumentException($errors);
         
         return new User(
             $data['user_id'],
-            $data['permissions'],
+            $data['permissions'] ?? 0,
             $data['email'],
             $data['username'],
             $data['name'],
@@ -47,6 +45,13 @@ class User {
 
     public function getUsername(): string {
         return $this->username;
+    }
+
+    public function getAddress(): Address | null{
+        if($this->activeAddress != null) return $this->activeAddress;
+
+        $this->activeAddress = $this->userController->getActiveAddressByUserId($this->id);
+        return $this->activeAddress;
     }
 
     public function getName(): string {
@@ -90,7 +95,8 @@ class User {
         if($whitelist === null || in_array('username', $whitelist)) $returnValue['username'] = $this->username;
         if($whitelist === null || in_array('name', $whitelist)) $returnValue['name'] = $this->name;
         if($whitelist === null || in_array('dni', $whitelist)) $returnValue['dni'] = $this->dni;
-        if($whitelist === null || in_array('cart', $whitelist)) $returnValue['cart'] = $this->activeCart?->getId() ?? null;
+        if($whitelist === null || in_array('cart', $whitelist)) $returnValue['cart'] = $this->getCart()?->getId() ?? null;
+        if($whitelist === null || in_array('address', $whitelist)) $returnValue['address'] = $this->getAddress()?->getId() ?? null;
 
         return $returnValue;
     }

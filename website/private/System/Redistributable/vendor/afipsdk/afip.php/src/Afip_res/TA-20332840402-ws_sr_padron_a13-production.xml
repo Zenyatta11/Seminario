@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1.0">
+    <header>
+        <source>CN=wsaa, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>SERIALNUMBER=CUIT 20332840402, CN=sistema</destination>
+        <uniqueId>1237947735</uniqueId>
+        <generationTime>2021-02-03T12:28:19.926-03:00</generationTime>
+        <expirationTime>2021-02-04T00:28:19.926-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgc3JjPSJDTj13c2FhLCBPPUFGSVAsIEM9QVIsIFNFUklBTE5VTUJFUj1DVUlUIDMzNjkzNDUwMjM5IiB1bmlxdWVfaWQ9IjEzNzAzNTk2NjMiIGdlbl90aW1lPSIxNjEyMzY2MDM5IiBleHBfdGltZT0iMTYxMjQwOTI5OSIvPgogICAgPG9wZXJhdGlvbiB0eXBlPSJsb2dpbiIgdmFsdWU9ImdyYW50ZWQiPgogICAgICAgIDxsb2dpbiBlbnRpdHk9IjMzNjkzNDUwMjM5IiBzZXJ2aWNlPSJ3c19zcl9wYWRyb25fYTEzIiB1aWQ9IlNFUklBTE5VTUJFUj1DVUlUIDIwMzMyODQwNDAyLCBDTj1zaXN0ZW1hIiBhdXRobWV0aG9kPSJjbXMiIHJlZ21ldGhvZD0iMjIiPgogICAgICAgICAgICA8cmVsYXRpb25zPgogICAgICAgICAgICAgICAgPHJlbGF0aW9uIGtleT0iMjAzMzI4NDA0MDIiIHJlbHR5cGU9IjQiLz4KICAgICAgICAgICAgPC9yZWxhdGlvbnM+CiAgICAgICAgPC9sb2dpbj4KICAgIDwvb3BlcmF0aW9uPgo8L3Nzbz4K</token>
+        <sign>k/PlGxbFfTjXf9QVkiAgbdVOHIWg+9+vVOklNhyvZef+CPpipZWhTokbvw6TUJ+C979otNNGOXeDTUzBuzsOZj0+g8Sg+jfe6tMJM1OH9EcaRmybhJxUltsDb71AgulG0Ry2yNRtf0c+Gat8AoS7aK/mnoJBfFFdW361nQFLO5E=</sign>
+    </credentials>
+</loginTicketResponse>

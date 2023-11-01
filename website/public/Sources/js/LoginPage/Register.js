@@ -120,10 +120,11 @@ function doRegister() {
     ).then((response) => response.json())
     .then((json) => {
 			if(json.status_code === 200) {
+				setTimeout(() => navigateToPage('/', 'context.common.page.title', Index_Load), 1000);
 				updateUserData(json);
 			} else if(json.status_code === 400 | 403) {
 				statusText = ""; 
-				errors = json.data.split(';');
+				errors = json.data.message.split(';');
 
 				errors.forEach((item) => {
 					statusText = statusText + getKeyFromJson(language, fallbackLanguage, 'errors.register.' + item) + "<br>";

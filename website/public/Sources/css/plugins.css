@@ -6024,35 +6024,9 @@
     width: auto
 }
 
-/*!
- * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- */
-@font-face {
-    font-family: 'Font Awesome 5 Brands';
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url("../fonts/fontawesome/fa-brands-400.eot");
-    src: url("../fonts/fontawesome/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome/fa-brands-400.woff2") format("woff2"), url("../fonts/fontawesome/fa-brands-400.woff") format("woff"), url("../fonts/fontawesome/fa-brands-400.ttf") format("truetype"), url("../fonts/fontawesome/fa-brands-400.svg#fontawesome") format("svg")
-}
-
 .fab {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 400
-}
-
-/*!
- * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- */
-@font-face {
-    font-family: 'Font Awesome 5 Free';
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url("../fonts/fontawesome/fa-regular-400.eot");
-    src: url("../fonts/fontawesome/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome/fa-regular-400.woff2") format("woff2"), url("../fonts/fontawesome/fa-regular-400.woff") format("woff"), url("../fonts/fontawesome/fa-regular-400.ttf") format("truetype"), url("../fonts/fontawesome/fa-regular-400.svg#fontawesome") format("svg")
 }
 
 .far {
@@ -6064,14 +6038,6 @@
  * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
-@font-face {
-    font-family: 'Font Awesome 5 Free';
-    font-style: normal;
-    font-weight: 900;
-    font-display: block;
-    src: url("../fonts/fontawesome/fa-solid-900.eot");
-    src: url("../fonts/fontawesome/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome/fa-solid-900.woff2") format("woff2"), url("../fonts/fontawesome/fa-solid-900.woff") format("woff"), url("../fonts/fontawesome/fa-solid-900.ttf") format("truetype"), url("../fonts/fontawesome/fa-solid-900.svg#fontawesome") format("svg")
-}
 
 .fa,
 .fas {
@@ -6671,8 +6637,8 @@ a.fancybox-close.fancybox-newsletter-close {
     font-family: 'Simple-Line-Icons';
     font-weight: normal;
     font-display: swap;
-    src: url("../fonts/Simple-Line-Icons/Simple-Line-Icons.eot");
-    src: url("../fonts/Simple-Line-Icons/Simple-Line-Icons.eot?#iefix") format("embedded-opentype"), url("../fonts/Simple-Line-Icons/Simple-Line-Icons.ttf") format("truetype"), url("../fonts/Simple-Line-Icons/Simple-Line-Icons.woff") format("woff"), url("../fonts/Simple-Line-Icons/Simple-Line-Icons.svg#Simple-Line-Icons") format("svg");
+    src: url("../Fonts/Simple-Line-Icons/Simple-Line-Icons.eot");
+    src: url("../Fonts/Simple-Line-Icons/Simple-Line-Icons.eot?#iefix") format("embedded-opentype"), url("../Fonts/Simple-Line-Icons/Simple-Line-Icons.ttf") format("truetype"), url("../Fonts/Simple-Line-Icons/Simple-Line-Icons.woff") format("woff"), url("../Fonts/Simple-Line-Icons/Simple-Line-Icons.svg#Simple-Line-Icons") format("svg");
     font-style: normal
 }
 
@@ -8117,15 +8083,6 @@ screen and (max-height: 300px) {
 
 .selectric-items .selectric-group li {
     padding-left: 25px
-}
-
-@font-face {
-    font-family: 'porto';
-    src: url("../fonts/porto-font/porto.eot");
-    src: url("../fonts/porto-font/porto.eot?#iefix") format("embedded-opentype"), url("../fonts/porto-font/porto.woff2") format("woff2"), url("../fonts/porto-font/porto.woff") format("woff"), url("../fonts/porto-font/porto.ttf") format("truetype"), url("../fonts/porto-font/porto.svg#porto") format("svg");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap
 }
 
 [class^="porto-icon-"]:before,

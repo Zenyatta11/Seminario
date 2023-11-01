@@ -754,7 +754,6 @@ select {
     -webkit-appearance: none;
     -ms-appearance: none;
     -moz-appearance: none;
-    background: #fff url("../images/select-bg.svg") 96% 49%/26px 60px no-repeat;
     text-indent: 0.01em;
     border-radius: 0;
     padding-right: 25px
