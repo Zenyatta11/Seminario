@@ -78,6 +78,8 @@
 				document.activeElement.blur();
 			}
 		});
+
+		searchTimeout = null;
 	</script>
 </head>
 
@@ -145,7 +147,7 @@
 								<div id="live-search-container" class="searchform searchform-cats">
 									<div class="searchform-fields">
 										<span class="text">
-											<input id="search-field" onblur="clearSuggestions()" name="searchField" class="translate" 
+											<input id="search-field" onblur="searchTimeout = setTimeout(() => clearSuggestions(), 1000);" name="searchField" class="translate" 
 												key="common.search.placeholder" attributename="placeholder" type="text" placeholder="Buscar…" 
 												autocomplete="off" oninput="onSearchUpdated(this)" onfocus="onSearchUpdated(this)">
 										</span>

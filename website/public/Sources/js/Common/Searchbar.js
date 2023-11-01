@@ -8,6 +8,11 @@ function clearSuggestions() {
 }
 
 function onSearchUpdated(element) {
+    if(searchTimeout != null) {
+        clearTimeout(searchTimeout);
+        searchTimeout = null;
+    }
+
     if(element.value.length < 3) {
         document.getElementById('live-search-list').innerHTML = ``;
         document.getElementById('live-search-container').setAttribute("style", "");
